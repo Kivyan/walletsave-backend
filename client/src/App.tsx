@@ -14,15 +14,22 @@ import SavingsPage from "@/pages/savings-page";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
+import { ReactElement } from "react";
 
-function Router() {
+function Router(): ReactElement {
+  const renderHomePage = (): ReactElement => <HomePage />;
+  const renderProfilePage = (): ReactElement => <ProfilePage />;
+  const renderWalletPage = (): ReactElement => <WalletPage />;
+  const renderReportsPage = (): ReactElement => <ReportsPage />;
+  const renderSavingsPage = (): ReactElement => <SavingsPage />;
+
   return (
     <Switch>
-      <ProtectedRoute path="/" component={() => <HomePage />} />
-      <ProtectedRoute path="/profile" component={() => <ProfilePage />} />
-      <ProtectedRoute path="/wallet" component={() => <WalletPage />} />
-      <ProtectedRoute path="/reports" component={() => <ReportsPage />} />
-      <ProtectedRoute path="/savings" component={() => <SavingsPage />} />
+      <ProtectedRoute path="/" component={renderHomePage} />
+      <ProtectedRoute path="/profile" component={renderProfilePage} />
+      <ProtectedRoute path="/wallet" component={renderWalletPage} />
+      <ProtectedRoute path="/reports" component={renderReportsPage} />
+      <ProtectedRoute path="/savings" component={renderSavingsPage} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>

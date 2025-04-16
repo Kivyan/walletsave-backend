@@ -13,7 +13,9 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddExpenseDialog } from "@/components/add-expense-dialog";
 
-export default function HomePage() {
+import { ReactElement } from "react";
+
+export default function HomePage(): ReactElement {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date());

@@ -6,7 +6,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useLocation } from "wouter";
+import { useLocation, Redirect } from "wouter";
 import { getInitials } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
@@ -36,7 +36,9 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 
-export default function ProfilePage() {
+import { ReactElement } from "react";
+
+export default function ProfilePage(): ReactElement {
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const { user } = useAuth();
@@ -136,8 +138,10 @@ export default function ProfilePage() {
     setTheme(value ? "dark" : "light");
   };
 
+  // Redirect if user is not logged in
   if (!user) {
-    return navigate("/auth");
+    // Using a redirect component instead of just calling navigate
+    return <Redirect to="/auth" />;
   }
 
   return (
