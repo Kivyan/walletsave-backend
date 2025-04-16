@@ -267,17 +267,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     try {
       const userId = req.user!.id;
-      const budgetData = insertBudgetSchema.parse({ ...req.body, userId });
+      
+      // Certifique-se de que o valor de 'amount' seja um número válido
+      const budgetData = {
+        ...req.body,
+        userId,
+        // Garantir que o amount seja tratado como número decimal com 2 casas decimais
+        amount: Number(parseFloat(req.body.amount).toFixed(2))
+      };
+      
+      // Valide os dados usando o schema
+      const validatedData = insertBudgetSchema.parse(budgetData);
       
       // Check if budget already exists for this month/year
-      const existingBudget = await storage.getBudgetByMonthYear(userId, budgetData.month, budgetData.year);
+      const existingBudget = await storage.getBudgetByMonthYear(userId, validatedData.month, validatedData.year);
       if (existingBudget) {
         return res.status(400).json({ message: "Budget already exists for this month" });
       }
       
-      const budget = await storage.createBudget(budgetData);
+      const budget = await storage.createBudget(validatedData);
       res.status(201).json(budget);
     } catch (error) {
+      console.error("Budget creation error:", error);
       if (error instanceof z.ZodError) {
         return res.status(400).json({ errors: error.errors });
       }
@@ -301,9 +312,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized" });
       }
       
-      const updatedBudget = await storage.updateBudget(budgetId, req.body);
+      // Preparar os dados de atualização corretamente
+      let updateData = { ...req.body };
+      
+      // Se o amount estiver sendo atualizado, assegure o formato correto
+      if (updateData.amount !== undefined) {
+        updateData.amount = Number(parseFloat(updateData.amount).toFixed(2));
+      }
+      
+      const updatedBudget = await storage.updateBudget(budgetId, updateData);
       res.json(updatedBudget);
     } catch (error) {
+      console.error("Budget update error:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ errors: error.errors });
+      }
       res.status(500).json({ message: "Failed to update budget" });
     }
   });
