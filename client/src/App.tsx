@@ -18,11 +18,11 @@ import i18n from "@/i18n";
 function Router() {
   return (
     <Switch>
-      <ProtectedRoute path="/" component={HomePage} />
-      <ProtectedRoute path="/profile" component={ProfilePage} />
-      <ProtectedRoute path="/wallet" component={WalletPage} />
-      <ProtectedRoute path="/reports" component={ReportsPage} />
-      <ProtectedRoute path="/savings" component={SavingsPage} />
+      <ProtectedRoute path="/" component={() => <HomePage />} />
+      <ProtectedRoute path="/profile" component={() => <ProfilePage />} />
+      <ProtectedRoute path="/wallet" component={() => <WalletPage />} />
+      <ProtectedRoute path="/reports" component={() => <ReportsPage />} />
+      <ProtectedRoute path="/savings" component={() => <SavingsPage />} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>
