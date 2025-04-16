@@ -5,7 +5,8 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { User as SelectUser } from "@shared/schema";
+import { User as SelectUser, InsertCategory } from "@shared/schema";
+import { DEFAULT_CATEGORIES } from "../client/src/lib/utils";
 
 declare global {
   namespace Express {
@@ -73,6 +74,20 @@ export function setupAuth(app: Express) {
         ...req.body,
         password: await hashPassword(req.body.password),
       });
+
+      // Criar categorias padrão para o novo usuário
+      const defaultCategoriesPromises = DEFAULT_CATEGORIES.map(category => {
+        const newCategory: InsertCategory = {
+          name: category.name,
+          color: category.color,
+          icon: category.icon,
+          userId: user.id
+        };
+        return storage.createCategory(newCategory);
+      });
+      
+      // Aguardar a criação de todas as categorias padrão
+      await Promise.all(defaultCategoriesPromises);
 
       req.login(user, (err) => {
         if (err) return next(err);
