@@ -74,11 +74,9 @@ export function BudgetOverview({ month, year, totalExpenses }: BudgetOverviewPro
   // Budget mutation
   const budgetMutation = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
-      // Converte o valor string para um número decimal com no máximo 2 casas decimais
-      const amountValue = parseFloat(parseFloat(data.amount).toFixed(2));
-      
       const payload = {
-        amount: amountValue,
+        // Simplesmente passa o valor string, o schema Zod tratará a conversão
+        amount: data.amount,
         month,
         year,
         userId: user!.id,

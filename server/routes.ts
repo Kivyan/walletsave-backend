@@ -268,24 +268,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user!.id;
       
-      // Certifique-se de que o valor de 'amount' seja um número válido
-      const budgetData = {
+      // Valide os dados usando o schema modificado
+      // O schema agora vai transformar amount para number automaticamente
+      const budgetData = insertBudgetSchema.parse({
         ...req.body,
-        userId,
-        // Garantir que o amount seja tratado como número decimal com 2 casas decimais
-        amount: Number(parseFloat(req.body.amount).toFixed(2))
-      };
-      
-      // Valide os dados usando o schema
-      const validatedData = insertBudgetSchema.parse(budgetData);
+        userId
+      });
       
       // Check if budget already exists for this month/year
-      const existingBudget = await storage.getBudgetByMonthYear(userId, validatedData.month, validatedData.year);
+      const existingBudget = await storage.getBudgetByMonthYear(userId, budgetData.month, budgetData.year);
       if (existingBudget) {
         return res.status(400).json({ message: "Budget already exists for this month" });
       }
       
-      const budget = await storage.createBudget(validatedData);
+      const budget = await storage.createBudget(budgetData);
       res.status(201).json(budget);
     } catch (error) {
       console.error("Budget creation error:", error);
@@ -312,13 +308,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized" });
       }
       
-      // Preparar os dados de atualização corretamente
-      let updateData = { ...req.body };
+      // Valide e transforme apenas os campos que estão sendo atualizados
+      // Cria um schema parcial
+      const partialBudgetSchema = z.object({
+        amount: z.union([z.string(), z.number()]).optional()
+          .transform(val => val !== undefined && typeof val === 'string' ? parseFloat(val) : val),
+        month: z.number().optional(),
+        year: z.number().optional(),
+      });
       
-      // Se o amount estiver sendo atualizado, assegure o formato correto
-      if (updateData.amount !== undefined) {
-        updateData.amount = Number(parseFloat(updateData.amount).toFixed(2));
-      }
+      // Valida e transforma automaticamente os tipos
+      const updateData = partialBudgetSchema.parse(req.body);
       
       const updatedBudget = await storage.updateBudget(budgetId, updateData);
       res.json(updatedBudget);

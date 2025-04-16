@@ -94,11 +94,18 @@ export const budgets = pgTable("budgets", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertBudgetSchema = createInsertSchema(budgets).pick({
-  amount: true,
+// Cria o schema básico e depois modifica para permitir tipos corretos
+const baseBudgetSchema = createInsertSchema(budgets);
+
+// Modifica o schema de inserção para aceitar tanto string quanto number para o campo amount
+export const insertBudgetSchema = baseBudgetSchema.pick({
   month: true,
   year: true,
   userId: true,
+}).extend({
+  // Utiliza o .or() para aceitar tanto string quanto number
+  amount: z.union([z.string(), z.number()])
+    .transform(val => typeof val === 'string' ? parseFloat(val) : val),
 });
 
 // Savings table
