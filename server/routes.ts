@@ -2,8 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { insertCategorySchema, insertExpenseSchema, insertWalletSchema, insertBudgetSchema, insertSavingSchema } from "@shared/schema";
+import { insertCategorySchema, insertExpenseSchema, insertWalletSchema, insertBudgetSchema, insertSavingSchema, InsertCategory } from "@shared/schema";
 import { z } from "zod";
+import { DEFAULT_CATEGORIES } from "../client/src/lib/utils";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication routes
@@ -16,6 +17,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const userId = req.user!.id;
     const categories = await storage.getCategories(userId);
     res.json(categories);
+  });
+  
+  // Endpoint para criar categorias padrão para o usuário atual
+  app.post("/api/categories/default", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    
+    try {
+      const userId = req.user!.id;
+      
+      // Verificar se o usuário já tem categorias
+      const existingCategories = await storage.getCategories(userId);
+      
+      if (existingCategories.length > 0) {
+        return res.status(400).json({ 
+          message: "Você já tem categorias. Este endpoint só pode ser usado quando não há categorias.",
+          categories: existingCategories
+        });
+      }
+      
+      // Criar categorias padrão para o usuário
+      const defaultCategoriesPromises = DEFAULT_CATEGORIES.map(category => {
+        const newCategory: InsertCategory = {
+          name: category.name,
+          color: category.color,
+          icon: category.icon,
+          userId: userId
+        };
+        return storage.createCategory(newCategory);
+      });
+      
+      // Aguardar a criação de todas as categorias padrão
+      const createdCategories = await Promise.all(defaultCategoriesPromises);
+      
+      res.status(201).json(createdCategories);
+    } catch (error) {
+      res.status(500).json({ message: "Falha ao criar categorias padrão" });
+    }
   });
 
   app.post("/api/categories", async (req, res) => {
@@ -308,17 +346,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized" });
       }
       
-      // Valide e transforme apenas os campos que estão sendo atualizados
-      // Cria um schema parcial
-      const partialBudgetSchema = z.object({
-        amount: z.union([z.string(), z.number()]).optional()
-          .transform(val => val !== undefined && typeof val === 'string' ? parseFloat(val) : val),
-        month: z.number().optional(),
-        year: z.number().optional(),
-      });
+      // Prepare o objeto de atualização manualmente para garantir o tipo correto
+      const updateData: Partial<{
+        amount: string;
+        month: number;
+        year: number;
+      }> = {};
       
-      // Valida e transforma automaticamente os tipos
-      const updateData = partialBudgetSchema.parse(req.body);
+      // Processa o campo amount, garantindo que seja uma string
+      if (req.body.amount !== undefined) {
+        updateData.amount = typeof req.body.amount === 'string' 
+          ? req.body.amount 
+          : String(req.body.amount);
+      }
+      
+      // Processa outros campos
+      if (req.body.month !== undefined) {
+        updateData.month = Number(req.body.month);
+      }
+      
+      if (req.body.year !== undefined) {
+        updateData.year = Number(req.body.year);
+      }
       
       const updatedBudget = await storage.updateBudget(budgetId, updateData);
       res.json(updatedBudget);
