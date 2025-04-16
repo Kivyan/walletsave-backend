@@ -6,7 +6,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 import { Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -65,17 +65,20 @@ export function BudgetOverview({ month, year, totalExpenses }: BudgetOverviewPro
   });
 
   // Update form when budget changes
-  useState(() => {
+  useEffect(() => {
     if (budget) {
       form.setValue("amount", String(budget.amount));
     }
-  });
+  }, [budget, form]);
 
   // Budget mutation
   const budgetMutation = useMutation({
     mutationFn: async (data: z.infer<typeof formSchema>) => {
+      // Converte o valor string para um número decimal com no máximo 2 casas decimais
+      const amountValue = parseFloat(parseFloat(data.amount).toFixed(2));
+      
       const payload = {
-        amount: Number(data.amount),
+        amount: amountValue,
         month,
         year,
         userId: user!.id,
@@ -112,7 +115,7 @@ export function BudgetOverview({ month, year, totalExpenses }: BudgetOverviewPro
   // Calculate the budget values
   const budgetAmount = budget ? Number(budget.amount) : 0;
   const remainingAmount = Math.max(budgetAmount - totalExpenses, 0);
-  const savedAmount = budget ? (budget.amount > totalExpenses ? Number(budget.amount) - totalExpenses : 0) : 0;
+  const savedAmount = budget ? (budgetAmount > totalExpenses ? budgetAmount - totalExpenses : 0) : 0;
   const usedPercentage = calculateBudgetPercentage(totalExpenses, budgetAmount);
 
   if (isLoading) {
