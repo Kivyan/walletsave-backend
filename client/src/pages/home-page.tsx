@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Expense, Category } from "@shared/schema";
+import { Expense, Category, Wallet, Saving } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { AddExpenseDialog } from "@/components/add-expense-dialog";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import NotificationService from "@/components/notification-service";
 
 import { ReactElement } from "react";
 
@@ -37,6 +38,24 @@ export default function HomePage(): ReactElement {
   // Fetch categories
   const { data: categories = [], refetch: refetchCategories } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
+    enabled: !!user,
+  });
+  
+  // Fetch budget for current month/year
+  const { data: currentBudget } = useQuery({
+    queryKey: ["/api/budgets/current"],
+    enabled: !!user,
+  });
+  
+  // Fetch wallets for notification service
+  const { data: wallets = [] } = useQuery<Wallet[]>({
+    queryKey: ["/api/wallets"],
+    enabled: !!user,
+  });
+  
+  // Fetch savings for notification service
+  const { data: savings = [] } = useQuery<Saving[]>({
+    queryKey: ["/api/savings"],
     enabled: !!user,
   });
   
@@ -90,10 +109,22 @@ export default function HomePage(): ReactElement {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
             {/* Date selector */}
-            <MonthSelector 
-              selected={selectedDate} 
-              onSelect={setSelectedDate} 
-            />
+            <div className="flex items-center gap-4">
+              <MonthSelector 
+                selected={selectedDate} 
+                onSelect={setSelectedDate} 
+              />
+              
+              {/* Notification Service */}
+              <div className="hidden md:block">
+                <NotificationService 
+                  expenseData={expenses}
+                  budgetData={currentBudget}
+                  walletData={wallets}
+                  savingsData={savings}
+                />
+              </div>
+            </div>
 
             {/* Add expense button */}
             <Button

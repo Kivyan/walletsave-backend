@@ -7,6 +7,9 @@ import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { LanguageSelector } from "@/components/language-selector";
 import { useTheme } from "@/components/theme-provider";
+import { motion, AnimatePresence } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWallet, faCoins, faDollarSign, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
 
 import {
   Form,
@@ -117,23 +120,130 @@ export default function AuthPage() {
 
         {/* Wallet Animation */}
         <div className="mb-8 flex justify-center">
-          <div className="relative w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden">
-            <i className="fas fa-wallet text-6xl text-secondary dark:text-accent"></i>
+          <motion.div 
+            className="relative w-64 h-64 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
+              duration: 0.6 
+            }}
+          >
+            {/* Wallet */}
+            <motion.div
+              animate={{ rotateZ: [0, -5, 5, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+              className="text-secondary dark:text-accent"
+              style={{ fontSize: "5rem" }}
+            >
+              <FontAwesomeIcon icon={faWallet} />
+            </motion.div>
+            
             {/* Animated coins */}
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-              <div className="flex space-x-1">
-                <div className="w-8 h-8 rounded-full bg-yellow-400 shadow-md flex items-center justify-center">
-                  <span className="text-yellow-800 text-xs font-bold">$</span>
-                </div>
-                <div className="w-6 h-6 rounded-full bg-yellow-500 shadow-md flex items-center justify-center">
-                  <span className="text-yellow-800 text-xs font-bold">$</span>
-                </div>
-                <div className="w-7 h-7 rounded-full bg-yellow-300 shadow-md flex items-center justify-center">
-                  <span className="text-yellow-800 text-xs font-bold">$</span>
-                </div>
+            <div className="absolute bottom-4 w-full flex justify-center">
+              <div className="flex space-x-2">
+                {/* Coin 1 */}
+                <motion.div
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200"
+                  initial={{ y: 80 }}
+                  animate={{ 
+                    y: [0, -15, 0],
+                    rotateZ: [0, 180, 360],
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity,
+                    delay: 0.2,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm" />
+                </motion.div>
+                
+                {/* Coin 2 */}
+                <motion.div
+                  className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200"
+                  initial={{ y: 80 }}
+                  animate={{ 
+                    y: [0, -25, 0],
+                    rotateZ: [0, -180, -360],
+                  }}
+                  transition={{ 
+                    duration: 2.3, 
+                    repeat: Infinity,
+                    delay: 0.5,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm" />
+                </motion.div>
+                
+                {/* Coin 3 */}
+                <motion.div
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200"
+                  initial={{ y: 80 }}
+                  animate={{ 
+                    y: [0, -20, 0],
+                    rotateZ: [0, 180, 360],
+                  }}
+                  transition={{ 
+                    duration: 1.8, 
+                    repeat: Infinity,
+                    delay: 0.8,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs" />
+                </motion.div>
               </div>
             </div>
-          </div>
+
+            {/* Sparkle effects */}
+            <motion.div 
+              className="absolute top-1/4 right-1/4 w-2 h-2 bg-white rounded-full"
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{ 
+                duration: 1.5, 
+                repeat: Infinity,
+                delay: 1,
+                repeatType: "reverse",
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-white rounded-full"
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{ 
+                duration: 1.2, 
+                repeat: Infinity,
+                delay: 0.3,
+                repeatType: "reverse",
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 left-1/4 w-3 h-3 bg-white rounded-full"
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                delay: 0.7,
+                repeatType: "reverse",
+              }}
+            />
+          </motion.div>
         </div>
 
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-6">
