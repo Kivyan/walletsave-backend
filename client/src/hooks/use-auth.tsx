@@ -8,6 +8,7 @@ import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import i18n from "@/i18n";
+import { useTranslation } from "react-i18next";
 
 type AuthContextType = {
   user: SelectUser | null;
@@ -23,6 +24,7 @@ type LoginData = Pick<InsertUser, "username" | "password">;
 export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const {
     data: user,
     error,
@@ -59,10 +61,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData(["/api/user"], user);
       // Store currency in localStorage when user logs in
       localStorage.setItem("userCurrency", user.currency || "BRL");
-      // Update language
+      
+      // Verificamos se o usuário tem uma preferência de idioma
+      // Se não tiver, usamos o idioma salvo no localStorage
       if (user.language) {
         i18n.changeLanguage(user.language);
+      } else {
+        // Se o usuário não tiver uma preferência de idioma no perfil,
+        // mas tiver um idioma no localStorage, usamos e salvamos no perfil
+        const storedLang = localStorage.getItem("i18nextLng");
+        if (storedLang) {
+          // Atualizamos o perfil do usuário com o idioma do localStorage
+          try {
+            apiRequest("PUT", "/api/user", { language: storedLang });
+            // Não precisamos recarregar os dados do usuário aqui
+          } catch (error) {
+            console.error("Failed to save language preference", error);
+          }
+        }
       }
+      
       // Update theme if available
       if (user.theme) {
         localStorage.setItem("theme", user.theme);
@@ -70,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Login failed",
+        title: t("toast.error"),
         description: error.message,
         variant: "destructive",
       });
@@ -86,10 +104,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData(["/api/user"], user);
       // Store currency in localStorage when user registers
       localStorage.setItem("userCurrency", user.currency || "BRL");
-      // Update language
+      
+      // Verificamos se o usuário tem uma preferência de idioma
+      // Se não tiver, usamos o idioma salvo no localStorage
       if (user.language) {
         i18n.changeLanguage(user.language);
+      } else {
+        // Se o usuário não tiver uma preferência de idioma no perfil,
+        // mas tiver um idioma no localStorage, usamos e salvamos no perfil
+        const storedLang = localStorage.getItem("i18nextLng");
+        if (storedLang) {
+          // Atualizamos o perfil do usuário com o idioma do localStorage
+          try {
+            apiRequest("PUT", "/api/user", { language: storedLang });
+            // Não precisamos recarregar os dados do usuário aqui
+          } catch (error) {
+            console.error("Failed to save language preference", error);
+          }
+        }
       }
+      
       // Update theme if available
       if (user.theme) {
         localStorage.setItem("theme", user.theme);
@@ -97,7 +131,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Registration failed",
+        title: t("toast.registrationFailed"),
         description: error.message,
         variant: "destructive",
       });
@@ -115,7 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onError: (error: Error) => {
       toast({
-        title: "Logout failed",
+        title: t("toast.logoutFailed"),
         description: error.message,
         variant: "destructive",
       });

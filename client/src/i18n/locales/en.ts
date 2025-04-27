@@ -191,6 +191,9 @@ const translations = {
   toast: {
     error: "Error",
     success: "Success",
+    loginFailed: "Login failed",
+    registrationFailed: "Registration failed",
+    logoutFailed: "Logout failed",
     expense_added: "Expense added",
     expense_added_description: "Your expense has been added successfully",
     expense_updated: "Expense updated",
