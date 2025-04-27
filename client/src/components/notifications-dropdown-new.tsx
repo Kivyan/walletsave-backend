@@ -18,79 +18,77 @@ export function NotificationsDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [viewedNotifications, setViewedNotifications] = useState<number[]>([]);
   
+  // Query para buscar despesas
   const { data: expenses } = useQuery<Expense[]>({
     queryKey: ["/api/expenses"],
   });
   
+  // Query para buscar categorias
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
   });
-  
-  // Get current date
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  // Get date 7 days from now
-  const nextWeek = new Date(today);
-  nextWeek.setDate(nextWeek.getDate() + 7);
-  
-  // Filter expenses due today or in the next 7 days
-  const upcomingExpenses = expenses?.filter(expense => {
-    const expenseDate = new Date(expense.date);
-    expenseDate.setHours(0, 0, 0, 0);
-    return !expense.isPaid && expenseDate >= today && expenseDate <= nextWeek;
-  });
-  
+
   // Carregar notificações visualizadas do localStorage
   useEffect(() => {
-    const storedNotifications = localStorage.getItem('viewedNotifications');
-    if (storedNotifications) {
-      setViewedNotifications(JSON.parse(storedNotifications));
+    try {
+      const storedNotifications = localStorage.getItem('viewedNotifications');
+      if (storedNotifications) {
+        setViewedNotifications(JSON.parse(storedNotifications));
+      }
+    } catch (error) {
+      console.error("Error loading viewed notifications:", error);
     }
   }, []);
   
-  // Salvar notificações visualizadas no localStorage
-  useEffect(() => {
-    if (viewedNotifications.length > 0) {
-      localStorage.setItem('viewedNotifications', JSON.stringify(viewedNotifications));
-    }
-  }, [viewedNotifications]);
+  // Obter data atual e data de uma semana à frente
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const nextWeek = new Date(today);
+  nextWeek.setDate(nextWeek.getDate() + 7);
   
-  // Quando o dropdown é aberto, marcar todas as notificações como visualizadas
-  useEffect(() => {
-    if (isOpen && upcomingExpenses?.length) {
-      const newViewedIds = upcomingExpenses.map(expense => expense.id);
-      setViewedNotifications(prev => {
-        // Combinar arrays e remover duplicatas manualmente
-        const combined = [...prev];
-        for (const id of newViewedIds) {
-          if (!combined.includes(id)) {
-            combined.push(id);
-          }
-        }
-        return combined;
-      });
-    }
-  }, [isOpen, upcomingExpenses]);
+  // Filtrar próximas despesas não pagas
+  const upcomingExpenses = expenses?.filter(expense => {
+    if (!expense) return false;
+    const expenseDate = new Date(expense.date);
+    expenseDate.setHours(0, 0, 0, 0);
+    return !expense.isPaid && expenseDate >= today && expenseDate <= nextWeek;
+  }) || [];
   
-  // Sort by closest due date
-  upcomingExpenses?.sort((a, b) => {
+  // Ordenar por data mais próxima
+  const sortedExpenses = [...upcomingExpenses].sort((a, b) => {
     return new Date(a.date).getTime() - new Date(b.date).getTime();
   });
   
-  // Limit to first 5
-  const limitedExpenses = upcomingExpenses?.slice(0, 5);
+  // Limitar a 5 notificações
+  const limitedExpenses = sortedExpenses.slice(0, 5);
   
-  // Filtrar as notificações não visualizadas
-  const unviewedExpenses = limitedExpenses?.filter(
+  // Filtrar despesas não visualizadas
+  const unviewedExpenses = limitedExpenses.filter(
     expense => !viewedNotifications.includes(expense.id)
   );
+  
+  // Quando as notificações forem abertas, marcar todas como lidas
+  useEffect(() => {
+    if (isOpen && limitedExpenses.length > 0) {
+      const notificationIds = limitedExpenses.map(expense => expense.id);
+      const newViewedIds = [...viewedNotifications];
+      
+      notificationIds.forEach(id => {
+        if (!newViewedIds.includes(id)) {
+          newViewedIds.push(id);
+        }
+      });
+      
+      setViewedNotifications(newViewedIds);
+      localStorage.setItem('viewedNotifications', JSON.stringify(newViewedIds));
+    }
+  }, [isOpen, limitedExpenses]);
   
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger className="relative text-neutral-500 dark:text-neutral-300">
         <Bell className="h-5 w-5" />
-        {unviewedExpenses && unviewedExpenses.length > 0 && (
+        {unviewedExpenses.length > 0 && (
           <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
             {unviewedExpenses.length}
           </span>
@@ -103,7 +101,7 @@ export function NotificationsDropdown() {
           </h3>
         </div>
         
-        {!limitedExpenses || limitedExpenses.length === 0 ? (
+        {limitedExpenses.length === 0 ? (
           <div className="px-4 py-3 text-center text-neutral-500 dark:text-neutral-400">
             {t("notifications.no_notifications")}
           </div>
