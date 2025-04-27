@@ -15,7 +15,7 @@ type AuthContextType = {
   isLoading: boolean;
   error: Error | null;
   loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
-  logoutMutation: UseMutationResult<void, Error, void>;
+  logoutMutation: UseMutationResult<string, Error, void>; // Alterado o tipo de retorno para string
   registerMutation: UseMutationResult<SelectUser, Error, InsertUser>;
 };
 
@@ -54,31 +54,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
+      // Primeiro salvamos o idioma atual
+      const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+      
       const res = await apiRequest("POST", "/api/login", credentials);
-      return await res.json();
+      const userData = await res.json();
+      
+      // Após o login bem-sucedido, atualizamos o perfil do usuário com o idioma atual
+      // apenas se o usuário não tiver uma preferência de idioma
+      if (!userData.language && currentLanguage) {
+        try {
+          await apiRequest("PUT", "/api/user", { language: currentLanguage });
+          userData.language = currentLanguage; // Atualizamos o objeto localmente para que o onSuccess use o valor correto
+        } catch (error) {
+          console.error("Failed to save language preference during login", error);
+        }
+      }
+      
+      return userData;
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
       // Store currency in localStorage when user logs in
       localStorage.setItem("userCurrency", user.currency || "BRL");
       
-      // Verificamos se o usuário tem uma preferência de idioma
-      // Se não tiver, usamos o idioma salvo no localStorage
+      // Aplicamos o idioma do usuário, que agora deve incluir qualquer atualização feita no mutationFn
       if (user.language) {
         i18n.changeLanguage(user.language);
-      } else {
-        // Se o usuário não tiver uma preferência de idioma no perfil,
-        // mas tiver um idioma no localStorage, usamos e salvamos no perfil
-        const storedLang = localStorage.getItem("i18nextLng");
-        if (storedLang) {
-          // Atualizamos o perfil do usuário com o idioma do localStorage
-          try {
-            apiRequest("PUT", "/api/user", { language: storedLang });
-            // Não precisamos recarregar os dados do usuário aqui
-          } catch (error) {
-            console.error("Failed to save language preference", error);
-          }
-        }
+        localStorage.setItem("i18nextLng", user.language);
       }
       
       // Update theme if available
@@ -97,6 +100,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerMutation = useMutation({
     mutationFn: async (credentials: InsertUser) => {
+      // Primeiro salvamos o idioma atual
+      const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+      
+      // Incluir o idioma atual nos dados de registro, se não foi especificado
+      if (!credentials.language && currentLanguage) {
+        credentials.language = currentLanguage;
+      }
+      
       const res = await apiRequest("POST", "/api/register", credentials);
       return await res.json();
     },
@@ -105,23 +116,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Store currency in localStorage when user registers
       localStorage.setItem("userCurrency", user.currency || "BRL");
       
-      // Verificamos se o usuário tem uma preferência de idioma
-      // Se não tiver, usamos o idioma salvo no localStorage
+      // Aplicamos o idioma do usuário, que agora deve incluir qualquer atualização feita no mutationFn
       if (user.language) {
         i18n.changeLanguage(user.language);
-      } else {
-        // Se o usuário não tiver uma preferência de idioma no perfil,
-        // mas tiver um idioma no localStorage, usamos e salvamos no perfil
-        const storedLang = localStorage.getItem("i18nextLng");
-        if (storedLang) {
-          // Atualizamos o perfil do usuário com o idioma do localStorage
-          try {
-            apiRequest("PUT", "/api/user", { language: storedLang });
-            // Não precisamos recarregar os dados do usuário aqui
-          } catch (error) {
-            console.error("Failed to save language preference", error);
-          }
-        }
+        localStorage.setItem("i18nextLng", user.language);
       }
       
       // Update theme if available
@@ -140,12 +138,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
+      // Salvamos o idioma atual antes de fazer logout
+      const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+      
+      // Executamos o logout
       await apiRequest("POST", "/api/logout");
+      
+      // Registramos o idioma no localStorage para que continue após o logout
+      localStorage.setItem("i18nextLng", currentLanguage);
+      
+      return currentLanguage;
     },
-    onSuccess: () => {
+    onSuccess: (language: string) => {
       queryClient.setQueryData(["/api/user"], null);
-      // Reset to default currency on logout
+      // Definimos a moeda padrão
       localStorage.setItem("userCurrency", "BRL");
+      
+      // Garantimos que o idioma seja mantido após o logout
+      if (language) {
+        i18n.changeLanguage(language);
+      }
     },
     onError: (error: Error) => {
       toast({
