@@ -8,12 +8,14 @@ export function NavigationButtons() {
   const { t } = useTranslation();
 
   // A lista ordenada de rotas para navegação sequencial
+  // Removendo as rotas de wallet, reports, savings e profile conforme solicitado pelo usuário
   const routes = [
     "/",
-    "/wallet",
-    "/reports",
-    "/savings",
-    "/profile",
+    // O usuário não quer navegar para estas páginas usando as setas
+    // "/wallet",
+    // "/reports",
+    // "/savings",
+    // "/profile",
   ];
 
   const currentIndex = routes.indexOf(location);
