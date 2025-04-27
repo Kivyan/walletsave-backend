@@ -177,7 +177,7 @@ export default function ReportsPage() {
           <TabsContent value="monthly">
             <Card>
               <CardHeader>
-                <CardTitle>{t("reports.category_distribution")}</CardTitle>
+                <CardTitle>{t("expense.distribution")}</CardTitle>
                 <CardDescription>
                   {t("reports.category_distribution_description")}
                 </CardDescription>

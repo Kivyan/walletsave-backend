@@ -217,7 +217,7 @@ export default function SavingsPage() {
         {/* Total Saved Card */}
         <Card className="mb-6 bg-secondary dark:bg-secondary">
           <CardHeader>
-            <CardTitle className="text-white">{t("saving.total_saved")}</CardTitle>
+            <CardTitle className="text-white">{t("saving.total")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-white">

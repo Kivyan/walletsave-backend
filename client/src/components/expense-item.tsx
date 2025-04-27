@@ -130,7 +130,10 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-4 relative flex items-center">
+        <div 
+          className="bg-white dark:bg-neutral-800 rounded-lg shadow p-4 relative flex items-center cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
+          onClick={handleEdit}
+        >
           {/* Color category indicator */}
           <div
             className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-lg ${colorClasses.indicator}`}
@@ -149,8 +152,9 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                 ></i>
               </div>
               <div>
-                <h3 className="font-medium text-neutral-800 dark:text-white">
+                <h3 className="font-medium text-neutral-800 dark:text-white flex items-center">
                   {expense.description}
+                  <Edit className="ml-2 h-3 w-3 text-neutral-400" />
                 </h3>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400">
                   {formatDate(expense.date)} • {expense.isFixed ? t("expense.fixed") : t("expense.variable")}
