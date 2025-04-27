@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@/components/ui/button';
+import { Expense, Wallet, Saving, Budget } from "@shared/schema";
 import { 
   Dialog, 
   DialogContent, 
@@ -31,11 +32,13 @@ const requestNotificationPermission = async () => {
   return permission;
 };
 
+import { Expense, Wallet, Saving, Budget } from "@shared/schema";
+
 interface NotificationServiceProps {
-  expenseData: any[];
-  budgetData: any;
-  walletData: any[];
-  savingsData: any[];
+  expenseData: Expense[];
+  budgetData: Budget | undefined;
+  walletData: Wallet[];
+  savingsData: Saving[];
 }
 
 export default function NotificationService({ 
