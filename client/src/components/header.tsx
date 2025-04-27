@@ -13,18 +13,42 @@ interface HeaderProps {
 export function Header({ title }: HeaderProps) {
   const { t } = useTranslation();
   const { theme, setTheme } = useTheme();
+  const [location] = useLocation();
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+  
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      window.history.back();
+    }
   };
 
   return (
     <header className="bg-white dark:bg-neutral-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* User profile icon */}
-          <div className="relative">
-            <UserProfileDropdown />
+          {/* Left section with back button and user profile */}
+          <div className="flex items-center space-x-2">
+            {/* Botão de voltar - somente em páginas que não são a home */}
+            {location !== "/" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBack}
+                className="mr-2 flex items-center"
+                aria-label={t("common.back")}
+              >
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">{t("common.back")}</span>
+              </Button>
+            )}
+            
+            {/* User profile icon */}
+            <div className="relative">
+              <UserProfileDropdown />
+            </div>
           </div>
 
           {/* Page title */}
