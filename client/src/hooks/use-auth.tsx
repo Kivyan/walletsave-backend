@@ -38,6 +38,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
+      // Store currency in localStorage when user logs in
+      localStorage.setItem("userCurrency", user.currency || "BRL");
     },
     onError: (error: Error) => {
       toast({
@@ -55,6 +57,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
+      // Store currency in localStorage when user registers
+      localStorage.setItem("userCurrency", user.currency || "BRL");
     },
     onError: (error: Error) => {
       toast({
