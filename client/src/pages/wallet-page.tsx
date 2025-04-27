@@ -200,7 +200,7 @@ export default function WalletPage() {
         {/* Total Balance Card */}
         <Card className="mb-6 bg-secondary dark:bg-secondary">
           <CardHeader>
-            <CardTitle className="text-white">{t("wallet.total_balance")}</CardTitle>
+            <CardTitle className="text-white">{t("wallet.total")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-white">
