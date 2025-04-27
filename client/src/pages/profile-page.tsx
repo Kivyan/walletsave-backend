@@ -119,6 +119,9 @@ export default function ProfilePage(): ReactElement {
       if (user?.language !== form.getValues().language) {
         i18n.changeLanguage(form.getValues().language);
       }
+      
+      // Update currency in localStorage
+      localStorage.setItem("userCurrency", form.getValues().currency);
     },
     onError: (error: Error) => {
       toast({

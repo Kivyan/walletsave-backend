@@ -31,14 +31,17 @@ export const SUPPORTED_CURRENCIES = [
   { code: "NGN", name: "Nigerian Naira (NGN)", symbol: "₦", locale: "en-NG" },
 ];
 
-export function formatMoney(amount: number, currency: string = "BRL"): string {
+export function formatMoney(amount: number, currency?: string): string {
+  // Get user currency from localStorage or use default
+  const userCurrency = currency || localStorage.getItem("userCurrency") || "BRL";
+  
   // Encontra o locale correspondente à moeda
-  const currencyInfo = SUPPORTED_CURRENCIES.find(c => c.code === currency) || 
+  const currencyInfo = SUPPORTED_CURRENCIES.find(c => c.code === userCurrency) || 
                        SUPPORTED_CURRENCIES.find(c => c.code === "BRL")!;
   
   return new Intl.NumberFormat(currencyInfo.locale, {
     style: "currency",
-    currency,
+    currency: userCurrency,
   }).format(amount);
 }
 
