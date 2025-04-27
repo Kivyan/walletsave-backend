@@ -7,7 +7,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import NotificationService from "@/components/notification-service";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
-import { Expense, Wallet as WalletType, Saving } from "@shared/schema";
+import { Expense, Wallet as WalletType, Saving, Budget } from "@shared/schema";
 
 export function MobileNavigation() {
   const { t } = useTranslation();

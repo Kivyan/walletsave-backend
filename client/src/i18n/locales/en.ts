@@ -43,6 +43,7 @@ const translations = {
     wallet: "Wallet",
     reports: "Reports",
     savings: "Savings",
+    notifications: "Notifications",
   },
   expense: {
     expenses: "Expenses",
