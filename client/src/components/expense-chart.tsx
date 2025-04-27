@@ -53,8 +53,12 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const category = categories.find((c) => c.id === Number(categoryId));
       const percentage = Math.round((amount / totalAmount) * 100);
       
+      // Traduza o nome da categoria com base na chave de tradução
+      const categoryKey = category?.name.toLowerCase().replace(/\s+/g, '_') || 'unknown';
+      const translatedName = t(`categories.${categoryKey}`, category?.name || t('common.unknown'));
+      
       return {
-        name: category?.name || "Unknown",
+        name: translatedName,
         value: amount,
         color: category?.color || "#6B7280",
         percentage,

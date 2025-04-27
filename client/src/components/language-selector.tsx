@@ -38,10 +38,14 @@ export function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
   
   const changeLanguage = async (language: string) => {
+    // Mudar o idioma na interface
     await i18n.changeLanguage(language);
     setIsOpen(false);
     
-    // Save the language preference to the user's profile
+    // Sempre salvar no localStorage para usuários não autenticados
+    localStorage.setItem("i18nextLng", language);
+    
+    // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
     if (user && user.language !== language) {
       try {
         await apiRequest("PUT", "/api/user", { language });
