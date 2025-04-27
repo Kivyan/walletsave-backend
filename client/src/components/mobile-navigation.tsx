@@ -21,7 +21,7 @@ export function MobileNavigation() {
     enabled: !!user,
   });
   
-  const { data: currentBudget } = useQuery({
+  const { data: currentBudget } = useQuery<Budget>({
     queryKey: ["/api/budgets/current"],
     enabled: !!user,
   });

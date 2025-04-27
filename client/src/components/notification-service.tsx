@@ -32,8 +32,6 @@ const requestNotificationPermission = async () => {
   return permission;
 };
 
-import { Expense, Wallet, Saving, Budget } from "@shared/schema";
-
 interface NotificationServiceProps {
   expenseData: Expense[];
   budgetData: Budget | undefined;

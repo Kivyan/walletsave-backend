@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Expense, Category, Wallet, Saving } from "@shared/schema";
+import { Expense, Category, Wallet, Saving, Budget } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
@@ -42,7 +42,7 @@ export default function HomePage(): ReactElement {
   });
   
   // Fetch budget for current month/year
-  const { data: currentBudget } = useQuery({
+  const { data: currentBudget } = useQuery<Budget>({
     queryKey: ["/api/budgets/current"],
     enabled: !!user,
   });
