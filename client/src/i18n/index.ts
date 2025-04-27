@@ -30,6 +30,32 @@ i18n
     pt: {
       translation: ptTranslations,
     },
+    // Para os outros idiomas, usamos o inglês como fallback
+    // até que as traduções sejam adicionadas
+    es: {
+      translation: enTranslations,
+    },
+    fr: {
+      translation: enTranslations,
+    },
+    de: {
+      translation: enTranslations,
+    },
+    it: {
+      translation: enTranslations,
+    },
+    ja: {
+      translation: enTranslations,
+    },
+    zh: {
+      translation: enTranslations,
+    },
+    ru: {
+      translation: enTranslations,
+    },
+    ar: {
+      translation: enTranslations,
+    },
   },
   lng: localStorage.getItem("i18nextLng") || navigator.language.split("-")[0] || "en",
   fallbackLng: "en",

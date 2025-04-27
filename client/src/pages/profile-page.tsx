@@ -7,11 +7,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useLocation, Redirect } from "wouter";
-import { getInitials } from "@/lib/utils";
+import { getInitials, SUPPORTED_CURRENCIES } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { useTheme } from "@/components/theme-provider";
 import { useToast } from "@/hooks/use-toast";
+import { languages } from "@/i18n";
 
 import {
   Form,
@@ -259,8 +260,11 @@ export default function ProfilePage(): ReactElement {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="en">English</SelectItem>
-                          <SelectItem value="pt">Português</SelectItem>
+                          {Object.entries(languages).map(([code, name]) => (
+                            <SelectItem key={code} value={code}>
+                              {name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -284,9 +288,11 @@ export default function ProfilePage(): ReactElement {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="BRL">R$ (BRL)</SelectItem>
-                          <SelectItem value="USD">$ (USD)</SelectItem>
-                          <SelectItem value="EUR">€ (EUR)</SelectItem>
+                          {SUPPORTED_CURRENCIES.map((currency) => (
+                            <SelectItem key={currency.code} value={currency.code}>
+                              {currency.symbol} ({currency.code})
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
