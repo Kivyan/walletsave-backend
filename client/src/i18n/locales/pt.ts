@@ -113,6 +113,9 @@ const translations = {
     name_placeholder: "Ex: Carteira Principal",
     balance_placeholder: "Saldo atual",
     no_wallets: "Nenhuma carteira para mostrar",
+    total: "Saldo Total",
+    delete_wallet: "Excluir Carteira",
+    delete_wallet_description: "Tem certeza que deseja excluir esta carteira? Esta ação não pode ser desfeita.",
   },
   saving: {
     savings: "Economias",
@@ -126,6 +129,9 @@ const translations = {
     current_amount: "Valor Atual",
     no_savings: "Nenhuma economia para mostrar",
     progress: "Progresso",
+    total: "Total Economizado",
+    delete_saving: "Excluir Meta de Economia",
+    delete_saving_description: "Tem certeza que deseja excluir esta meta de economia? Esta ação não pode ser desfeita.",
   },
   profile: {
     my_profile: "Meu Perfil",

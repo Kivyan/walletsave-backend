@@ -113,6 +113,9 @@ const translations = {
     name_placeholder: "E.g. Main Wallet",
     balance_placeholder: "Current balance",
     no_wallets: "No wallets to show",
+    total: "Total Balance",
+    delete_wallet: "Delete Wallet",
+    delete_wallet_description: "Are you sure you want to delete this wallet? This action cannot be undone.",
   },
   saving: {
     savings: "Savings",
@@ -126,6 +129,9 @@ const translations = {
     current_amount: "Current Amount",
     no_savings: "No savings to show",
     progress: "Progress",
+    total: "Total Saved",
+    delete_saving: "Delete Saving Goal",
+    delete_saving_description: "Are you sure you want to delete this saving goal? This action cannot be undone.",
   },
   profile: {
     my_profile: "My Profile",
