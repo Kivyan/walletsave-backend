@@ -4,18 +4,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import enTranslations from "./locales/en";
 import ptTranslations from "./locales/pt";
 
-// Define available languages
+// Define available languages (apenas incluindo idiomas com traduções completas)
 export const languages = {
   en: "English",
   pt: "Português",
-  es: "Español",
-  fr: "Français",
-  de: "Deutsch",
-  it: "Italiano",
-  ja: "日本語",
-  zh: "中文",
-  ru: "Русский",
-  ar: "العربية",
 };
 
 // Initialize i18next
@@ -30,34 +22,8 @@ i18n
     pt: {
       translation: ptTranslations,
     },
-    // Para os outros idiomas, usamos o inglês como fallback
-    // até que as traduções sejam adicionadas
-    es: {
-      translation: enTranslations,
-    },
-    fr: {
-      translation: enTranslations,
-    },
-    de: {
-      translation: enTranslations,
-    },
-    it: {
-      translation: enTranslations,
-    },
-    ja: {
-      translation: enTranslations,
-    },
-    zh: {
-      translation: enTranslations,
-    },
-    ru: {
-      translation: enTranslations,
-    },
-    ar: {
-      translation: enTranslations,
-    },
   },
-  lng: localStorage.getItem("i18nextLng") || navigator.language.split("-")[0] || "en",
+  lng: "en", // Default language
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
@@ -74,7 +40,7 @@ i18n.on("languageChanged", (lng) => {
 
 // Initialize with stored language on app load
 const storedLang = localStorage.getItem("i18nextLng");
-if (storedLang) {
+if (storedLang && (storedLang === "en" || storedLang === "pt")) {
   i18n.changeLanguage(storedLang);
 }
 
