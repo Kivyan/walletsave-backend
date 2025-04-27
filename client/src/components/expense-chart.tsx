@@ -22,22 +22,31 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    if (!expenses.length || !categories.length) return;
+    if (!categories.length) return;
 
     // Group expenses by category
     const expensesByCategory: Record<number, number> = {};
     let totalAmount = 0;
 
-    expenses.forEach((expense) => {
-      const amount = Number(expense.amount);
-      totalAmount += amount;
-      
-      if (expensesByCategory[expense.categoryId]) {
-        expensesByCategory[expense.categoryId] += amount;
-      } else {
-        expensesByCategory[expense.categoryId] = amount;
-      }
-    });
+    // Se não houver despesas, vamos mostrar as categorias com valores zerados
+    if (!expenses.length) {
+      // Em vez de não mostrar nada, vamos exibir todas as categorias com valores iguais
+      categories.forEach((category) => {
+        expensesByCategory[category.id] = 1; // Valor simbólico apenas para exibir todas as categorias
+        totalAmount += 1;
+      });
+    } else {
+      expenses.forEach((expense) => {
+        const amount = Number(expense.amount);
+        totalAmount += amount;
+        
+        if (expensesByCategory[expense.categoryId]) {
+          expensesByCategory[expense.categoryId] += amount;
+        } else {
+          expensesByCategory[expense.categoryId] = amount;
+        }
+      });
+    }
 
     // Create chart data
     const chartData: ChartData[] = Object.entries(expensesByCategory).map(([categoryId, amount]) => {
@@ -73,15 +82,8 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
     return null;
   };
 
-  if (data.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center h-48 text-center">
-        <p className="text-neutral-500 dark:text-neutral-400">
-          {t("expense.no_expenses_for_chart")}
-        </p>
-      </div>
-    );
-  }
+  // Não é mais necessário verificar se não há dados, pois sempre mostramos pelo menos as categorias
+  // Mesmo sem despesas reais, o gráfico será exibido com as categorias disponíveis
 
   return (
     <div className="flex flex-col sm:flex-row space-y-6 sm:space-y-0">
@@ -115,7 +117,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
             {t("expense.total")}
           </p>
           <p className="text-xl font-semibold">
-            {formatMoney(total)}
+            {total <= categories.length ? "-" : formatMoney(total)}
           </p>
         </div>
         <ul className="space-y-3">
@@ -132,10 +134,10 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
               </div>
               <div>
                 <span className="text-sm font-medium text-neutral-800 dark:text-white">
-                  {formatMoney(item.value)}
+                  {total <= categories.length ? "-" : formatMoney(item.value)}
                 </span>
                 <span className="text-xs text-neutral-500 dark:text-neutral-400 ml-1">
-                  ({item.percentage}%)
+                  {total <= categories.length ? "" : `(${item.percentage}%)`}
                 </span>
               </div>
             </li>

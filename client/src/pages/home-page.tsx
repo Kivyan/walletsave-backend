@@ -211,7 +211,7 @@ export default function HomePage(): ReactElement {
               </h2>
               
               <ExpenseChart 
-                expenses={monthlyExpenses} 
+                expenses={expenses} 
                 categories={categories} 
               />
             </div>
