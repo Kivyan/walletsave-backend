@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { UserProfileDropdown } from "@/components/user-profile-dropdown";
-import { NotificationsDropdown } from "@/components/notifications-dropdown";
+import { NotificationsDropdown } from "@/components/notifications-dropdown-new";
 import { Moon, Sun, ChevronLeft } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
@@ -52,8 +52,9 @@ export function Header({ title }: HeaderProps) {
           </div>
 
           {/* Page title */}
-          <h1 className="text-xl font-heading font-semibold text-neutral-800 dark:text-white">
-            {title}
+          <h1 className={`text-xl font-heading font-semibold ${title === "Home" ? "text-secondary dark:text-accent font-bold" : "text-neutral-800 dark:text-white"}`}>
+            {title === "Home" ? "Wallet Save" : title}
+            {title === "Home" && <span className="text-xs ml-1 text-neutral-500 dark:text-neutral-400 align-top">v1.0</span>}
           </h1>
 
           {/* Right actions */}

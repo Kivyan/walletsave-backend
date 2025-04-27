@@ -114,7 +114,7 @@ export default function AuthPage() {
 
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="font-heading font-bold text-3xl mb-2 text-secondary dark:text-accent">FinTrack</h1>
+          <h1 className="font-heading font-bold text-3xl mb-2 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
@@ -131,14 +131,14 @@ export default function AuthPage() {
               duration: 0.6 
             }}
           >
-            {/* Wallet */}
+            {/* Wallet - Maior contraste no dark mode */}
             <motion.div
               animate={{ rotateZ: [0, -5, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="text-secondary dark:text-accent"
+              className="text-secondary dark:text-accent drop-shadow-lg"
               style={{ fontSize: "5rem" }}
             >
-              <FontAwesomeIcon icon={faWallet} />
+              <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             </motion.div>
             
             {/* Animated coins */}

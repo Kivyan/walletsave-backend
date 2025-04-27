@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Bell } from "lucide-react";
+import { Bell, AlertTriangle, Calendar, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Expense, Category } from "@shared/schema";
 import { formatDate } from "@/lib/utils";
@@ -120,7 +120,7 @@ export function NotificationsDropdown() {
                 >
                   <div className="flex">
                     <div className={`w-8 h-8 rounded-full ${bgColor} flex items-center justify-center ${iconColor} mr-3`}>
-                      <i className={`fas fa-${isToday ? 'calendar-exclamation' : 'exclamation-triangle'}`}></i>
+                      {isToday ? <Calendar className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
                     </div>
                     <div>
                       <p className="text-sm text-neutral-700 dark:text-neutral-300">
