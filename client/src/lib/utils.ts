@@ -7,8 +7,36 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Lista de moedas suportadas com seus respectivos locales
+export const SUPPORTED_CURRENCIES = [
+  { code: "USD", name: "US Dollar (USD)", symbol: "$", locale: "en-US" },
+  { code: "EUR", name: "Euro (EUR)", symbol: "€", locale: "de-DE" },
+  { code: "GBP", name: "British Pound (GBP)", symbol: "£", locale: "en-GB" },
+  { code: "JPY", name: "Japanese Yen (JPY)", symbol: "¥", locale: "ja-JP" },
+  { code: "CNY", name: "Chinese Yuan (CNY)", symbol: "¥", locale: "zh-CN" },
+  { code: "BRL", name: "Brazilian Real (BRL)", symbol: "R$", locale: "pt-BR" },
+  { code: "CAD", name: "Canadian Dollar (CAD)", symbol: "CA$", locale: "en-CA" },
+  { code: "AUD", name: "Australian Dollar (AUD)", symbol: "A$", locale: "en-AU" },
+  { code: "INR", name: "Indian Rupee (INR)", symbol: "₹", locale: "en-IN" },
+  { code: "RUB", name: "Russian Ruble (RUB)", symbol: "₽", locale: "ru-RU" },
+  { code: "KRW", name: "South Korean Won (KRW)", symbol: "₩", locale: "ko-KR" },
+  { code: "CHF", name: "Swiss Franc (CHF)", symbol: "CHF", locale: "de-CH" },
+  { code: "MXN", name: "Mexican Peso (MXN)", symbol: "MX$", locale: "es-MX" },
+  { code: "SGD", name: "Singapore Dollar (SGD)", symbol: "S$", locale: "en-SG" },
+  { code: "HKD", name: "Hong Kong Dollar (HKD)", symbol: "HK$", locale: "zh-HK" },
+  { code: "SEK", name: "Swedish Krona (SEK)", symbol: "kr", locale: "sv-SE" },
+  { code: "ZAR", name: "South African Rand (ZAR)", symbol: "R", locale: "en-ZA" },
+  { code: "AED", name: "UAE Dirham (AED)", symbol: "د.إ", locale: "ar-AE" },
+  { code: "PLN", name: "Polish Zloty (PLN)", symbol: "zł", locale: "pl-PL" },
+  { code: "NGN", name: "Nigerian Naira (NGN)", symbol: "₦", locale: "en-NG" },
+];
+
 export function formatMoney(amount: number, currency: string = "BRL"): string {
-  return new Intl.NumberFormat("pt-BR", {
+  // Encontra o locale correspondente à moeda
+  const currencyInfo = SUPPORTED_CURRENCIES.find(c => c.code === currency) || 
+                       SUPPORTED_CURRENCIES.find(c => c.code === "BRL")!;
+  
+  return new Intl.NumberFormat(currencyInfo.locale, {
     style: "currency",
     currency,
   }).format(amount);
@@ -23,21 +51,37 @@ export function getInitials(name: string): string {
     .join("");
 }
 
+// Função para obter o locale adequado baseado no idioma selecionado
+function getLocaleFromLanguage(language: string = "en") {
+  switch (language) {
+    case "pt": return ptBR;
+    case "es": return require("date-fns/locale/es").default;
+    case "fr": return require("date-fns/locale/fr").default;
+    case "de": return require("date-fns/locale/de").default;
+    case "it": return require("date-fns/locale/it").default;
+    case "ja": return require("date-fns/locale/ja").default;
+    case "zh": return require("date-fns/locale/zh-CN").default;
+    case "ru": return require("date-fns/locale/ru").default;
+    case "ar": return require("date-fns/locale/ar-SA").default;
+    default: return enUS;
+  }
+}
+
 export function formatDate(date: Date | string, language: string = "en"): string {
   const dateObj = typeof date === "string" ? new Date(date) : date;
-  const locale = language === "pt" ? ptBR : enUS;
+  const locale = getLocaleFromLanguage(language);
   return format(dateObj, "PPP", { locale });
 }
 
 export function getMonthName(month: number, language: string = "en"): string {
   const date = new Date(2023, month - 1, 1);
-  const locale = language === "pt" ? ptBR : enUS;
+  const locale = getLocaleFromLanguage(language);
   return format(date, "LLLL", { locale });
 }
 
 export function getCurrentMonthYear(language: string = "en"): string {
   const date = new Date();
-  const locale = language === "pt" ? ptBR : enUS;
+  const locale = getLocaleFromLanguage(language);
   return format(date, "MMMM yyyy", { locale });
 }
 

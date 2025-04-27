@@ -8,6 +8,14 @@ import ptTranslations from "./locales/pt";
 export const languages = {
   en: "English",
   pt: "Português",
+  es: "Español",
+  fr: "Français",
+  de: "Deutsch",
+  it: "Italiano",
+  ja: "日本語",
+  zh: "中文",
+  ru: "Русский",
+  ar: "العربية",
 };
 
 // Initialize i18next
