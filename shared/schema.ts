@@ -56,9 +56,9 @@ export const expenses = pgTable("expenses", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertExpenseSchema = createInsertSchema(expenses).pick({
+// Criamos um schema base para despesas
+const baseExpenseSchema = createInsertSchema(expenses).pick({
   description: true,
-  amount: true,
   date: true,
   categoryId: true,
   userId: true,
@@ -67,6 +67,13 @@ export const insertExpenseSchema = createInsertSchema(expenses).pick({
   recurringEndDate: true,
   isFixed: true,
   isPaid: true,
+});
+
+// Modificamos o schema de inserção para aceitar tanto string quanto number para o campo amount
+export const insertExpenseSchema = baseExpenseSchema.extend({
+  // Utiliza o union para aceitar tanto string quanto number
+  amount: z.union([z.string(), z.number()])
+    .transform(val => typeof val === 'string' ? parseFloat(val) : val),
 });
 
 // Wallets table
@@ -78,10 +85,16 @@ export const wallets = pgTable("wallets", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertWalletSchema = createInsertSchema(wallets).pick({
+// Schema base para carteiras
+const baseWalletSchema = createInsertSchema(wallets).pick({
   name: true,
-  balance: true,
   userId: true,
+});
+
+// Modifica o schema para aceitar tanto string quanto number para o campo balance
+export const insertWalletSchema = baseWalletSchema.extend({
+  balance: z.union([z.string(), z.number()])
+    .transform(val => typeof val === 'string' ? parseFloat(val) : val),
 });
 
 // Budgets table
@@ -118,11 +131,18 @@ export const savings = pgTable("savings", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertSavingSchema = createInsertSchema(savings).pick({
+// Schema base para economias
+const baseSavingSchema = createInsertSchema(savings).pick({
   name: true,
-  targetAmount: true,
-  currentAmount: true,
   userId: true,
+});
+
+// Modifica o schema para aceitar tanto string quanto number para os campos de valores
+export const insertSavingSchema = baseSavingSchema.extend({
+  targetAmount: z.union([z.string(), z.number()])
+    .transform(val => typeof val === 'string' ? parseFloat(val) : val),
+  currentAmount: z.union([z.string(), z.number()])
+    .transform(val => typeof val === 'string' ? parseFloat(val) : val),
 });
 
 // Define types
