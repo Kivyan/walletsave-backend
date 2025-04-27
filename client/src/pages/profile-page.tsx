@@ -54,6 +54,7 @@ export default function ProfilePage(): ReactElement {
     confirmPassword: z.string().optional(),
     language: z.string(),
     currency: z.string(),
+    theme: z.string().optional(),
   }).refine((data) => {
     // If password is provided, confirmPassword must match
     if (data.password && data.password !== data.confirmPassword) {
@@ -75,6 +76,7 @@ export default function ProfilePage(): ReactElement {
       confirmPassword: "",
       language: user?.language || "en",
       currency: user?.currency || "BRL",
+      theme: user?.theme || theme,
     },
   });
 
@@ -88,6 +90,7 @@ export default function ProfilePage(): ReactElement {
         confirmPassword: "",
         language: user.language,
         currency: user.currency,
+        theme: user.theme || theme,
       });
     }
   }, [user, form]);
@@ -99,6 +102,7 @@ export default function ProfilePage(): ReactElement {
         fullName: data.fullName,
         language: data.language,
         currency: data.currency,
+        theme: theme, // Incluir a preferência de tema atual
       };
 
       // Only include password if it's provided
@@ -122,6 +126,9 @@ export default function ProfilePage(): ReactElement {
       
       // Update currency in localStorage
       localStorage.setItem("userCurrency", form.getValues().currency);
+      
+      // Atualizar o tema no localStorage, se necessário
+      localStorage.setItem("theme", theme);
     },
     onError: (error: Error) => {
       toast({

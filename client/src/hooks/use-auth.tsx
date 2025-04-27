@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import {
   useQuery,
   useMutation,
@@ -7,6 +7,7 @@ import {
 import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import i18n from "@/i18n";
 
 type AuthContextType = {
   user: SelectUser | null;
@@ -30,6 +31,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
+  
+  // Effect to update currency, language, and theme preferences
+  useEffect(() => {
+    if (user) {
+      // Store currency in localStorage
+      localStorage.setItem("userCurrency", user.currency || "BRL");
+      
+      // Update language if it exists in user preferences
+      if (user.language) {
+        i18n.changeLanguage(user.language);
+      }
+      
+      // Update theme if it exists in user preferences
+      if (user.theme) {
+        localStorage.setItem("theme", user.theme);
+      }
+    }
+  }, [user]);
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
@@ -40,6 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData(["/api/user"], user);
       // Store currency in localStorage when user logs in
       localStorage.setItem("userCurrency", user.currency || "BRL");
+      // Update language
+      if (user.language) {
+        i18n.changeLanguage(user.language);
+      }
+      // Update theme if available
+      if (user.theme) {
+        localStorage.setItem("theme", user.theme);
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -59,6 +86,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData(["/api/user"], user);
       // Store currency in localStorage when user registers
       localStorage.setItem("userCurrency", user.currency || "BRL");
+      // Update language
+      if (user.language) {
+        i18n.changeLanguage(user.language);
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -75,6 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
+      // Reset to default currency on logout
+      localStorage.setItem("userCurrency", "BRL");
     },
     onError: (error: Error) => {
       toast({

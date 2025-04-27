@@ -72,4 +72,10 @@ i18n.on("languageChanged", (lng) => {
   localStorage.setItem("i18nextLng", lng);
 });
 
+// Initialize with stored language on app load
+const storedLang = localStorage.getItem("i18nextLng");
+if (storedLang) {
+  i18n.changeLanguage(storedLang);
+}
+
 export default i18n;

@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { useAuth } from "@/hooks/use-auth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
 type Theme = "dark" | "light";
@@ -25,14 +24,6 @@ export function ThemeProvider({
   // Verificar se já temos um tema salvo no localStorage
   const storedTheme = localStorage.getItem("theme") as Theme;
   const [theme, setTheme] = useState<Theme>(storedTheme || defaultTheme);
-  const { user } = useAuth();
-
-  // Quando o usuário faz login, use a preferência de tema salva
-  useEffect(() => {
-    if (user?.theme) {
-      setTheme(user.theme as Theme);
-    }
-  }, [user]);
 
   // Update the theme when it changes
   useEffect(() => {
@@ -43,24 +34,6 @@ export function ThemeProvider({
     // Salvar o tema no localStorage para persistência
     localStorage.setItem("theme", theme);
   }, [theme]);
-
-  // Save the theme preference to the user's profile
-  useEffect(() => {
-    const saveTheme = async () => {
-      if (user && user.theme !== theme) {
-        try {
-          await apiRequest("PUT", "/api/user", { theme });
-          queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-        } catch (error) {
-          console.error("Failed to save theme preference", error);
-        }
-      }
-    };
-
-    if (user) {
-      saveTheme();
-    }
-  }, [theme, user]);
 
   const value = {
     theme,
