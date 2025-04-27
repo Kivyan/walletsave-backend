@@ -191,6 +191,9 @@ const translations = {
   toast: {
     error: "Erro",
     success: "Sucesso",
+    loginFailed: "Falha no login",
+    registrationFailed: "Falha no cadastro",
+    logoutFailed: "Falha ao sair",
     expense_added: "Despesa adicionada",
     expense_added_description: "Sua despesa foi adicionada com sucesso",
     expense_updated: "Despesa atualizada",
