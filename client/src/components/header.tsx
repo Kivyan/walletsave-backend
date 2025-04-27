@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { UserProfileDropdown } from "@/components/user-profile-dropdown";
 import { NotificationsDropdown } from "@/components/notifications-dropdown";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, ChevronLeft } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 
 interface HeaderProps {
   title: string;

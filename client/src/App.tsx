@@ -14,6 +14,7 @@ import SavingsPage from "@/pages/savings-page";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
+import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
 
 function Router(): ReactElement {
@@ -43,6 +44,7 @@ function App() {
         <AuthProvider>
           <ThemeProvider>
             <Router />
+            <NavigationButtons />
             <Toaster />
           </ThemeProvider>
         </AuthProvider>

@@ -22,10 +22,12 @@ export function ThemeProvider({
   children,
   defaultTheme = "light",
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
+  // Verificar se já temos um tema salvo no localStorage
+  const storedTheme = localStorage.getItem("theme") as Theme;
+  const [theme, setTheme] = useState<Theme>(storedTheme || defaultTheme);
   const { user } = useAuth();
 
-  // When the user logs in, use their saved theme preference
+  // Quando o usuário faz login, use a preferência de tema salva
   useEffect(() => {
     if (user?.theme) {
       setTheme(user.theme as Theme);
@@ -37,6 +39,9 @@ export function ThemeProvider({
     const root = window.document.documentElement;
     root.classList.remove("dark", "light");
     root.classList.add(theme);
+    
+    // Salvar o tema no localStorage para persistência
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   // Save the theme preference to the user's profile
