@@ -90,6 +90,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (user.language) {
         i18n.changeLanguage(user.language);
       }
+      // Update theme if available
+      if (user.theme) {
+        localStorage.setItem("theme", user.theme);
+      }
     },
     onError: (error: Error) => {
       toast({
