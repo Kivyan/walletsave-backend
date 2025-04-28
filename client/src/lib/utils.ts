@@ -2,6 +2,14 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
+import { es } from "date-fns/locale/es";
+import { fr } from "date-fns/locale/fr";
+import { de } from "date-fns/locale/de";
+import { it } from "date-fns/locale/it";
+import { ja } from "date-fns/locale/ja";
+import { zhCN } from "date-fns/locale/zh-CN";
+import { ru } from "date-fns/locale/ru";
+import { arSA } from "date-fns/locale/ar-SA";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -58,14 +66,14 @@ export function getInitials(name: string): string {
 export function getLocaleFromLanguage(language: string = "en") {
   switch (language) {
     case "pt": return ptBR;
-    case "es": return require("date-fns/locale/es").default;
-    case "fr": return require("date-fns/locale/fr").default;
-    case "de": return require("date-fns/locale/de").default;
-    case "it": return require("date-fns/locale/it").default;
-    case "ja": return require("date-fns/locale/ja").default;
-    case "zh": return require("date-fns/locale/zh-CN").default;
-    case "ru": return require("date-fns/locale/ru").default;
-    case "ar": return require("date-fns/locale/ar-SA").default;
+    case "es": return es;
+    case "fr": return fr;
+    case "de": return de;
+    case "it": return it;
+    case "ja": return ja;
+    case "zh": return zhCN;
+    case "ru": return ru;
+    case "ar": return arSA;
     default: return enUS;
   }
 }
