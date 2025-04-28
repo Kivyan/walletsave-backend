@@ -4,7 +4,10 @@ import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 import { format } from "date-fns"
-import { enUS, ptBR } from "date-fns/locale"
+import type { Locale } from "date-fns"
+import { 
+  enUS, ptBR, es, fr, de, it, ja, ru, ar, zhCN 
+} from "date-fns/locale"
 import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
@@ -20,8 +23,22 @@ function Calendar({
 }: CalendarProps) {
   const { i18n } = useTranslation();
   
+  // Mapa de idiomas para locale do date-fns
+  const localeMap: Record<string, Locale> = {
+    en: enUS,
+    pt: ptBR,
+    es: es,
+    fr: fr,
+    de: de,
+    it: it,
+    ja: ja,
+    zh: zhCN,
+    ru: ru,
+    ar: ar
+  };
+  
   // Set the appropriate locale based on the current language
-  const locale = i18n.language === 'pt' ? ptBR : enUS;
+  const locale = localeMap[i18n.language] || enUS;
 
   return (
     <DayPicker
