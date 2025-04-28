@@ -169,7 +169,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                 className={`text-xs px-2 py-0.5 rounded ${colorClasses.tagBg} ${colorClasses.tagText}`}
                 style={{ backgroundColor: `${category.color}20`, color: category.color }}
               >
-                {category.name}
+                {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, category.name)}
               </span>
             </div>
 
