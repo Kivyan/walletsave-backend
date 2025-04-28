@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar as CalendarIcon, ChevronDown } from "lucide-react";
+import { getLocaleFromLanguage } from "@/lib/utils";
 import { format } from "date-fns";
-import { ptBR, enUS } from "date-fns/locale";
 
 import {
   Popover,
@@ -21,7 +21,7 @@ export function MonthSelector({ selected, onSelect }: MonthSelectorProps) {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   
-  const locale = i18n.language === "pt" ? ptBR : enUS;
+  const locale = getLocaleFromLanguage(i18n.language);
   const formattedMonth = format(selected, "MMMM yyyy", { locale });
   
   const handleSelect = (date: Date | undefined) => {
@@ -45,9 +45,9 @@ export function MonthSelector({ selected, onSelect }: MonthSelectorProps) {
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
-          mode="month"
+          mode="default"
           selected={selected}
-          onSelect={handleSelect}
+          onSelect={handleSelect as any}
           initialFocus
         />
       </PopoverContent>
