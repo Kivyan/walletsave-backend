@@ -105,7 +105,7 @@ export function CategoryFilter({
                     className="w-3 h-3 rounded-full mr-2"
                     style={{ backgroundColor: category.color }}
                   />
-                  {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, category.name)}
+                  {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, { defaultValue: category.name })}
                 </Label>
               </div>
             ))}

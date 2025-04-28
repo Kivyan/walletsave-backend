@@ -55,7 +55,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       
       // Traduza o nome da categoria com base na chave de tradução
       const categoryKey = category?.name.toLowerCase().replace(/\s+/g, '_') || 'unknown';
-      const translatedName = t(`categories.${categoryKey}`, category?.name || t('common.unknown'));
+      const translatedName = t(`categories.${categoryKey}`, { defaultValue: category?.name || t('common.unknown') });
       
       return {
         name: translatedName,
