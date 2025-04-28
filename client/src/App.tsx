@@ -11,6 +11,8 @@ import ProfilePage from "@/pages/profile-page";
 import WalletPage from "@/pages/wallet-page";
 import ReportsPage from "@/pages/reports-page";
 import SavingsPage from "@/pages/savings-page";
+import TermsOfService from "@/pages/terms-of-service";
+import PrivacyPolicy from "@/pages/privacy-policy";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
@@ -23,6 +25,8 @@ function Router(): ReactElement {
   const renderWalletPage = (): ReactElement => <WalletPage />;
   const renderReportsPage = (): ReactElement => <ReportsPage />;
   const renderSavingsPage = (): ReactElement => <SavingsPage />;
+  const renderTermsOfService = (): ReactElement => <TermsOfService />;
+  const renderPrivacyPolicy = (): ReactElement => <PrivacyPolicy />;
 
   return (
     <Switch>
@@ -32,6 +36,8 @@ function Router(): ReactElement {
       <ProtectedRoute path="/reports" component={renderReportsPage} />
       <ProtectedRoute path="/savings" component={renderSavingsPage} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/terms-of-service" component={renderTermsOfService} />
+      <Route path="/privacy-policy" component={renderPrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>
   );
