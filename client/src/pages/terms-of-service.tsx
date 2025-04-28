@@ -1,15 +1,42 @@
 import { useTranslation } from "react-i18next";
 import { BackButton } from "@/components/back-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useState } from "react";
+import { Link } from "wouter";
+import { LanguageSelector } from "@/components/language-selector";
 
 export default function TermsOfService() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
+
+  // Update component when language changes
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguage(i18n.language);
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+    
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, [i18n]);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-6 flex items-center">
-        <BackButton />
-        <h1 className="ml-2 text-2xl font-bold">{t("legal.terms_of_service")}</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center">
+          <BackButton />
+          <h1 className="ml-2 text-2xl font-bold">{t("legal.terms_of_service")}</h1>
+        </div>
+        <div className="flex items-center space-x-2">
+          <LanguageSelector />
+          <Link href="/privacy-policy">
+            <a className="text-sm text-secondary dark:text-accent hover:underline">
+              {t("legal.privacy_policy")}
+            </a>
+          </Link>
+        </div>
       </div>
       
       <div className="rounded-lg border bg-card p-6 shadow-sm">
