@@ -55,7 +55,7 @@ export function getInitials(name: string): string {
 }
 
 // Função para obter o locale adequado baseado no idioma selecionado
-function getLocaleFromLanguage(language: string = "en") {
+export function getLocaleFromLanguage(language: string = "en") {
   switch (language) {
     case "pt": return ptBR;
     case "es": return require("date-fns/locale/es").default;

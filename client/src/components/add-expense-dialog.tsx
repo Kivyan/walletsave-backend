@@ -9,6 +9,7 @@ import { z } from "zod";
 import { insertExpenseSchema, Expense, Category } from "@shared/schema";
 import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
+import { getLocaleFromLanguage, formatDate } from "@/lib/utils";
 
 import {
   Dialog,
@@ -51,7 +52,7 @@ interface AddExpenseDialogProps {
 }
 
 export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpenseDialogProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const { user } = useAuth();
   const [showRecurringOptions, setShowRecurringOptions] = useState(false);
@@ -236,7 +237,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {field.value ? (
-                            format(field.value, "PPP")
+                            formatDate(field.value, i18n.language)
                           ) : (
                             <span>{t("expense.select_date")}</span>
                           )}
@@ -384,7 +385,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {field.value ? (
-                                format(field.value, "PPP")
+                                formatDate(field.value, i18n.language)
                               ) : (
                                 <span>{t("expense.select_end_date")}</span>
                               )}
