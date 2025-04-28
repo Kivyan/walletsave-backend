@@ -25,7 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sun, Moon } from "lucide-react";
 
 export default function AuthPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [, navigate] = useLocation();
   const { user, loginMutation, registerMutation } = useAuth();
   const { theme, setTheme } = useTheme();
@@ -78,14 +78,18 @@ export default function AuthPage() {
   const onLoginSubmit = (values: z.infer<typeof loginSchema>) => {
     loginMutation.mutate(values);
   };
-
+  
   const onRegisterSubmit = (values: z.infer<typeof registerSchema>) => {
     const { confirmPassword, ...registerData } = values;
+    
+    // Use o idioma atual do usuário ao invés de fixar em "en"
+    const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+    
     registerMutation.mutate({
       ...registerData,
-      language: "en",
+      language: currentLanguage, // Usar o idioma atual
       theme: theme,
-      currency: "BRL",
+      currency: localStorage.getItem("userCurrency") || "BRL",
     });
   };
 
