@@ -45,9 +45,9 @@ export function MonthSelector({ selected, onSelect }: MonthSelectorProps) {
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
-          mode="default"
+          mode="single"
           selected={selected}
-          onSelect={handleSelect as any}
+          onSelect={handleSelect}
           initialFocus
         />
       </PopoverContent>
