@@ -373,11 +373,11 @@ export default function AuthPage() {
         <div className="mt-6 text-center text-sm text-neutral-600 dark:text-neutral-400">
           <p>
             {t("auth.terms_agreement")}{" "}
-            <a href="#" className="text-secondary dark:text-accent hover:underline">
+            <a href="/terms-of-service" className="text-secondary dark:text-accent hover:underline">
               {t("auth.terms_of_service")}
             </a>{" "}
             {t("auth.and")}{" "}
-            <a href="#" className="text-secondary dark:text-accent hover:underline">
+            <a href="/privacy-policy" className="text-secondary dark:text-accent hover:underline">
               {t("auth.privacy_policy")}
             </a>
             .
