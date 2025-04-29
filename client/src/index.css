@@ -21,25 +21,19 @@
 }
 
 @layer components {
-  /* Classes compactas para formulários */
-  .form-compact .form-item,
-  .form-compact [class*="FormItem"] {
-    @apply mb-1;
+  /* Responsividade automática para qualquer tamanho de tela */
+  .auto-scale {
+    @apply max-h-screen w-full h-full overflow-hidden;
+    transform-origin: center center;
   }
 
-  .form-compact .form-label,
-  .form-compact [class*="FormLabel"] {
-    @apply text-xs mb-0.5;
+  /* Auto-adaptação de conteúdo */
+  .auto-fit-content {
+    @apply flex flex-col justify-center items-center h-full;
   }
 
-  .form-compact .form-input,
-  .form-compact input,
-  .form-compact select,
-  .form-compact textarea {
-    @apply h-8 text-sm py-1;
-  }
-
-  .form-compact button {
-    @apply h-8 text-sm;
+  /* Garante que o conteúdo principal seja visível */
+  .content-container {
+    @apply w-full max-w-full flex-1 overflow-auto;
   }
 }
