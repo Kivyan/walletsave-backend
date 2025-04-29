@@ -99,7 +99,7 @@ export default function AuthPage() {
 
   return (
     <div className="responsive-container bg-neutral-100 dark:bg-neutral-900">
-      <div className="absolute top-4 right-4 flex items-center gap-2">
+      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1 sm:gap-2">
         <LanguageSelector />
         <Button
           variant="ghost"
@@ -116,7 +116,7 @@ export default function AuthPage() {
         </Button>
       </div>
       
-      <div className="content-wrapper max-w-md min-content-height">
+      <div className="content-wrapper max-w-md min-content-height p-4 sm:p-6 md:p-8">
         <div className="mb-4 text-center">
           <h1 className="font-heading font-bold text-2xl md:text-3xl mb-1 md:mb-2 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
@@ -250,16 +250,16 @@ export default function AuthPage() {
           </motion.div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 sm:p-6 form-container">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 sm:p-6 form-container mb-4 sm:mb-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-2 mb-4">
-              <TabsTrigger value="login">{t("auth.login")}</TabsTrigger>
-              <TabsTrigger value="register">{t("auth.register")}</TabsTrigger>
+            <TabsList className="grid grid-cols-2 mb-4 sm:mb-6 p-1 sm:p-1.5">
+              <TabsTrigger value="login" className="py-2 sm:py-2.5 text-sm sm:text-base">{t("auth.login")}</TabsTrigger>
+              <TabsTrigger value="register" className="py-2 sm:py-2.5 text-sm sm:text-base">{t("auth.register")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
               <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-2">
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-3 sm:space-y-4">
                   <FormField
                     control={loginForm.control}
                     name="username"
@@ -293,7 +293,7 @@ export default function AuthPage() {
                   />
                   <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full mt-3 sm:mt-4 py-2 sm:py-3 text-base"
                     disabled={loginMutation.isPending}
                   >
                     {loginMutation.isPending ? t("auth.logging_in") : t("auth.login")}
@@ -304,7 +304,7 @@ export default function AuthPage() {
 
             <TabsContent value="register">
               <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-2">
+                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3 sm:space-y-4">
                   <FormField
                     control={registerForm.control}
                     name="fullName"
@@ -359,7 +359,7 @@ export default function AuthPage() {
                   />
                   <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full mt-3 sm:mt-4 py-2 sm:py-3 text-base"
                     disabled={registerMutation.isPending}
                   >
                     {registerMutation.isPending ? t("auth.registering") : t("auth.register")}
