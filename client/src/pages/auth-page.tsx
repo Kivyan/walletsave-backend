@@ -98,7 +98,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="h-full flex flex-col items-center justify-center p-4 sm:p-6 bg-neutral-100 dark:bg-neutral-900 overflow-auto">
+    <div className="responsive-container bg-neutral-100 dark:bg-neutral-900">
       <div className="absolute top-4 right-4 flex items-center gap-2">
         <LanguageSelector />
         <Button
@@ -116,14 +116,14 @@ export default function AuthPage() {
         </Button>
       </div>
       
-      <div className="w-full max-w-md">
+      <div className="content-wrapper max-w-md min-content-height">
         <div className="mb-4 text-center">
           <h1 className="font-heading font-bold text-2xl md:text-3xl mb-1 md:mb-2 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Wallet Animation - escondido em telas menores que 'lg' */}
-        <div className="mb-4 flex justify-center hidden lg:flex">
+        {/* Wallet Animation - escondido em telas menores e nas telas com pouca altura */}
+        <div className="mb-4 flex justify-center hidden lg:flex hide-on-small-height">
           <motion.div 
             className="relative w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -250,7 +250,7 @@ export default function AuthPage() {
           </motion.div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 sm:p-6">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 sm:p-6 form-container">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-2 mb-4">
               <TabsTrigger value="login">{t("auth.login")}</TabsTrigger>

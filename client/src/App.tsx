@@ -50,17 +50,8 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider>
-            <AutoScaleContainer
-              targetWidth={1024}  // Base design width
-              targetHeight={768}  // Base design height
-              minScale={0.5}      // Mínimo 50% do tamanho original
-              maxScale={1}        // Máximo 100% do tamanho original
-            >
-              <div className="h-full w-full flex flex-col">
-                <Router />
-                <NavigationButtons />
-              </div>
-            </AutoScaleContainer>
+            <Router />
+            <NavigationButtons />
             <Toaster />
           </ThemeProvider>
         </AuthProvider>

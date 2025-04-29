@@ -8,7 +8,7 @@
   }
 
   html, body {
-    @apply h-screen w-screen overflow-hidden touch-none;
+    @apply h-screen w-screen overflow-auto md:overflow-hidden touch-none;
   }
 
   body {
@@ -21,14 +21,42 @@
 }
 
 @layer components {
-  /* App Container - Permite dimensionamento proporcional */
-  .app-container {
-    @apply h-screen w-screen overflow-hidden relative;
+  /* Conteúdo responsivo - Se adapta a qualquer tela */
+  .responsive-container {
+    @apply w-full h-full flex flex-col items-center justify-center p-4;
+    min-height: 100%;
   }
   
-  /* Conteúdo auto-escalável */
-  .auto-scale-content {
-    @apply absolute top-0 left-0 w-full h-full;
-    transform-origin: top left;
+  /* Características de Container Flexível */
+  .content-wrapper {
+    @apply w-full max-w-7xl mx-auto flex-1 flex flex-col;
+  }
+  
+  /* Evitar conteúdo esmagado - Dar espaço para respiro */
+  .min-content-height {
+    min-height: min-content;
+  }
+  
+  /* Ajuste para telas muito pequenas - evita cortes de conteúdo */
+  @media (max-height: 600px) {
+    .responsive-container {
+      @apply overflow-auto py-6;
+    }
+    
+    .hide-on-small-height {
+      @apply hidden;
+    }
+  }
+  
+  /* Ajuste para telas extremamente pequenas */
+  @media (max-height: 480px) {
+    .responsive-container {
+      @apply justify-start pt-10;
+    }
+  }
+
+  /* Garante que os formulários nunca sejam cortados */
+  .form-container {
+    @apply w-full;
   }
 }
