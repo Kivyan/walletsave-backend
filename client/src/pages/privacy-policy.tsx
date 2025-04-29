@@ -23,7 +23,7 @@ export default function PrivacyPolicy() {
   }, [i18n]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="h-full flex flex-col container mx-auto px-4 py-6 overflow-hidden">
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center">
           <BackButton />
@@ -39,8 +39,8 @@ export default function PrivacyPolicy() {
         </div>
       </div>
       
-      <div className="rounded-lg border bg-card p-6 shadow-sm">
-        <ScrollArea className="h-[60vh] md:h-[70vh]">
+      <div className="flex-1 rounded-lg border bg-card p-6 shadow-sm overflow-hidden">
+        <ScrollArea className="h-full">
           <div className="pr-4">
             <h2 className="mb-4 text-xl font-semibold">{t("legal.privacy_title")}</h2>
             <p className="mb-4">{t("legal.privacy_last_updated")}</p>

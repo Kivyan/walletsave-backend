@@ -98,7 +98,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-neutral-100 dark:bg-neutral-900">
+    <div className="h-full flex flex-col items-center justify-center p-4 sm:p-6 bg-neutral-100 dark:bg-neutral-900 overflow-hidden">
       <div className="absolute top-4 right-4 flex items-center gap-2">
         <LanguageSelector />
         <Button
@@ -302,7 +302,7 @@ export default function AuthPage() {
               </Form>
             </TabsContent>
 
-            <TabsContent value="register">
+            <TabsContent value="register" className="max-h-[50vh] overflow-y-auto">
               <Form {...registerForm}>
                 <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3 sm:space-y-4">
                   <FormField

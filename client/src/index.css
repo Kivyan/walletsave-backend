@@ -7,7 +7,15 @@
     @apply border-border;
   }
 
+  html, body {
+    @apply h-screen w-screen overflow-hidden touch-none;
+  }
+
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  #root {
+    @apply h-full w-full flex flex-col;
   }
 }
