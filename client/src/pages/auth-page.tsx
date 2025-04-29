@@ -98,7 +98,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-neutral-100 dark:bg-neutral-900">
+    <div className="h-full flex flex-col items-center justify-center p-6 bg-neutral-100 dark:bg-neutral-900 overflow-hidden">
       <div className="absolute top-4 right-4 flex items-center gap-2">
         <LanguageSelector />
         <Button
@@ -116,7 +116,7 @@ export default function AuthPage() {
         </Button>
       </div>
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="mb-8 text-center">
           <h1 className="font-heading font-bold text-3xl mb-2 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
