@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
       </div>
       
       <div className="rounded-lg border bg-card p-6 shadow-sm">
-        <ScrollArea className="h-[70vh]">
+        <ScrollArea className="h-[60vh] md:h-[70vh]">
           <div className="pr-4">
             <h2 className="mb-4 text-xl font-semibold">{t("legal.privacy_title")}</h2>
             <p className="mb-4">{t("legal.privacy_last_updated")}</p>

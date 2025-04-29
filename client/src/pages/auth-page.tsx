@@ -118,12 +118,12 @@ export default function AuthPage() {
 
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="font-heading font-bold text-3xl mb-2 text-secondary dark:text-accent">Wallet Save</h1>
-          <p className="text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
+          <h1 className="font-heading font-bold text-2xl md:text-3xl mb-1 md:mb-2 text-secondary dark:text-accent">Wallet Save</h1>
+          <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Wallet Animation */}
-        <div className="mb-8 flex justify-center">
+        {/* Wallet Animation - escondido em telas muito pequenas */}
+        <div className="mb-8 flex justify-center hidden sm:flex">
           <motion.div 
             className="relative w-64 h-64 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -250,7 +250,7 @@ export default function AuthPage() {
           </motion.div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-6">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 sm:p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-2 mb-4">
               <TabsTrigger value="login">{t("auth.login")}</TabsTrigger>
@@ -259,7 +259,7 @@ export default function AuthPage() {
 
             <TabsContent value="login">
               <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-3 sm:space-y-4">
                   <FormField
                     control={loginForm.control}
                     name="username"
@@ -304,7 +304,7 @@ export default function AuthPage() {
 
             <TabsContent value="register">
               <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
+                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3 sm:space-y-4">
                   <FormField
                     control={registerForm.control}
                     name="fullName"
@@ -370,7 +370,7 @@ export default function AuthPage() {
           </Tabs>
         </div>
 
-        <div className="mt-6 text-center text-sm text-neutral-600 dark:text-neutral-400">
+        <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
           <p>
             {t("auth.terms_agreement")}{" "}
             <a href="/terms-of-service" className="text-secondary dark:text-accent hover:underline">
