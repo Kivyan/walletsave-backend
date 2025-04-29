@@ -21,19 +21,14 @@
 }
 
 @layer components {
-  /* Responsividade automática para qualquer tamanho de tela */
-  .auto-scale {
-    @apply max-h-screen w-full h-full overflow-hidden;
-    transform-origin: center center;
+  /* App Container - Permite dimensionamento proporcional */
+  .app-container {
+    @apply h-screen w-screen overflow-hidden relative;
   }
-
-  /* Auto-adaptação de conteúdo */
-  .auto-fit-content {
-    @apply flex flex-col justify-center items-center h-full;
-  }
-
-  /* Garante que o conteúdo principal seja visível */
-  .content-container {
-    @apply w-full max-w-full flex-1 overflow-auto;
+  
+  /* Conteúdo auto-escalável */
+  .auto-scale-content {
+    @apply absolute top-0 left-0 w-full h-full;
+    transform-origin: top left;
   }
 }

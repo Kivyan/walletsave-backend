@@ -18,6 +18,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "@/i18n";
 import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
+import { AutoScaleContainer } from "@/components/auto-scale-container";
 
 function Router(): ReactElement {
   const renderHomePage = (): ReactElement => <HomePage />;
@@ -49,8 +50,17 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider>
-            <Router />
-            <NavigationButtons />
+            <AutoScaleContainer
+              targetWidth={1024}  // Base design width
+              targetHeight={768}  // Base design height
+              minScale={0.5}      // Mínimo 50% do tamanho original
+              maxScale={1}        // Máximo 100% do tamanho original
+            >
+              <div className="h-full w-full flex flex-col">
+                <Router />
+                <NavigationButtons />
+              </div>
+            </AutoScaleContainer>
             <Toaster />
           </ThemeProvider>
         </AuthProvider>
