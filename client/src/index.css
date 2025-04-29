@@ -42,10 +42,6 @@
     .responsive-container {
       @apply overflow-auto py-6;
     }
-    
-    .hide-on-small-height {
-      @apply hidden;
-    }
   }
   
   /* Ajuste para telas extremamente pequenas */

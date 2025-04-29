@@ -122,10 +122,10 @@ export default function AuthPage() {
           <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Wallet Animation - escondido em telas menores e nas telas com pouca altura */}
-        <div className="mb-4 flex justify-center hidden lg:flex hide-on-small-height">
+        {/* Wallet Animation - sempre visível em qualquer tela */}
+        <div className="mb-4 flex justify-center">
           <motion.div 
-            className="relative w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
+            className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ 
@@ -140,17 +140,17 @@ export default function AuthPage() {
               animate={{ rotateZ: [0, -5, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
               className="text-secondary dark:text-accent drop-shadow-lg"
-              style={{ fontSize: "4rem" }}
+              style={{ fontSize: "calc(2.5rem + 2vmin)" }}
             >
               <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             </motion.div>
             
             {/* Animated coins */}
-            <div className="absolute bottom-4 w-full flex justify-center">
+            <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 w-full flex justify-center">
               <div className="flex space-x-2">
                 {/* Coin 1 - Com melhor contraste */}
                 <motion.div
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
+                  className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
                   initial={{ y: 80 }}
                   animate={{ 
                     y: [0, -15, 0],
@@ -169,7 +169,7 @@ export default function AuthPage() {
                 
                 {/* Coin 2 - Com melhor contraste */}
                 <motion.div
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
+                  className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
                   initial={{ y: 80 }}
                   animate={{ 
                     y: [0, -25, 0],
@@ -188,7 +188,7 @@ export default function AuthPage() {
                 
                 {/* Coin 3 - Com melhor contraste */}
                 <motion.div
-                  className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
+                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
                   initial={{ y: 80 }}
                   animate={{ 
                     y: [0, -20, 0],
