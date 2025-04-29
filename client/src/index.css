@@ -19,3 +19,17 @@
     @apply h-full w-full flex flex-col;
   }
 }
+
+@layer components {
+  .form-compact .form-item {
+    @apply mb-1;
+  }
+
+  .form-compact .form-label {
+    @apply text-xs mb-0.5;
+  }
+
+  .form-compact .form-input {
+    @apply h-8 text-sm;
+  }
+}

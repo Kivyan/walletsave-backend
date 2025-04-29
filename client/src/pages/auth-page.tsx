@@ -117,15 +117,15 @@ export default function AuthPage() {
       </div>
 
       <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
+        <div className="mb-4 text-center">
           <h1 className="font-heading font-bold text-2xl md:text-3xl mb-1 md:mb-2 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Wallet Animation - escondido em telas muito pequenas */}
-        <div className="mb-8 flex justify-center hidden sm:flex">
+        {/* Wallet Animation - escondido em telas menores que 'lg' */}
+        <div className="mb-4 flex justify-center hidden lg:flex">
           <motion.div 
-            className="relative w-64 h-64 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
+            className="relative w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ 
@@ -140,7 +140,7 @@ export default function AuthPage() {
               animate={{ rotateZ: [0, -5, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
               className="text-secondary dark:text-accent drop-shadow-lg"
-              style={{ fontSize: "5rem" }}
+              style={{ fontSize: "4rem" }}
             >
               <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             </motion.div>
@@ -150,7 +150,7 @@ export default function AuthPage() {
               <div className="flex space-x-2">
                 {/* Coin 1 - Com melhor contraste */}
                 <motion.div
-                  className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
+                  className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
                   initial={{ y: 80 }}
                   animate={{ 
                     y: [0, -15, 0],
@@ -169,7 +169,7 @@ export default function AuthPage() {
                 
                 {/* Coin 2 - Com melhor contraste */}
                 <motion.div
-                  className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
                   initial={{ y: 80 }}
                   animate={{ 
                     y: [0, -25, 0],
@@ -188,7 +188,7 @@ export default function AuthPage() {
                 
                 {/* Coin 3 - Com melhor contraste */}
                 <motion.div
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
+                  className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
                   initial={{ y: 80 }}
                   animate={{ 
                     y: [0, -20, 0],
@@ -259,7 +259,7 @@ export default function AuthPage() {
 
             <TabsContent value="login">
               <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-3 sm:space-y-4">
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-2">
                   <FormField
                     control={loginForm.control}
                     name="username"
@@ -302,9 +302,9 @@ export default function AuthPage() {
               </Form>
             </TabsContent>
 
-            <TabsContent value="register" className="max-h-[50vh] overflow-y-auto">
+            <TabsContent value="register">
               <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3 sm:space-y-4">
+                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-2">
                   <FormField
                     control={registerForm.control}
                     name="fullName"
@@ -370,7 +370,7 @@ export default function AuthPage() {
           </Tabs>
         </div>
 
-        <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
+        <div className="mt-2 sm:mt-4 text-center text-xs text-neutral-600 dark:text-neutral-400">
           <p>
             {t("auth.terms_agreement")}{" "}
             <a href="/terms-of-service" className="text-secondary dark:text-accent hover:underline">
