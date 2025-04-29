@@ -21,15 +21,25 @@
 }
 
 @layer components {
-  .form-compact .form-item {
+  /* Classes compactas para formulários */
+  .form-compact .form-item,
+  .form-compact [class*="FormItem"] {
     @apply mb-1;
   }
 
-  .form-compact .form-label {
+  .form-compact .form-label,
+  .form-compact [class*="FormLabel"] {
     @apply text-xs mb-0.5;
   }
 
-  .form-compact .form-input {
+  .form-compact .form-input,
+  .form-compact input,
+  .form-compact select,
+  .form-compact textarea {
+    @apply h-8 text-sm py-1;
+  }
+
+  .form-compact button {
     @apply h-8 text-sm;
   }
 }
