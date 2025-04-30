@@ -138,59 +138,59 @@ export default function AuthPage() {
               </motion.div>
             </div>
             
-            {/* Moedas animadas com espaçamento uniforme */}
-            <motion.div
-              className="absolute bottom-4 left-6 w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400 overflow-visible"
-              initial={{ y: 0 }}
-              animate={{ 
-                y: [0, -20, 0],
-                rotateZ: [0, 180, 360],
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                repeatType: "loop",
-                ease: "easeInOut",
-              }}
-            >
-              <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
-            </motion.div>
-            
-            {/* Coin 2 (centralizado) */}
-            <motion.div
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400 overflow-visible"
-              initial={{ y: 0 }}
-              animate={{ 
-                y: [0, -25, 0],
-                rotateZ: [0, -180, -360],
-              }}
-              transition={{ 
-                duration: 2.3, 
-                repeat: Infinity,
-                repeatType: "loop",
-                ease: "easeInOut",
-              }}
-            >
-              <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm dark:text-amber-100" />
-            </motion.div>
-            
-            {/* Coin 3 */}
-            <motion.div
-              className="absolute bottom-4 right-6 w-10 h-10 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400 overflow-visible"
-              initial={{ y: 0 }}
-              animate={{ 
-                y: [0, -15, 0],
-                rotateZ: [0, 180, 360],
-              }}
-              transition={{ 
-                duration: 1.8, 
-                repeat: Infinity,
-                repeatType: "loop",
-                ease: "easeInOut",
-              }}
-            >
-              <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs dark:text-orange-100" />
-            </motion.div>
+            {/* Moedas animadas com distribuição uniforme */}
+            <div className="absolute w-full bottom-4 flex justify-between px-6">
+              {/* Coin 1 - esquerda */}
+              <motion.div
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400 overflow-visible"
+                animate={{ 
+                  y: [0, -20, 0],
+                  rotateZ: [0, 180, 360],
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                }}
+              >
+                <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
+              </motion.div>
+              
+              {/* Coin 2 - centro */}
+              <motion.div
+                className="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400 overflow-visible"
+                animate={{ 
+                  y: [0, -25, 0],
+                  rotateZ: [0, -180, -360],
+                }}
+                transition={{ 
+                  duration: 2.3, 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                }}
+              >
+                <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm dark:text-amber-100" />
+              </motion.div>
+              
+              {/* Coin 3 - direita */}
+              <motion.div
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400 overflow-visible"
+                animate={{ 
+                  y: [0, -15, 0],
+                  rotateZ: [0, 180, 360],
+                }}
+                transition={{ 
+                  duration: 1.8, 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                }}
+              >
+                <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs dark:text-orange-100" />
+              </motion.div>
+            </div>
             
             {/* Brilhos animados */}
             <motion.div 
