@@ -55,4 +55,32 @@
   .form-container {
     @apply w-full;
   }
+
+  /* Estilo personalizado para scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-neutral-200 dark:bg-neutral-800 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-secondary/60 dark:bg-secondary/70 rounded-full transition-colors;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary dark:bg-secondary;
+  }
+
+  /* Estilo Firefox */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.secondary.DEFAULT') theme('colors.neutral.200');
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: theme('colors.secondary.DEFAULT') theme('colors.neutral.800');
+  }
 }
