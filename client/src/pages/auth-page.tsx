@@ -123,10 +123,10 @@ export default function AuthPage() {
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Wallet Animation - sempre visível em qualquer tela */}
-        <div className="mb-3 flex justify-center">
+        {/* Wallet Animation - sempre visível e maior em qualquer tela */}
+        <div className="mb-6 flex justify-center">
           <motion.div 
-            className="relative w-24 h-24 md:w-28 md:h-28 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
+            className="relative w-36 h-36 md:w-44 md:h-44 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ 
@@ -141,20 +141,20 @@ export default function AuthPage() {
               animate={{ rotateZ: [0, -5, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
               className="text-secondary dark:text-accent drop-shadow-lg"
-              style={{ fontSize: "2.5rem" }}
+              style={{ fontSize: "4rem" }}
             >
               <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             </motion.div>
             
             {/* Animated coins */}
-            <div className="absolute bottom-2 w-full flex justify-center">
-              <div className="flex space-x-2">
+            <div className="absolute bottom-4 w-full flex justify-center">
+              <div className="flex space-x-3">
                 {/* Coin 1 */}
                 <motion.div
-                  className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
                   initial={{ y: 80 }}
                   animate={{ 
-                    y: [0, -15, 0],
+                    y: [0, -20, 0],
                     rotateZ: [0, 180, 360],
                   }}
                   transition={{ 
@@ -165,15 +165,15 @@ export default function AuthPage() {
                     ease: "easeInOut",
                   }}
                 >
-                  <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-xs dark:text-yellow-100" />
+                  <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
                 </motion.div>
                 
                 {/* Coin 2 */}
                 <motion.div
-                  className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
                   initial={{ y: 80 }}
                   animate={{ 
-                    y: [0, -25, 0],
+                    y: [0, -30, 0],
                     rotateZ: [0, -180, -360],
                   }}
                   transition={{ 
@@ -184,15 +184,15 @@ export default function AuthPage() {
                     ease: "easeInOut",
                   }}
                 >
-                  <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-xs dark:text-amber-100" />
+                  <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm dark:text-amber-100" />
                 </motion.div>
                 
                 {/* Coin 3 */}
                 <motion.div
-                  className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
+                  className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
                   initial={{ y: 80 }}
                   animate={{ 
-                    y: [0, -20, 0],
+                    y: [0, -25, 0],
                     rotateZ: [0, 180, 360],
                   }}
                   transition={{ 
