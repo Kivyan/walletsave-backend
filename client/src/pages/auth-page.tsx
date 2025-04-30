@@ -149,14 +149,14 @@ export default function AuthPage() {
               </motion.div>
             </motion.div>
             
-            {/* Moedas animadas em camada superior para não serem cortadas */}
-            <div className="absolute inset-0 z-20">
+            {/* Moedas animadas abaixo da carteira */}
+            <div className="absolute bottom-0 left-0 w-full z-10 h-10">
               {/* Coin 1 */}
               <motion.div
                 className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400 absolute bottom-0 left-6"
                 initial={{ y: 0 }}
                 animate={{ 
-                  y: [-80, -110, -80],
+                  y: [0, -20, 0],
                   rotateZ: [0, 180, 360],
                 }}
                 transition={{ 
@@ -175,7 +175,7 @@ export default function AuthPage() {
                 className="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400 absolute bottom-0 left-1/2 -translate-x-1/2"
                 initial={{ y: 0 }}
                 animate={{ 
-                  y: [-70, -100, -70],
+                  y: [0, -25, 0],
                   rotateZ: [0, -180, -360],
                 }}
                 transition={{ 
@@ -194,7 +194,7 @@ export default function AuthPage() {
                 className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400 absolute bottom-0 right-6"
                 initial={{ y: 0 }}
                 animate={{ 
-                  y: [-85, -115, -85],
+                  y: [0, -15, 0],
                   rotateZ: [0, 180, 360],
                 }}
                 transition={{ 
