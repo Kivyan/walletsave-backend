@@ -140,7 +140,7 @@ export default function HomePage(): ReactElement {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 custom-scrollbar">
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6">
         {categories && categories.length === 0 ? (
           <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-6 mb-6">
             <div className="text-center">

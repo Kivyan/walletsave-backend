@@ -8,7 +8,20 @@
   }
 
   html, body {
-    @apply h-screen w-screen overflow-auto md:overflow-hidden touch-none;
+    @apply h-screen w-screen touch-none;
+  }
+  
+  /* Comportamento diferente para desktop vs mobile */
+  @media (min-width: 768px) {
+    body {
+      @apply overflow-auto;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    body {
+      @apply overflow-hidden;
+    }
   }
 
   body {
@@ -56,31 +69,73 @@
     @apply w-full;
   }
 
-  /* Estilo personalizado para scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  /* Estilo personalizado para scrollbar - apenas nas laterais */
+  body::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-neutral-200 dark:bg-neutral-800 rounded-full;
+  body::-webkit-scrollbar-track {
+    @apply bg-neutral-200 dark:bg-neutral-800;
+    border-radius: 0;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-secondary/60 dark:bg-secondary/70 rounded-full transition-colors;
+  body::-webkit-scrollbar-thumb {
+    @apply bg-neutral-400 dark:bg-neutral-600 transition-colors;
+    border-radius: 0;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-secondary dark:bg-secondary;
+  body::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-500 dark:bg-neutral-500;
   }
 
   /* Estilo Firefox */
-  .custom-scrollbar {
+  body {
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.secondary.DEFAULT') theme('colors.neutral.200');
+    scrollbar-color: theme('colors.neutral.400') theme('colors.neutral.200');
   }
 
-  .dark .custom-scrollbar {
-    scrollbar-color: theme('colors.secondary.DEFAULT') theme('colors.neutral.800');
+  .dark body {
+    scrollbar-color: theme('colors.neutral.600') theme('colors.neutral.800');
+  }
+  
+  /* Aplicação condicional para telas maiores e menores */
+  @media (min-width: 768px) {
+    .custom-scrollbar {
+      overflow: visible !important;
+    }
+    
+    main.custom-scrollbar {
+      overflow-y: auto !important;
+    }
+  }
+  
+  /* Para celulares mantém scrollbar personalizada */
+  @media (max-width: 767px) {
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      @apply bg-neutral-200 dark:bg-neutral-800 rounded-full;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      @apply bg-neutral-400 dark:bg-neutral-600 rounded-full transition-colors;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      @apply bg-neutral-500 dark:bg-neutral-500;
+    }
+
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: theme('colors.neutral.400') theme('colors.neutral.200');
+    }
+
+    .dark .custom-scrollbar {
+      scrollbar-color: theme('colors.neutral.600') theme('colors.neutral.800');
+    }
   }
 }
