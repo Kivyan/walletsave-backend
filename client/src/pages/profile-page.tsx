@@ -156,10 +156,10 @@ export default function ProfilePage(): ReactElement {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 overflow-y-auto custom-scrollbar">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 overflow-y-auto custom-scrollbar profile-page">
       <Header title={t("profile.my_profile")} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-40">
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center space-x-4 pb-2">
             <Avatar className="w-20 h-20 bg-secondary text-white">

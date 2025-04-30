@@ -102,15 +102,60 @@
     overflow-x: hidden !important;
   }
   
-  /* Aplicação condicional para telas maiores e menores */
-  @media (min-width: 768px) {
-    .custom-scrollbar {
-      overflow: visible !important;
-    }
-    
-    main.custom-scrollbar {
-      overflow-y: auto !important;
-    }
+  /* Scrollbar personalizada para elementos com a classe custom-scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 0px; /* Remove a scrollbar horizontal */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-neutral-200 dark:bg-neutral-800;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-secondary/70 dark:bg-secondary/80 transition-colors;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary dark:bg-secondary;
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.secondary.DEFAULT') theme('colors.neutral.200');
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: theme('colors.secondary.DEFAULT') theme('colors.neutral.800');
+  }
+  
+  /* Garantir que elementos com a classe custom-scrollbar tenham overflow-y auto */
+  .custom-scrollbar {
+    overflow-y: auto !important;
+    padding-bottom: 80px !important; /* Padding maior para evitar corte de conteúdo */
+  }
+  
+  /* Estilos específicos para a página de perfil */
+  div[class*="profile-page"] {
+    overflow-y: auto !important;
+    padding-bottom: 140px !important;
+  }
+  
+  div[class*="profile-page"]::-webkit-scrollbar {
+    width: 8px;
+    height: 0px;
+  }
+  
+  div[class*="profile-page"]::-webkit-scrollbar-track {
+    @apply bg-neutral-200 dark:bg-neutral-800;
+  }
+  
+  div[class*="profile-page"]::-webkit-scrollbar-thumb {
+    @apply bg-secondary/70 dark:bg-secondary/80 transition-colors;
+  }
+  
+  div[class*="profile-page"]::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary dark:bg-secondary;
   }
   
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
