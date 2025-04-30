@@ -123,33 +123,125 @@ export default function AuthPage() {
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Wallet Animation - nova implementação com classes CSS */}
+        {/* Carteira com animação otimizada para evitar bugs de renderização */}
         <div className="mb-6 flex justify-center">
-          <div className="wallet-animation">
-            <div className="wallet-box bg-neutral-200 dark:bg-neutral-800 shadow-lg">
-              {/* Wallet icon usando CSS puro */}
-              <div className="wallet-icon text-secondary dark:text-accent">
-                <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
+          <div className="relative" style={{ width: "220px", height: "220px" }}>
+            {/* Contêiner principal - com tamanho maior que o necessário */}
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Fundo da carteira */}
+              <div className="w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center">
+                {/* Ícone da carteira com animação */}
+                <motion.div
+                  animate={{ rotateZ: [0, -5, 5, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                  className="text-secondary dark:text-accent"
+                  style={{ fontSize: "5rem" }}
+                >
+                  <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
+                </motion.div>
               </div>
-              
-              {/* Moedas com CSS puro */}
-              <div className="coin coin-1 dark:border-yellow-400 dark:shadow-yellow-500/30">
-                <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
-              </div>
-              
-              <div className="coin coin-2 dark:border-amber-400 dark:shadow-amber-500/30">
-                <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm dark:text-amber-100" />
-              </div>
-              
-              <div className="coin coin-3 dark:border-orange-400 dark:shadow-orange-500/30">
-                <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs dark:text-orange-100" />
+
+              {/* Contêiner exclusivo para as moedas */}
+              <div className="absolute bottom-6 left-0 w-full">
+                <div className="relative h-20 mx-auto flex justify-center">
+                  {/* Moeda 1 */}
+                  <motion.div
+                    className="absolute bottom-0 left-5 w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
+                    animate={{ 
+                      y: [0, -15, 0],
+                      rotateZ: [0, 180, 360]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
+                  </motion.div>
+
+                  {/* Moeda 2 */}
+                  <motion.div
+                    className="absolute bottom-0 mx-auto w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
+                    animate={{ 
+                      y: [0, -20, 0],
+                      rotateZ: [0, -180, -360]
+                    }}
+                    transition={{ 
+                      duration: 2.3, 
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm dark:text-amber-100" />
+                  </motion.div>
+
+                  {/* Moeda 3 */}
+                  <motion.div
+                    className="absolute bottom-0 right-5 w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
+                    animate={{ 
+                      y: [0, -12, 0],
+                      rotateZ: [0, 180, 360]
+                    }}
+                    transition={{ 
+                      duration: 1.8, 
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs dark:text-orange-100" />
+                  </motion.div>
+                </div>
               </div>
               
               {/* Efeitos de brilho */}
-              <div className="sparkle-effect sparkle-1 dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"></div>
-              <div className="sparkle-effect sparkle-2 dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"></div>
-              <div className="sparkle-effect sparkle-3 dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"></div>
-            </div>
+              <motion.div 
+                className="absolute top-1/4 right-1/4 w-2 h-2 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
+                animate={{ 
+                  opacity: [0, 1, 0],
+                  scale: [0.8, 1.2, 0.8]
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity,
+                  repeatType: "loop"
+                }}
+              />
+              <motion.div 
+                className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
+                animate={{ 
+                  opacity: [0, 1, 0],
+                  scale: [0.8, 1.2, 0.8]
+                }}
+                transition={{ 
+                  duration: 1.2, 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  delay: 0.3
+                }}
+              />
+              <motion.div 
+                className="absolute top-1/3 left-1/4 w-2 h-2 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
+                animate={{ 
+                  opacity: [0, 1, 0],
+                  scale: [0.8, 1.2, 0.8]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  delay: 0.7
+                }}
+              />
+            </motion.div>
           </div>
         </div>
 
