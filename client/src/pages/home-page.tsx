@@ -102,7 +102,7 @@ export default function HomePage(): ReactElement {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 overflow-y-auto">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 overflow-y-auto custom-scrollbar">
       <Header title={t("navigation.home")} />
       
       {/* Sub Header with Date and Add Button */}
