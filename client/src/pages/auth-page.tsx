@@ -122,101 +122,45 @@ export default function AuthPage() {
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Carteira com moedas - simples */}
-        <div className="mb-6 flex justify-center">
-          <div className="w-[200px] h-[200px] bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex flex-col items-center">
-            {/* Ícone da carteira centralizao */}
-            <div className="flex-1 flex items-center justify-center">
+        {/* Logo na tela de login */}
+        <div className="mb-8 flex flex-col items-center justify-center">
+          <div className="w-[190px] h-[190px] relative">
+            {/* Fundo com gradiente */}
+            <div className="absolute w-36 h-36 bg-gradient-to-b from-yellow-500/10 to-amber-500/5 dark:from-yellow-500/20 dark:to-amber-600/10 rounded-full blur-xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+            
+            {/* Carteira principal */}
+            <div className="absolute w-[160px] h-[160px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center z-10">
               <motion.div
                 className="text-secondary dark:text-accent"
                 style={{ fontSize: "5rem" }}
                 animate={{ rotateZ: [0, -5, 5, -5, 0] }}
                 transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
               >
-                <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
+                <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
               </motion.div>
             </div>
             
-            {/* Brilhos animados dentro da carteira */}
-            <motion.div 
-              className="absolute top-[25%] right-[25%] w-2 h-2 bg-white rounded-full"
-              animate={{ 
-                opacity: [0, 0.8, 0],
-                scale: [0.8, 1.2, 0.8] 
-              }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity,
-                ease: "easeInOut" 
-              }}
-            />
-            <motion.div 
-              className="absolute top-[30%] left-[30%] w-2 h-2 bg-white rounded-full"
-              animate={{ 
-                opacity: [0, 0.8, 0],
-                scale: [0.8, 1.2, 0.8] 
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5 
-              }}
-            />
-            
-            {/* Container das moedas */}
-            <div className="mb-6 flex justify-center space-x-4">
-              {/* Moeda 1 - esquerda */}
-              <motion.div
-                className="w-10 h-10 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
-                animate={{ 
-                  y: [0, -15, 0],
-                  rotateZ: [0, 180, 360] 
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
+            {/* Moedas estáticas (sem animação) */}
+            <div className="absolute flex justify-center w-full bottom-0 z-20">
+              <div className="w-10 h-10 mx-1 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg border-2 border-yellow-200 dark:border-yellow-400 flex items-center justify-center">
                 <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
-              </motion.div>
+              </div>
               
-              {/* Moeda 2 - meio */}
-              <motion.div
-                className="w-11 h-11 bg-gradient-to-br from-amber-300 to-amber-500 rounded-full shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
-                animate={{ 
-                  y: [0, -20, 0],
-                  rotateZ: [0, -180, -360] 
-                }}
-                transition={{ 
-                  duration: 2.2, 
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.2
-                }}
-              >
+              <div className="w-11 h-11 mx-1 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg border-2 border-amber-200 dark:border-amber-400 flex items-center justify-center">
                 <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm dark:text-amber-100" />
-              </motion.div>
+              </div>
               
-              {/* Moeda 3 - direita */}
-              <motion.div
-                className="w-10 h-10 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
-                animate={{ 
-                  y: [0, -15, 0],
-                  rotateZ: [0, 180, 360] 
-                }}
-                transition={{ 
-                  duration: 1.8, 
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.1
-                }}
-              >
+              <div className="w-10 h-10 mx-1 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg border-2 border-orange-200 dark:border-orange-400 flex items-center justify-center">
                 <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs dark:text-orange-100" />
-              </motion.div>
+              </div>
             </div>
+            
+            {/* Brilhos estáticos */}
+            <div className="absolute w-2 h-2 bg-white rounded-full opacity-60 shadow-sm top-1/3 right-1/4"></div>
+            <div className="absolute w-2 h-2 bg-white rounded-full opacity-60 shadow-sm bottom-1/3 left-1/4"></div>
           </div>
+          
+          <h2 className="mt-2 text-lg font-semibold text-secondary dark:text-accent">Wallet Save</h2>
         </div>
 
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-3 md:p-4 form-container w-full">
