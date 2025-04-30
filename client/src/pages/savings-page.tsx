@@ -210,10 +210,10 @@ export default function SavingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 flex flex-col">
       <Header title={t("saving.savings")} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1 overflow-y-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 custom-scrollbar">
         {/* Total Saved Card */}
         <Card className="mb-6 bg-secondary dark:bg-secondary">
           <CardHeader>
