@@ -123,132 +123,40 @@ export default function AuthPage() {
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Nova animação da carteira sem bugs ou elementos vazando */}
+        {/* Animação da carteira super-simplificada sem bugs */}
         <div className="mb-6 flex justify-center">
-          <div className="relative w-60 h-60 overflow-hidden flex items-center justify-center">
-            <motion.div 
-              className="w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-                duration: 0.6 
-              }}
-            >
+          <div className="relative">
+            {/* Quadrado simples */}
+            <div className="w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center">
               {/* Carteira no centro */}
-              <motion.div
-                className="relative"
-                animate={{ rotateZ: [0, -5, 5, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              >
-                {/* Moedas dentro da carteira */}
-                <div className="absolute -bottom-4 -left-10 z-0">
-                  <motion.div 
-                    className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200"
-                    animate={{ 
-                      y: [0, -5, 0],
-                      rotateZ: [0, 180, 360]
-                    }}
-                    transition={{ 
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm" />
-                  </motion.div>
-                </div>
-                
-                <div className="absolute -bottom-8 left-3 z-0">
-                  <motion.div 
-                    className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200"
-                    animate={{ 
-                      y: [0, -7, 0],
-                      rotateZ: [0, -180, -360]
-                    }}
-                    transition={{ 
-                      duration: 2.3,
-                      delay: 0.3,
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm" />
-                  </motion.div>
-                </div>
-                
-                <div className="absolute -bottom-5 -right-10 z-0">
-                  <motion.div 
-                    className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200"
-                    animate={{ 
-                      y: [0, -6, 0],
-                      rotateZ: [0, 180, 360]
-                    }}
-                    transition={{ 
-                      duration: 1.8,
-                      delay: 0.6,
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs" />
-                  </motion.div>
-                </div>
-                
-                {/* Ícone da carteira acima das moedas */}
-                <div className="text-secondary dark:text-accent drop-shadow-lg z-10 relative" style={{ fontSize: '5rem' }}>
-                  <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
-                </div>
-              </motion.div>
-            </motion.div>
+              <div className="text-secondary dark:text-accent" style={{ fontSize: '5rem' }}>
+                <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
+              </div>
+            </div>
             
-            {/* Brilhos em volta da carteira */}
-            <motion.div 
-              className="absolute top-1/4 right-1/3 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity,
-                delay: 1,
-                repeatType: "loop",
-              }}
-            />
+            {/* Moedas posicionadas como elementos estáticos */}
+            <div className="absolute -bottom-3 -left-5">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200">
+                <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm" />
+              </div>
+            </div>
             
-            <motion.div 
-              className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{ 
-                duration: 1.2, 
-                repeat: Infinity,
-                delay: 0.3,
-                repeatType: "loop",
-              }}
-            />
+            <div className="absolute -bottom-6 left-12">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200">
+                <FontAwesomeIcon icon={faCoins} className="text-amber-800 text-sm" />
+              </div>
+            </div>
             
-            <motion.div 
-              className="absolute top-1/3 left-1/3 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                delay: 0.7,
-                repeatType: "loop",
-              }}
-            />
+            <div className="absolute -bottom-4 -right-5">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200">
+                <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs" />
+              </div>
+            </div>
+            
+            {/* Brilhos estáticos em volta da carteira */}
+            <div className="absolute top-4 right-4 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"></div>
+            <div className="absolute bottom-1/4 left-4 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"></div>
+            <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"></div>
           </div>
         </div>
 
