@@ -117,16 +117,16 @@ export default function AuthPage() {
         </Button>
       </div>
       
-      <div className="auth-container w-full max-w-md mx-auto px-4 py-4 flex flex-col items-center" style={{ maxHeight: '100vh', overflowY: 'auto' }}>
-        <div className="mb-4 text-center">
+      <div className="auth-container w-full max-w-md mx-auto px-4 py-4 flex flex-col items-center justify-center">
+        <div className="mb-3 text-center">
           <h1 className="font-heading font-bold text-2xl mb-1 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
         {/* Wallet Animation - sempre visível em qualquer tela */}
-        <div className="mb-4 flex justify-center">
+        <div className="mb-3 flex justify-center">
           <motion.div 
-            className="relative w-32 h-32 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
+            className="relative w-24 h-24 md:w-28 md:h-28 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ 
@@ -251,16 +251,16 @@ export default function AuthPage() {
           </motion.div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 form-container w-full">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-3 md:p-4 form-container w-full">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-2 mb-4 p-1">
-              <TabsTrigger value="login" className="py-2 text-sm">{t("auth.login")}</TabsTrigger>
-              <TabsTrigger value="register" className="py-2 text-sm">{t("auth.register")}</TabsTrigger>
+            <TabsList className="grid grid-cols-2 mb-2 md:mb-4 p-1">
+              <TabsTrigger value="login" className="py-1 md:py-2 text-xs md:text-sm">{t("auth.login")}</TabsTrigger>
+              <TabsTrigger value="register" className="py-1 md:py-2 text-xs md:text-sm">{t("auth.register")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
               <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-2 md:space-y-4">
                   <FormField
                     control={loginForm.control}
                     name="username"
@@ -305,7 +305,7 @@ export default function AuthPage() {
 
             <TabsContent value="register">
               <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-3">
+                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-1 md:space-y-3">
                   <FormField
                     control={registerForm.control}
                     name="fullName"
