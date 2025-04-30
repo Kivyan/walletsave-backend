@@ -169,6 +169,135 @@
     overflow: visible !important;
   }
   
+  /* Animação fixa da carteira sem bugs visuais */
+  .wallet-animation {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  .wallet-box {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  .wallet-icon {
+    font-size: 5rem;
+    animation: wallet-swing 5s ease-in-out infinite;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  @keyframes wallet-swing {
+    0% { transform: rotateZ(0deg); }
+    25% { transform: rotateZ(-5deg); }
+    50% { transform: rotateZ(0deg); }
+    75% { transform: rotateZ(5deg); }
+    100% { transform: rotateZ(0deg); }
+  }
+  
+  .coin {
+    position: absolute;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  .coin-1 {
+    bottom: 0.5rem;
+    left: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(to bottom right, #fde047, #eab308);
+    border-color: #fef9c3;
+    animation: coin-bounce-1 2s ease-in-out infinite;
+  }
+  
+  .coin-2 {
+    bottom: 0.25rem;
+    left: 5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: linear-gradient(to bottom right, #fcd34d, #d97706);
+    border-color: #fef3c7;
+    animation: coin-bounce-2 2.3s ease-in-out infinite;
+  }
+  
+  .coin-3 {
+    bottom: 0.5rem;
+    right: 1.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: linear-gradient(to bottom right, #fdba74, #ea580c);
+    border-color: #ffedd5;
+    animation: coin-bounce-3 1.8s ease-in-out infinite;
+  }
+  
+  @keyframes coin-bounce-1 {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    50% { transform: translateY(-15px) rotateZ(180deg); }
+  }
+  
+  @keyframes coin-bounce-2 {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    50% { transform: translateY(-20px) rotateZ(-180deg); }
+  }
+  
+  @keyframes coin-bounce-3 {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    50% { transform: translateY(-12px) rotateZ(180deg); }
+  }
+  
+  .sparkle-effect {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 0;
+    animation: sparkle 1.5s ease-in-out infinite;
+  }
+  
+  .sparkle-1 {
+    top: 25%;
+    right: 25%;
+    animation-delay: 0.5s;
+  }
+  
+  .sparkle-2 {
+    bottom: 25%;
+    left: 33%;
+    animation-delay: 0.2s;
+  }
+  
+  .sparkle-3 {
+    top: 33%;
+    left: 25%;
+    animation-delay: 0.8s;
+  }
+  
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
   @media (max-width: 767px) {
     ::-webkit-scrollbar {
