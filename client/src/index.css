@@ -158,6 +158,17 @@
     z-index: 50 !important;
   }
   
+  /* Ajustes para a tela de login */
+  .auth-container {
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Garantindo que as animações fiquem totalmente visíveis */
+  .overflow-visible {
+    overflow: visible !important;
+  }
+  
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
   @media (max-width: 767px) {
     ::-webkit-scrollbar {

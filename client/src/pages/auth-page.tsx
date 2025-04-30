@@ -99,8 +99,8 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-neutral-100 dark:bg-neutral-900 overflow-hidden flex items-center justify-center">
-      <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+    <div className="min-h-screen w-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center py-8">
+      <div className="absolute top-2 right-2 z-50 flex items-center gap-1">
         <LanguageSelector />
         <Button
           variant="ghost"
@@ -117,7 +117,7 @@ export default function AuthPage() {
         </Button>
       </div>
       
-      <div className="auth-container w-full max-w-md mx-auto px-4 py-4 flex flex-col items-center justify-center">
+      <div className="auth-container w-full max-w-md mx-auto px-4 pb-4 pt-2 flex flex-col items-center justify-center relative">
         <div className="mb-3 text-center">
           <h1 className="font-heading font-bold text-2xl mb-1 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
@@ -126,7 +126,7 @@ export default function AuthPage() {
         {/* Wallet Animation - sempre visível e maior em qualquer tela */}
         <div className="mb-6 flex justify-center">
           <motion.div 
-            className="relative w-36 h-36 md:w-44 md:h-44 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-hidden"
+            className="relative w-40 h-40 md:w-48 md:h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center overflow-visible"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ 
@@ -135,33 +135,34 @@ export default function AuthPage() {
               damping: 20,
               duration: 0.6 
             }}
+            style={{ zIndex: 10 }}
           >
             {/* Wallet - Maior contraste no dark mode */}
             <motion.div
               animate={{ rotateZ: [0, -5, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
               className="text-secondary dark:text-accent drop-shadow-lg"
-              style={{ fontSize: "4rem" }}
+              style={{ fontSize: "5rem" }}
             >
-              <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+              <FontAwesomeIcon icon={faWallet} className="drop-shadow-lg filter-none dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
             </motion.div>
             
-            {/* Animated coins */}
-            <div className="absolute bottom-4 w-full flex justify-center">
+            {/* Animated coins container com posição absoluta relativa ao container principal */}
+            <div className="absolute bottom-5 left-0 w-full flex justify-center" style={{ zIndex: 20 }}>
               <div className="flex space-x-3">
                 {/* Coin 1 */}
                 <motion.div
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
-                  initial={{ y: 80 }}
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg dark:shadow-yellow-500/30 flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400"
+                  initial={{ y: 50 }}
                   animate={{ 
-                    y: [0, -20, 0],
+                    y: [10, -15, 10],
                     rotateZ: [0, 180, 360],
                   }}
                   transition={{ 
                     duration: 2, 
                     repeat: Infinity,
                     delay: 0.2,
-                    repeatType: "reverse",
+                    repeatType: "loop",
                     ease: "easeInOut",
                   }}
                 >
@@ -170,17 +171,17 @@ export default function AuthPage() {
                 
                 {/* Coin 2 */}
                 <motion.div
-                  className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
-                  initial={{ y: 80 }}
+                  className="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg dark:shadow-amber-500/30 flex items-center justify-center border-2 border-amber-200 dark:border-amber-400"
+                  initial={{ y: 50 }}
                   animate={{ 
-                    y: [0, -30, 0],
+                    y: [5, -25, 5],
                     rotateZ: [0, -180, -360],
                   }}
                   transition={{ 
                     duration: 2.3, 
                     repeat: Infinity,
                     delay: 0.5,
-                    repeatType: "reverse",
+                    repeatType: "loop",
                     ease: "easeInOut",
                   }}
                 >
@@ -189,17 +190,17 @@ export default function AuthPage() {
                 
                 {/* Coin 3 */}
                 <motion.div
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
-                  initial={{ y: 80 }}
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg dark:shadow-orange-500/30 flex items-center justify-center border-2 border-orange-200 dark:border-orange-400"
+                  initial={{ y: 50 }}
                   animate={{ 
-                    y: [0, -25, 0],
+                    y: [8, -20, 8],
                     rotateZ: [0, 180, 360],
                   }}
                   transition={{ 
                     duration: 1.8, 
                     repeat: Infinity,
                     delay: 0.8,
-                    repeatType: "reverse",
+                    repeatType: "loop",
                     ease: "easeInOut",
                   }}
                 >
@@ -210,7 +211,7 @@ export default function AuthPage() {
 
             {/* Sparkle effects */}
             <motion.div 
-              className="absolute top-1/4 right-1/4 w-2 h-2 bg-white rounded-full shadow-glow dark:shadow-[0_0_5px_2px_rgba(255,255,255,0.7)]"
+              className="absolute top-1/4 right-1/4 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
               animate={{ 
                 opacity: [0, 1, 0],
                 scale: [0.8, 1.2, 0.8],
@@ -219,11 +220,11 @@ export default function AuthPage() {
                 duration: 1.5, 
                 repeat: Infinity,
                 delay: 1,
-                repeatType: "reverse",
+                repeatType: "loop",
               }}
             />
             <motion.div 
-              className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-white rounded-full shadow-glow dark:shadow-[0_0_5px_2px_rgba(255,255,255,0.7)]"
+              className="absolute bottom-1/4 left-1/3 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
               animate={{ 
                 opacity: [0, 1, 0],
                 scale: [0.8, 1.2, 0.8],
@@ -232,11 +233,11 @@ export default function AuthPage() {
                 duration: 1.2, 
                 repeat: Infinity,
                 delay: 0.3,
-                repeatType: "reverse",
+                repeatType: "loop",
               }}
             />
             <motion.div 
-              className="absolute top-1/3 left-1/4 w-2 h-2 bg-white rounded-full shadow-glow dark:shadow-[0_0_5px_2px_rgba(255,255,255,0.7)]"
+              className="absolute top-1/3 left-1/4 w-3 h-3 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
               animate={{ 
                 opacity: [0, 1, 0],
                 scale: [0.8, 1.2, 0.8],
@@ -245,7 +246,7 @@ export default function AuthPage() {
                 duration: 2, 
                 repeat: Infinity,
                 delay: 0.7,
-                repeatType: "reverse",
+                repeatType: "loop",
               }}
             />
           </motion.div>
