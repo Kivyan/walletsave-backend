@@ -102,7 +102,7 @@ export default function HomePage(): ReactElement {
   };
 
   return (
-    <div className="responsive-container bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 flex flex-col">
       <Header title={t("navigation.home")} />
       
       {/* Sub Header with Date and Add Button */}
@@ -140,7 +140,7 @@ export default function HomePage(): ReactElement {
       </div>
 
       {/* Main Content */}
-      <main className="content-wrapper min-content-height px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
         {categories && categories.length === 0 ? (
           <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-6 mb-6">
             <div className="text-center">
