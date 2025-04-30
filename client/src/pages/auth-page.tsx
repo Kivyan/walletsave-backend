@@ -138,9 +138,9 @@ export default function AuthPage() {
               </motion.div>
             </div>
             
-            {/* Coin 1 */}
+            {/* Moedas animadas com espaçamento uniforme */}
             <motion.div
-              className="absolute bottom-3 left-3 w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400 overflow-visible"
+              className="absolute bottom-4 left-6 w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center border-2 border-yellow-200 dark:border-yellow-400 overflow-visible"
               initial={{ y: 0 }}
               animate={{ 
                 y: [0, -20, 0],
@@ -156,9 +156,9 @@ export default function AuthPage() {
               <FontAwesomeIcon icon={faDollarSign} className="text-yellow-800 text-sm dark:text-yellow-100" />
             </motion.div>
             
-            {/* Coin 2 */}
+            {/* Coin 2 (centralizado) */}
             <motion.div
-              className="absolute bottom-2 left-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400 overflow-visible"
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg flex items-center justify-center border-2 border-amber-200 dark:border-amber-400 overflow-visible"
               initial={{ y: 0 }}
               animate={{ 
                 y: [0, -25, 0],
@@ -176,7 +176,7 @@ export default function AuthPage() {
             
             {/* Coin 3 */}
             <motion.div
-              className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400 overflow-visible"
+              className="absolute bottom-4 right-6 w-10 h-10 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg flex items-center justify-center border-2 border-orange-200 dark:border-orange-400 overflow-visible"
               initial={{ y: 0 }}
               animate={{ 
                 y: [0, -15, 0],
@@ -192,10 +192,45 @@ export default function AuthPage() {
               <FontAwesomeIcon icon={faMoneyBillWave} className="text-orange-800 text-xs dark:text-orange-100" />
             </motion.div>
             
-            {/* Brilhos */}
-            <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-white rounded-full opacity-70"></div>
-            <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-white rounded-full opacity-70"></div>
-            <div className="absolute top-1/3 left-1/4 w-2 h-2 bg-white rounded-full opacity-70"></div>
+            {/* Brilhos animados */}
+            <motion.div 
+              className="absolute top-1/4 right-1/4 w-2 h-2 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.8, 1.2, 0.8]
+              }}
+              transition={{ 
+                duration: 1.5, 
+                repeat: Infinity,
+                repeatType: "loop" 
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.8, 1.2, 0.8]
+              }}
+              transition={{ 
+                duration: 1.2, 
+                repeat: Infinity,
+                repeatType: "loop",
+                delay: 0.3
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 left-1/4 w-2 h-2 bg-white rounded-full shadow-lg dark:shadow-[0_0_8px_3px_rgba(255,255,255,0.7)]"
+              animate={{ 
+                opacity: [0, 1, 0],
+                scale: [0.8, 1.2, 0.8]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                repeatType: "loop",
+                delay: 0.7
+              }}
+            />
           </div>
         </div>
 
