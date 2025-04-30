@@ -61,7 +61,7 @@ export function MobileNavigation() {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-neutral-800 shadow-lg md:hidden z-10">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-neutral-800 shadow-lg md:hidden z-50" style={{height: 'auto'}}>
         <div className="flex justify-around">
           {navItems.map((item) => {
             const isActive = location === item.href;

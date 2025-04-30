@@ -26,6 +26,9 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    min-height: 100vh;
+    overflow-y: auto !important;
+    position: relative;
   }
 
   #root {
@@ -135,27 +138,24 @@
     padding-bottom: 80px !important; /* Padding maior para evitar corte de conteúdo */
   }
   
-  /* Estilos específicos para a página de perfil */
-  div[class*="profile-page"] {
-    overflow-y: auto !important;
-    padding-bottom: 140px !important;
+  /* Corrigindo problema na página de perfil */
+  /* Removendo altura máxima fixa */
+  .max-h-screen {
+    max-height: none !important;
   }
   
-  div[class*="profile-page"]::-webkit-scrollbar {
-    width: 8px;
-    height: 0px;
+  /* Garantir que o conteúdo principal tenha espaço para rolagem e não seja cortado */
+  main {
+    position: relative;
+    padding-bottom: 120px !important;
+    margin-bottom: 60px !important;
   }
   
-  div[class*="profile-page"]::-webkit-scrollbar-track {
-    @apply bg-neutral-200 dark:bg-neutral-800;
-  }
-  
-  div[class*="profile-page"]::-webkit-scrollbar-thumb {
-    @apply bg-secondary/70 dark:bg-secondary/80 transition-colors;
-  }
-  
-  div[class*="profile-page"]::-webkit-scrollbar-thumb:hover {
-    @apply bg-secondary dark:bg-secondary;
+  /* Corrigindo navegação mobile para não cortar conteúdo */
+  .fixed.bottom-0 {
+    position: fixed !important;
+    bottom: 0 !important;
+    z-index: 50 !important;
   }
   
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
