@@ -43,9 +43,9 @@ export function MobileNavigation() {
       icon: Home,
     },
     {
-      href: "/finance",
-      label: t("navigation.finance"),
-      icon: DollarSign,
+      href: "/wallet",
+      label: t("navigation.wallet"),
+      icon: Wallet,
     },
     {
       href: "/reports",

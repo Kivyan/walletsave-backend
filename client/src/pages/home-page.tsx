@@ -1,21 +1,30 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Expense, Category, Wallet, Saving, Budget } from "@shared/schema";
+import { Expense, Category, Wallet, Saving, Budget, InsertBudget } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { MonthSelector } from "@/components/month-selector";
-import { BudgetOverview } from "@/components/budget-overview";
 import { ExpensesList } from "@/components/expenses-list";
 import { ExpenseChart } from "@/components/expense-chart";
-import { Plus, Folders } from "lucide-react";
+import { Plus, Folders, LineChart, PlusCircle, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddExpenseDialog } from "@/components/add-expense-dialog";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import NotificationService from "@/components/notification-service";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { formatMoney, calculateBudgetPercentage } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { ReactElement } from "react";
 
@@ -25,6 +34,10 @@ export default function HomePage(): ReactElement {
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  
+  // Estados para o componente Finance
+  const [isBudgetDialogOpen, setIsBudgetDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("overview");
   
   // Get month and year from selected date
   const month = selectedDate.getMonth() + 1; // JavaScript months are 0-indexed
@@ -163,16 +176,7 @@ export default function HomePage(): ReactElement {
         ) : (
           <>
             {/* Quick Access Navigation Buttons */}
-            <div className="mb-6 grid grid-cols-3 gap-4">
-              <Link href="/finance" className="bg-white dark:bg-neutral-800 rounded-lg shadow flex flex-col items-center justify-center p-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <span className="text-neutral-800 dark:text-white font-medium">{t("navigation.finance")}</span>
-              </Link>
-              
+            <div className="mb-6 grid grid-cols-2 gap-4">
               <Link href="/reports" className="bg-white dark:bg-neutral-800 rounded-lg shadow flex flex-col items-center justify-center p-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
                 <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
