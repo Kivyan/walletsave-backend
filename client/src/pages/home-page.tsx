@@ -193,15 +193,15 @@ export default function HomePage(): ReactElement {
             <div className="mb-6 bg-white dark:bg-neutral-800 rounded-lg shadow p-4 sm:p-6">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-0">
                 <h2 className="text-lg font-heading font-semibold text-neutral-800 dark:text-white mb-4 md:mb-0">
-                  {t("finance.overview") || "Resumo Financeiro"}
+                  "Resumo Financeiro"
                 </h2>
                 <div className="flex space-x-2">
                   <Link href="/wallet" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
-                    {t("wallet.manage") || "Carteiras"} →
+                    "Carteiras" →
                   </Link>
                   <span className="text-neutral-400">|</span>
                   <Link href="/finance" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
-                    {t("finance.manage") || "Finanças"} →
+                    "Finanças" →
                   </Link>
                 </div>
               </div>
@@ -214,7 +214,7 @@ export default function HomePage(): ReactElement {
                     <Icons.Wallet className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("common.balance") || "Saldo"}</div>
+                    <div className="text-sm font-medium">Saldo</div>
                     <div className="text-lg font-bold">{formatMoney(totalBalance)}</div>
                   </div>
                 </div>
@@ -225,7 +225,7 @@ export default function HomePage(): ReactElement {
                     <Icons.LineChart className="h-4 w-4 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("common.budget") || "Orçamento"}</div>
+                    <div className="text-sm font-medium">Orçamento</div>
                     <div className="text-lg font-bold">
                       {currentBudget ? formatMoney(Number(currentBudget.amount)) : "--"}
                     </div>
@@ -238,7 +238,7 @@ export default function HomePage(): ReactElement {
                     <Icons.Receipt className="h-4 w-4 text-red-600 dark:text-red-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("common.expenses") || "Despesas"}</div>
+                    <div className="text-sm font-medium">Despesas</div>
                     <div className="text-lg font-bold">{formatMoney(totalExpenses)}</div>
                   </div>
                 </div>
@@ -249,7 +249,7 @@ export default function HomePage(): ReactElement {
                     <Icons.Percent className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("common.usage") || "Utilização"}</div>
+                    <div className="text-sm font-medium">Utilização</div>
                     <div className="text-lg font-bold">
                       {currentBudget ? calculateBudgetPercentage(totalExpenses, Number(currentBudget.amount)) : 0}%
                     </div>
@@ -267,7 +267,7 @@ export default function HomePage(): ReactElement {
             {/* Expense Chart */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-4 sm:p-6">
               <h2 className="text-lg font-heading font-semibold text-neutral-800 dark:text-white mb-4">
-                {t("expense.distribution")}
+                Distribuição de Despesas
               </h2>
               
               <ExpenseChart 
