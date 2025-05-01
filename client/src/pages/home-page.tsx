@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Expense, Category, Wallet, Saving, Budget, InsertBudget } from "@shared/schema";
+import { Expense, Category, Wallet, Saving, Budget } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
 import { Header } from "@/components/header";
@@ -9,22 +9,14 @@ import { MobileNavigation } from "@/components/mobile-navigation";
 import { MonthSelector } from "@/components/month-selector";
 import { ExpensesList } from "@/components/expenses-list";
 import { ExpenseChart } from "@/components/expense-chart";
-import { Plus, Folders, LineChart, PlusCircle, BarChart3 } from "lucide-react";
+import { Plus, Folders } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddExpenseDialog } from "@/components/add-expense-dialog";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import NotificationService from "@/components/notification-service";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatMoney, calculateBudgetPercentage } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { ReactElement } from "react";
 
@@ -38,6 +30,99 @@ export default function HomePage(): ReactElement {
   // Estados para o componente Finance
   const [isBudgetDialogOpen, setIsBudgetDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
+  
+  // Form schema
+  const formSchema = z.object({
+    amount: z.coerce
+      .number()
+      .min(1, { message: t("budget.amount_required") || "Valor é obrigatório" }),
+    month: z.coerce.number(),
+    year: z.coerce.number(),
+    notes: z.string().optional(),
+  });
+
+  // Form
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      amount: currentBudget ? Number(currentBudget.amount) : "",
+      month,
+      year,
+      notes: currentBudget?.notes || "",
+    },
+  });
+
+  // Create budget mutation
+  const createBudgetMutation = useMutation({
+    mutationFn: async (data: InsertBudget) => {
+      const res = await apiRequest("POST", "/api/budgets", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: t("budget.create_success"),
+        description: t("budget.create_success_description") || "Orçamento criado com sucesso",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/budgets/current"] });
+      setIsBudgetDialogOpen(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: t("budget.create_error"),
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Update budget mutation
+  const updateBudgetMutation = useMutation({
+    mutationFn: async (data: { id: number; budget: Partial<Budget> }) => {
+      const res = await apiRequest(
+        "PATCH",
+        `/api/budgets/${data.id}`,
+        data.budget
+      );
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: t("budget.update_success"),
+        description: t("budget.update_success_description") || "Orçamento atualizado com sucesso",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/budgets/current"] });
+      setIsBudgetDialogOpen(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: t("budget.update_error"),
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+  
+  // Form submit handler
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    if (currentBudget) {
+      updateBudgetMutation.mutate({
+        id: currentBudget.id,
+        budget: {
+          amount: String(values.amount),
+          month: values.month,
+          year: values.year,
+          notes: values.notes
+        },
+      });
+    } else {
+      createBudgetMutation.mutate({
+        amount: String(values.amount),
+        month: values.month,
+        year: values.year,
+        notes: values.notes
+      } as InsertBudget);
+    }
+  }
   
   // Get month and year from selected date
   const month = selectedDate.getMonth() + 1; // JavaScript months are 0-indexed
@@ -106,6 +191,12 @@ export default function HomePage(): ReactElement {
   // Calculate total expenses for the month
   const totalExpenses = monthlyExpenses.reduce(
     (sum, expense) => sum + Number(expense.amount), 
+    0
+  );
+  
+  // Calculate total balance
+  const totalBalance = wallets.reduce(
+    (sum, wallet) => sum + Number(wallet.balance),
     0
   );
   
@@ -196,12 +287,145 @@ export default function HomePage(): ReactElement {
               </Link>
             </div>
             
-            {/* Budget Overview */}
-            <BudgetOverview
-              month={month}
-              year={year}
-              totalExpenses={totalExpenses}
-            />
+            {/* Finance Overview */}
+            <div className="mb-6">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <div className="flex items-center justify-between mb-4">
+                  <TabsList className="grid grid-cols-2">
+                    <TabsTrigger value="overview">
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      {t("finance.overview") || "Visão Geral"}
+                    </TabsTrigger>
+                    <TabsTrigger value="budget">
+                      <LineChart className="h-4 w-4 mr-2" />
+                      {t("finance.budget") || "Orçamento"}
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
+
+                <TabsContent value="overview" className="space-y-4">
+                  {/* Overview Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Wallet Balance Card */}
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+                          {t("wallet.total_balance") || "Saldo Total"}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">{formatMoney(totalBalance)}</div>
+                        <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                          {wallets.length} {t("wallet.accounts") || "contas"}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Monthly Budget Card */}
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+                          {t("budget.monthly") || "Orçamento Mensal"}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">
+                          {currentBudget ? formatMoney(Number(currentBudget.amount)) : "--"}
+                        </div>
+                        <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                          {currentBudget ? calculateBudgetPercentage(totalExpenses, Number(currentBudget.amount)) : 0}% {t("budget.used") || "utilizado"}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Monthly Expenses Card */}
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+                          {t("expense.monthly_total") || "Despesas do Mês"}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">{formatMoney(totalExpenses)}</div>
+                        <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                          {monthlyExpenses.length} {t("expense.transactions") || "transações"}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="budget" className="space-y-4">
+                  <Card>
+                    <CardHeader>
+                      <div className="flex justify-between items-center">
+                        <CardTitle>{t("budget.management") || "Gerenciamento de Orçamento"}</CardTitle>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIsBudgetDialogOpen(true)}
+                        >
+                          <PlusCircle className="h-4 w-4 mr-2" />
+                          {currentBudget ? t("budget.edit") : t("budget.create") || "Criar"}
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {currentBudget ? (
+                        <>
+                          <div className="flex justify-between mb-1">
+                            <span className="text-sm font-medium">Progresso</span>
+                            <span className="text-sm font-medium">
+                              {calculateBudgetPercentage(totalExpenses, Number(currentBudget.amount))}%
+                            </span>
+                          </div>
+                          <Progress 
+                            value={calculateBudgetPercentage(totalExpenses, Number(currentBudget.amount))} 
+                            className={`h-2 ${totalExpenses > Number(currentBudget.amount) ? '[&>div]:bg-red-500' : ''}`}
+                          />
+
+                          <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div>
+                              <p className="text-sm text-neutral-500 dark:text-neutral-400">Orçamento</p>
+                              <p className="text-lg font-bold">{formatMoney(Number(currentBudget.amount))}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-neutral-500 dark:text-neutral-400">Utilizado</p>
+                              <p className="text-lg font-bold">{formatMoney(totalExpenses)}</p>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div>
+                              <p className="text-sm text-neutral-500 dark:text-neutral-400">Disponível</p>
+                              <p className={`text-lg font-bold ${totalExpenses > Number(currentBudget.amount) ? 'text-red-500' : 'text-green-500'}`}>
+                                {formatMoney(Number(currentBudget.amount) - totalExpenses)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-sm text-neutral-500 dark:text-neutral-400">Média por dia</p>
+                              <p className="text-lg font-bold">
+                                {formatMoney(Number(currentBudget.amount) / new Date(year, month, 0).getDate())}
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-center py-6">
+                          <p className="text-neutral-500 dark:text-neutral-400 mb-4">
+                            {t("budget.no_budget") || "Nenhum orçamento definido para este mês"}
+                          </p>
+                          <Button onClick={() => setIsBudgetDialogOpen(true)}>
+                            <PlusCircle className="h-4 w-4 mr-2" />
+                            {t("budget.create") || "Criar Orçamento"}
+                          </Button>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
             
             {/* Expenses List - Mostrar todas as despesas */}
             <ExpensesList 
@@ -232,6 +456,78 @@ export default function HomePage(): ReactElement {
         open={isAddExpenseOpen}
         onOpenChange={setIsAddExpenseOpen}
       />
+      
+      {/* Budget Dialog */}
+      <Dialog open={isBudgetDialogOpen} onOpenChange={setIsBudgetDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {currentBudget ? t("budget.edit_title") : t("budget.create_title") || "Criar Orçamento"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("budget.amount") || "Valor do Orçamento"}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="notes"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("budget.notes") || "Observações"}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("budget.notes_placeholder") || "Observações sobre o orçamento"}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsBudgetDialogOpen(false)}
+                >
+                  {t("common.cancel") || "Cancelar"}
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={createBudgetMutation.isPending || updateBudgetMutation.isPending}
+                >
+                  {(createBudgetMutation.isPending || updateBudgetMutation.isPending)
+                    ? t("common.saving") || "Salvando..."
+                    : currentBudget
+                      ? t("common.update") || "Atualizar"
+                      : t("common.create") || "Criar"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
