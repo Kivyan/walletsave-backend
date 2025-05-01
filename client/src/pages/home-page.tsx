@@ -164,13 +164,13 @@ export default function HomePage(): ReactElement {
           <>
             {/* Quick Access Navigation Buttons */}
             <div className="mb-6 grid grid-cols-3 gap-4">
-              <Link href="/wallet" className="bg-white dark:bg-neutral-800 rounded-lg shadow flex flex-col items-center justify-center p-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
+              <Link href="/finance" className="bg-white dark:bg-neutral-800 rounded-lg shadow flex flex-col items-center justify-center p-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <span className="text-neutral-800 dark:text-white font-medium">{t("navigation.wallet")}</span>
+                <span className="text-neutral-800 dark:text-white font-medium">{t("navigation.finance")}</span>
               </Link>
               
               <Link href="/reports" className="bg-white dark:bg-neutral-800 rounded-lg shadow flex flex-col items-center justify-center p-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
