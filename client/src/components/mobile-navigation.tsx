@@ -48,6 +48,11 @@ export function MobileNavigation() {
       icon: Wallet,
     },
     {
+      href: "/finance",
+      label: t("navigation.finance") || "Finanças",
+      icon: DollarSign,
+    },
+    {
       href: "/reports",
       label: t("navigation.reports"),
       icon: PieChart,
