@@ -45,6 +45,17 @@ const translations = {
     savings: "Savings",
     notifications: "Notifications",
   },
+  reports: {
+    monthly: "Monthly",
+    daily: "Daily",
+    trends: "Trends",
+    expense_trends: "Spending History",
+    expense_trends_description: "View your spending patterns over the last 6 months",
+    daily_expenses: "Daily Spending",
+    daily_expenses_description: "View your daily spending for this month",
+    category_distribution_description: "See how your money is distributed across categories",
+    recent_expenses: "Recent Expenses",
+  },
   expense: {
     expenses: "Expenses",
     add_expense: "Add Expense",
