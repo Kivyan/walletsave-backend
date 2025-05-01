@@ -216,6 +216,7 @@
     transform-style: preserve-3d;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.2);
   }
   
   .wallet-icon {
@@ -224,6 +225,8 @@
     transform-style: preserve-3d;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    color: #3498db; /* Cor azul mais brilhante */
+    filter: drop-shadow(0 0 10px rgba(52, 152, 219, 0.6)); /* Efeito de brilho */
   }
   
   @keyframes wallet-swing {
@@ -294,12 +297,13 @@
   
   .sparkle-effect {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 12px; /* Aumentei o tamanho */
+    height: 12px; /* Aumentei o tamanho */
     border-radius: 50%;
-    background-color: white;
+    background-color: #ffffff;
     opacity: 0;
     animation: sparkle 1.5s ease-in-out infinite;
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6); /* Adicionei brilho */
   }
   
   .sparkle-1 {
@@ -322,7 +326,7 @@
   
   @keyframes sparkle {
     0%, 100% { opacity: 0; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
+    50% { opacity: 1; transform: scale(1.5); } /* Efeito mais visível */
   }
   
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
