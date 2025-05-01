@@ -208,7 +208,21 @@
     100% { transform: rotateZ(0deg); }
   }
   
-
+  /* Barra piscante ao lado do quadrado */
+  .blinking-cursor {
+    position: absolute;
+    right: -12px; /* Posicionamento à direita do quadrado */
+    top: 30%;
+    height: 40%;
+    width: 3px;
+    background-color: currentColor;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
   
   .coin {
     position: absolute;
