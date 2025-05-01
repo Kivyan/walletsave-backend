@@ -44,6 +44,12 @@ const translations = {
     reports: "Reports",
     savings: "Savings",
     notifications: "Notifications",
+    finance: "Finances",
+  },
+  finance: {
+    overview: "Overview",
+    recent_expenses: "Recent Expenses",
+    manage_wallets: "Manage Wallets",
   },
   reports: {
     monthly: "Monthly",
