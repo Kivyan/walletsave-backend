@@ -122,7 +122,7 @@ export default function AuthPage() {
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
-        {/* Animação da carteira usando CSS puro */}
+              {/* Animação da carteira usando CSS puro */}
         <div className="mb-6">
           <div className="wallet-animation">
             {/* Fundo da carteira */}
