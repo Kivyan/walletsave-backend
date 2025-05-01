@@ -130,6 +130,8 @@ export default function AuthPage() {
               <div className="wallet-icon text-secondary dark:text-accent">
                 <FontAwesomeIcon icon={faWallet} />
               </div>
+              {/* Barra piscante ao lado do quadrado */}
+              <div className="blinking-cursor text-secondary dark:text-accent"></div>
             </div>
             
             {/* Moedas com CSS Animation */}
