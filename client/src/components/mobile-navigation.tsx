@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "wouter";
-import { Home, Wallet, PieChart, PiggyBank, Bell } from "lucide-react";
+import { Home, Wallet, PieChart, PiggyBank, Bell, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -41,6 +41,11 @@ export function MobileNavigation() {
       href: "/",
       label: t("navigation.home"),
       icon: Home,
+    },
+    {
+      href: "/finance",
+      label: t("navigation.finance"),
+      icon: DollarSign,
     },
     {
       href: "/wallet",
