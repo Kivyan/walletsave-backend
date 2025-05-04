@@ -37,6 +37,13 @@ const translations = {
     privacy_policy: "Politica sulla privacy",
     slogan: "Monitoraggio intelligente delle spese",
     or: "o",
+    confirm_email: "Conferma la tua email",
+    code_sent_to: "Codice inviato a",
+    checking: "Verifica in corso...",
+    confirm: "Conferma",
+    no_code: "Non hai ricevuto il codice?",
+    sending: "Invio in corso...",
+    send_again: "Invia di nuovo",
   },
   navigation: {
     home: "Home",
@@ -202,6 +209,8 @@ const translations = {
     category_required: "Categoria è obbligatoria",
     name_required: "Nome è obbligatorio",
     target_required: "Importo obiettivo è obbligatorio",
+    code_six_digits: "Il codice deve contenere 6 cifre",
+    code_numbers_only: "Il codice deve contenere solo numeri",
   },
   toast: {
     error: "Errore",

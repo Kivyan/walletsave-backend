@@ -37,6 +37,13 @@ const translations = {
     privacy_policy: "Datenschutzrichtlinie",
     slogan: "Intelligente Ausgabenverfolgung",
     or: "oder",
+    confirm_email: "Bestätige deine E-Mail",
+    code_sent_to: "Code gesendet an",
+    checking: "Überprüfung...",
+    confirm: "Bestätigen",
+    no_code: "Keinen Code erhalten?",
+    sending: "Senden...",
+    send_again: "Code erneut senden",
   },
   navigation: {
     home: "Startseite",
@@ -202,6 +209,8 @@ const translations = {
     category_required: "Kategorie ist erforderlich",
     name_required: "Name ist erforderlich",
     target_required: "Zielbetrag ist erforderlich",
+    code_six_digits: "Der Code muss 6 Ziffern haben",
+    code_numbers_only: "Der Code darf nur Zahlen enthalten",
   },
   toast: {
     error: "Fehler",
