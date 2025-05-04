@@ -1,9 +1,19 @@
 import nodemailer from 'nodemailer';
 import { User } from '@shared/schema';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+
+type EmailConfig = {
+  service?: string;
+  host?: string;
+  port?: number;
+  secure?: boolean;
+  auth: {
+    user: string;
+    pass: string;
+  };
+};
 
 // Criação do transporte para envio de emails
-// Estamos usando o serviço de teste Ethereal para desenvolvimento
-// Em produção, você usaria suas configurações reais de SMTP
 let transporter: nodemailer.Transporter;
 
 // Função que inicializa o transporter do Nodemailer
@@ -12,25 +22,76 @@ export async function initializeEmailService() {
     return transporter;
   }
 
-  // Cria uma conta de teste no Ethereal
-  // Isso é utilizado para testes e não envia emails reais
-  // Os emails podem ser visualizados em https://ethereal.email
-  const testAccount = await nodemailer.createTestAccount();
+  // Verifica se as credenciais estão disponíveis no ambiente
+  const emailUser = process.env.EMAIL_USER;
+  const emailPassword = process.env.EMAIL_PASSWORD;
 
-  // Cria um transporter SMTP
-  transporter = nodemailer.createTransport({
-    host: testAccount.smtp.host,
-    port: testAccount.smtp.port,
-    secure: testAccount.smtp.secure,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  });
+  if (!emailUser || !emailPassword) {
+    throw new Error('Credenciais de email não configuradas. Defina EMAIL_USER e EMAIL_PASSWORD.');
+  }
 
-  console.log(`Serviço de email inicializado com a conta de teste: ${testAccount.user}`);
-  console.log(`Visualize os emails enviados em: https://ethereal.email/messages`);
-  console.log(`Login: ${testAccount.user} | Senha: ${testAccount.pass}`);
+  // Determina o serviço com base no domínio do email
+  const emailDomain = emailUser.split('@')[1].toLowerCase();
+  
+  // Configurações para diferentes provedores de email
+  let mailConfig: EmailConfig;
+
+  if (emailDomain.includes('gmail.com')) {
+    // Configuração para Gmail
+    mailConfig = {
+      service: 'gmail',
+      auth: {
+        user: emailUser,
+        pass: emailPassword
+      }
+    };
+    console.log('Configurando serviço de email com Gmail');
+  } else if (emailDomain.includes('outlook.com') || emailDomain.includes('hotmail.com')) {
+    // Configuração para Outlook/Hotmail
+    mailConfig = {
+      service: 'outlook',
+      auth: {
+        user: emailUser,
+        pass: emailPassword
+      }
+    };
+    console.log('Configurando serviço de email com Outlook/Hotmail');
+  } else if (emailDomain.includes('yahoo.com')) {
+    // Configuração para Yahoo
+    mailConfig = {
+      service: 'yahoo',
+      auth: {
+        user: emailUser,
+        pass: emailPassword
+      }
+    };
+    console.log('Configurando serviço de email com Yahoo');
+  } else {
+    // Configuração genérica para outros provedores
+    mailConfig = {
+      host: 'smtp.' + emailDomain,
+      port: 587,
+      secure: false, // true para 465, false para outras portas
+      auth: {
+        user: emailUser,
+        pass: emailPassword
+      }
+    };
+    console.log(`Configurando serviço de email com provedor genérico (${emailDomain})`);
+  }
+
+  // Cria um transporter SMTP com as configurações determinadas
+  transporter = nodemailer.createTransport(mailConfig as SMTPTransport.Options);
+
+  // Verifica a conexão
+  try {
+    await transporter.verify();
+    console.log('Conexão com o servidor de email estabelecida com sucesso!');
+    console.log(`Serviço de email inicializado com a conta: ${emailUser}`);
+  } catch (error) {
+    console.error('Erro na conexão com o servidor de email:', error);
+    throw error;
+  }
 
   return transporter;
 }
@@ -45,8 +106,11 @@ export async function sendVerificationEmail(
     await initializeEmailService();
 
     // Configuração do email
+    const emailUser = process.env.EMAIL_USER;
+    const fromName = "Wallet Save";
+    
     const mailOptions = {
-      from: '"Wallet Save" <noreply@walletsave.com>',
+      from: `"${fromName}" <${emailUser}>`,
       to: email,
       subject: 'Verifique seu email - Wallet Save',
       text: `Olá ${userName},\n\nSeu código de verificação é: ${verificationCode}\n\nInsira este código no aplicativo para confirmar seu email.\n\nObrigado,\nEquipe Wallet Save`,
@@ -69,12 +133,18 @@ export async function sendVerificationEmail(
     // Envio do email
     const info = await transporter.sendMail(mailOptions);
 
-    console.log(`Email enviado: ${info.messageId}`);
-    console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+    console.log(`Email enviado para: ${email}`);
+    console.log(`ID da mensagem: ${info.messageId}`);
+    
+    // Se for uma conta Ethereal (teste), ainda podemos fornecer a URL de preview
+    const previewUrl = nodemailer.getTestMessageUrl(info) || '';
+    if (previewUrl) {
+      console.log(`Preview URL: ${previewUrl}`);
+    }
 
     return {
       success: true,
-      previewUrl: nodemailer.getTestMessageUrl(info),
+      previewUrl: previewUrl,
       messageId: info.messageId,
     };
   } catch (error) {
