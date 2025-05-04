@@ -86,7 +86,7 @@ export function setupAuth(app: Express) {
       // Validar se o email tem formato correto
       const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
       if (!emailRegex.test(req.body.username)) {
-        return res.status(400).send("Formato de email inválido");
+        return res.status(400).json({ message: "Formato de email inválido" });
       }
       
       // Verificar se o domínio de email existe e é válido
@@ -97,18 +97,18 @@ export function setupAuth(app: Express) {
         
         if (!isValid) {
           log(`Email rejeitado: ${req.body.username} - Motivo: ${reason || "Email inválido ou inexistente"}`);
-          return res.status(400).send(reason || "Email inválido ou inexistente");
+          return res.status(400).json({ message: reason || "Email inválido ou inexistente" });
         }
         log(`Email validado com sucesso: ${req.body.username}`);
       } catch (error) {
         log(`Erro ao verificar domínio de email: ${error instanceof Error ? error.message : String(error)}`);
         // Retornar erro em vez de prosseguir
-        return res.status(400).send("Não foi possível validar o email. Tente novamente.");
+        return res.status(400).json({ message: "Não foi possível validar o email. Tente novamente." });
       }
 
       const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
-        return res.status(400).send("Este email já está cadastrado");
+        return res.status(400).json({ message: "Este email já está cadastrado" });
       }
 
       // Gerar código de verificação
