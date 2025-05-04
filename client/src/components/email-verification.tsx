@@ -63,11 +63,11 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
         <DialogHeader>
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl">
-              {t("auth.verify_email") || "Verificar Email"}
+              {t("auth.confirm_email") || "Confirme seu email"}
             </DialogTitle>
           </div>
           <DialogDescription>
-            {t("auth.verification_code_sent") || "Enviamos um código para"} {verificationData.email}
+            {t("auth.code_sent_to") || "Código enviado para"} {verificationData.email}
           </DialogDescription>
         </DialogHeader>
         
@@ -97,7 +97,7 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
                 disabled={verifyEmailMutation.isPending}
               >
                 {verifyEmailMutation.isPending 
-                  ? t("auth.verifying") || "Verificando..."
+                  ? t("auth.checking") || "Verificando..."
                   : t("auth.confirm") || "Confirmar"}
               </Button>
             </form>
@@ -105,7 +105,7 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
 
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-muted-foreground">
-              {t("auth.didnt_receive_code") || "Não recebeu o código?"}
+              {t("auth.no_code") || "Não recebeu?"}
             </p>
             <Button
               variant="ghost"
@@ -114,8 +114,8 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
               className="text-sm"
             >
               {resendVerificationMutation.isPending
-                ? t("auth.resending_code") || "Reenviando..."
-                : t("auth.resend_code") || "Enviar novamente"}
+                ? t("auth.sending") || "Enviando..."
+                : t("auth.send_again") || "Reenviar código"}
             </Button>
           </div>
         </div>
