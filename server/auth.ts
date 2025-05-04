@@ -7,6 +7,8 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser, InsertCategory } from "@shared/schema";
 import { DEFAULT_CATEGORIES } from "../client/src/lib/utils";
+import { sendVerificationEmail, resendVerificationCode } from "./emailService";
+import { log } from "./vite";
 
 declare global {
   namespace Express {
@@ -117,9 +119,25 @@ export function setupAuth(app: Express) {
       // Aguardar a criação de todas as categorias padrão
       await Promise.all(defaultCategoriesPromises);
 
+      // Enviar email de verificação
+      try {
+        const emailResult = await sendVerificationEmail(
+          user.username,
+          verificationCode,
+          user.fullName
+        );
+        
+        if (emailResult.success) {
+          log(`Email de verificação enviado com sucesso para ${user.username}. Preview: ${emailResult.previewUrl}`);
+        } else {
+          log(`Falha ao enviar email de verificação: ${emailResult.error}`);
+        }
+      } catch (error) {
+        log(`Erro ao enviar email de verificação: ${error instanceof Error ? error.message : String(error)}`);
+      }
+
       // Ao invés de fazer login, primeiro exigimos a verificação
-      // Podemos simular o envio de um email exibindo o código na resposta (apenas para demonstração)
-      // Em produção, não mostraríamos o código na resposta
+      // Para fins de demonstração, ainda enviamos o código na resposta
       res.status(201).json({
         message: "Conta criada com sucesso! Por favor, verifique seu email.",
         verificationCode,
@@ -275,8 +293,24 @@ export function setupAuth(app: Express) {
         verificationCode
       });
       
-      // Em produção, enviaríamos um email real aqui
-      // Para demonstração, retornamos o código na resposta
+      // Enviar email com o novo código de verificação
+      try {
+        const emailResult = await resendVerificationCode(
+          user.username,
+          verificationCode,
+          user.fullName
+        );
+        
+        if (emailResult.success) {
+          log(`Novo código de verificação enviado com sucesso para ${user.username}. Preview: ${emailResult.previewUrl}`);
+        } else {
+          log(`Falha ao enviar novo código de verificação: ${emailResult.error}`);
+        }
+      } catch (error) {
+        log(`Erro ao enviar novo código de verificação: ${error instanceof Error ? error.message : String(error)}`);
+      }
+      
+      // Para demonstração, ainda retornamos o código na resposta
       res.status(200).json({
         message: "Novo código de verificação enviado!",
         verificationCode,

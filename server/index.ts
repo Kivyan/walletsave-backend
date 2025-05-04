@@ -38,6 +38,14 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Inicializar o serviço de email
+  try {
+    await initializeEmailService();
+    log("Serviço de email inicializado com sucesso");
+  } catch (error) {
+    log(`Erro ao inicializar o serviço de email: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
