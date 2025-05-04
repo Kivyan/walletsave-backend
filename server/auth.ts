@@ -132,14 +132,14 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err: Error | null, user: SelectUser | false, info: { message: string } | undefined) => {
       if (err) return next(err);
       if (!user) {
         return res.status(401).json({
           message: info?.message || "Email ou senha inválidos"
         });
       }
-      req.login(user, (err) => {
+      req.login(user, (err: Error | null) => {
         if (err) return next(err);
         res.status(200).json(req.user);
       });
@@ -147,7 +147,7 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/logout", (req, res, next) => {
-    req.logout((err) => {
+    req.logout((err: Error | null) => {
       if (err) return next(err);
       res.sendStatus(200);
     });
@@ -230,7 +230,7 @@ export function setupAuth(app: Express) {
         throw new Error("Erro ao buscar usuário após verificação");
       }
       
-      req.login(updatedUser, (err) => {
+      req.login(updatedUser, (err: Error | null) => {
         if (err) return next(err);
         res.status(200).json({
           message: "Email verificado com sucesso!",

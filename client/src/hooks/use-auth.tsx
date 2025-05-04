@@ -10,13 +10,36 @@ import { useToast } from "@/hooks/use-toast";
 import i18n from "@/i18n";
 import { useTranslation } from "react-i18next";
 
+type VerifyEmailData = {
+  userId: number;
+  code: string;
+};
+
+type ResendVerificationData = {
+  email: string;
+};
+
+type RegisterResponse = {
+  message: string;
+  verificationCode: string;
+  userId: number;
+  email: string;
+};
+
+type VerifyEmailResponse = {
+  message: string;
+  user: SelectUser;
+};
+
 type AuthContextType = {
   user: SelectUser | null;
   isLoading: boolean;
   error: Error | null;
   loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
-  logoutMutation: UseMutationResult<string, Error, void>; // Alterado o tipo de retorno para string
-  registerMutation: UseMutationResult<SelectUser, Error, InsertUser>;
+  logoutMutation: UseMutationResult<string, Error, void>;
+  registerMutation: UseMutationResult<RegisterResponse, Error, InsertUser>;
+  verifyEmailMutation: UseMutationResult<VerifyEmailResponse, Error, VerifyEmailData>;
+  resendVerificationMutation: UseMutationResult<RegisterResponse, Error, ResendVerificationData>;
 };
 
 type LoginData = Pick<InsertUser, "username" | "password">;
@@ -111,25 +134,58 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await apiRequest("POST", "/api/register", credentials);
       return await res.json();
     },
-    onSuccess: (user: SelectUser) => {
-      queryClient.setQueryData(["/api/user"], user);
-      // Store currency in localStorage when user registers
-      localStorage.setItem("userCurrency", user.currency || "BRL");
-      
-      // Aplicamos o idioma do usuário, que agora deve incluir qualquer atualização feita no mutationFn
-      if (user.language) {
-        i18n.changeLanguage(user.language);
-        localStorage.setItem("i18nextLng", user.language);
-      }
-      
-      // Update theme if available
-      if (user.theme) {
-        localStorage.setItem("theme", user.theme);
-      }
+    onSuccess: (response: RegisterResponse) => {
+      toast({
+        title: t("auth.register_success"),
+        description: response.message || "Verifique seu email para confirmar sua conta.",
+      });
     },
     onError: (error: Error) => {
       toast({
         title: t("toast.registrationFailed"),
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+  
+  // Mutação para verificar o email
+  const verifyEmailMutation = useMutation({
+    mutationFn: async (data: VerifyEmailData) => {
+      const res = await apiRequest("POST", "/api/verify-email", data);
+      return await res.json();
+    },
+    onSuccess: (response: VerifyEmailResponse) => {
+      queryClient.setQueryData(["/api/user"], response.user);
+      toast({
+        title: "Email verificado",
+        description: response.message || "Seu email foi verificado com sucesso.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Erro na verificação",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+  
+  // Mutação para reenviar código de verificação
+  const resendVerificationMutation = useMutation({
+    mutationFn: async (data: ResendVerificationData) => {
+      const res = await apiRequest("POST", "/api/resend-verification", data);
+      return await res.json();
+    },
+    onSuccess: (response: RegisterResponse) => {
+      toast({
+        title: "Código reenviado",
+        description: response.message || "Um novo código de verificação foi enviado para seu email.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Erro ao reenviar",
         description: error.message,
         variant: "destructive",
       });
@@ -177,6 +233,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loginMutation,
         logoutMutation,
         registerMutation,
+        verifyEmailMutation,
+        resendVerificationMutation,
       }}
     >
       {children}

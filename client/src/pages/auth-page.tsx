@@ -10,6 +10,7 @@ import { useTheme } from "@/components/theme-provider";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faCoins, faDollarSign, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
+import { EmailVerification } from "@/components/email-verification";
 
 import {
   Form,
@@ -30,6 +31,7 @@ export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("login");
+  const [verificationData, setVerificationData] = useState<{ verificationCode: string; userId: number; email: string } | null>(null);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -90,13 +92,52 @@ export default function AuthPage() {
       language: currentLanguage, // Usar o idioma atual
       theme: theme,
       currency: localStorage.getItem("userCurrency") || "BRL",
+    }, {
+      onSuccess: (data) => {
+        // Quando o registro for bem-sucedido, armazenar os dados de verificação
+        setVerificationData({
+          verificationCode: data.verificationCode,
+          userId: data.userId,
+          email: data.email
+        });
+      }
     });
+  };
+  
+  // Função para voltar da verificação para a tela de login
+  const handleBackFromVerification = () => {
+    setVerificationData(null);
+    setActiveTab("login");
   };
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  // Mostrar tela de verificação de email se tivermos dados de verificação
+  if (verificationData) {
+    return (
+      <div className="min-h-screen w-full flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 bg-background">
+        <div className="absolute top-4 right-4 flex gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleTheme}
+            className="rounded-full"
+          >
+            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+          </Button>
+          <LanguageSelector />
+        </div>
+        
+        <EmailVerification 
+          verificationData={verificationData} 
+          onBack={handleBackFromVerification} 
+        />
+      </div>
+    );
+  }
+  
   return (
     <div className="min-h-screen w-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center py-8">
       <div className="absolute top-2 right-2 z-50 flex items-center gap-1">
