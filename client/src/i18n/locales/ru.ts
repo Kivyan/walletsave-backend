@@ -33,6 +33,13 @@ const translations = {
     dont_have_account: "Нет аккаунта?",
     welcome: "Добро пожаловать в Wallet Save",
     app_description: "Ваше комплексное решение для управления личными финансами",
+    confirm_email: "Подтвердите ваш email",
+    code_sent_to: "Код отправлен на",
+    checking: "Проверка...",
+    confirm: "Подтвердить",
+    no_code: "Не получили код?",
+    sending: "Отправка...",
+    send_again: "Отправить повторно",
   },
   navigation: {
     home: "Главная",
@@ -248,6 +255,8 @@ const translations = {
     end_date_after_start: "Дата окончания должна быть после даты начала",
     username_required: "Имя пользователя обязательно",
     full_name_required: "Полное имя обязательно",
+    code_six_digits: "Код должен состоять из 6 цифр",
+    code_numbers_only: "Код должен содержать только цифры",
   },
   toast: {
     success: "Успех",

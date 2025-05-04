@@ -33,6 +33,13 @@ const translations = {
     dont_have_account: "ليس لديك حساب؟",
     welcome: "مرحبًا بك في Wallet Save",
     app_description: "حلك الشامل لإدارة الشؤون المالية الشخصية",
+    confirm_email: "تأكيد البريد الإلكتروني",
+    code_sent_to: "تم إرسال الرمز إلى",
+    checking: "جاري التحقق...",
+    confirm: "تأكيد",
+    no_code: "لم تستلم الرمز؟",
+    sending: "جاري الإرسال...",
+    send_again: "إرسال مرة أخرى",
   },
   navigation: {
     home: "الرئيسية",
@@ -248,6 +255,8 @@ const translations = {
     end_date_after_start: "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء",
     username_required: "اسم المستخدم مطلوب",
     full_name_required: "الاسم الكامل مطلوب",
+    code_six_digits: "يجب أن يتكون الرمز من 6 أرقام",
+    code_numbers_only: "يجب أن يحتوي الرمز على أرقام فقط",
   },
   toast: {
     success: "نجاح",

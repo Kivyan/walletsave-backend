@@ -37,6 +37,13 @@ const translations = {
     privacy_policy: "プライバシーポリシー",
     slogan: "スマートな支出管理",
     or: "または",
+    confirm_email: "メールアドレスを確認",
+    code_sent_to: "コードを送信しました：",
+    checking: "確認中...",
+    confirm: "確認",
+    no_code: "コードを受け取っていませんか？",
+    sending: "送信中...",
+    send_again: "再送信",
   },
   navigation: {
     home: "ホーム",
@@ -202,6 +209,8 @@ const translations = {
     category_required: "カテゴリーは必須です",
     name_required: "名前は必須です",
     target_required: "目標金額は必須です",
+    code_six_digits: "コードは6桁でなければなりません",
+    code_numbers_only: "コードは数字のみで入力してください",
   },
   toast: {
     error: "エラー",
