@@ -63,19 +63,11 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
         <DialogHeader>
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl">
-              Verificar Email
+              {t("auth.verify_email") || "Verificar Email"}
             </DialogTitle>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-6 w-6 rounded-full" 
-              onClick={onBack}
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </div>
           <DialogDescription>
-            Enviamos um código para {verificationData.email}
+            {t("auth.verification_code_sent") || "Enviamos um código para"} {verificationData.email}
           </DialogDescription>
         </DialogHeader>
         
@@ -105,15 +97,15 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
                 disabled={verifyEmailMutation.isPending}
               >
                 {verifyEmailMutation.isPending 
-                  ? "Verificando..."
-                  : "Confirmar"}
+                  ? t("auth.verifying") || "Verificando..."
+                  : t("auth.confirm") || "Confirmar"}
               </Button>
             </form>
           </Form>
 
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-muted-foreground">
-              Não recebeu o código?
+              {t("auth.didnt_receive_code") || "Não recebeu o código?"}
             </p>
             <Button
               variant="ghost"
@@ -122,8 +114,8 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
               className="text-sm"
             >
               {resendVerificationMutation.isPending
-                ? "Reenviando..."
-                : "Enviar novamente"}
+                ? t("auth.resending_code") || "Reenviando..."
+                : t("auth.resend_code") || "Enviar novamente"}
             </Button>
           </div>
         </div>
