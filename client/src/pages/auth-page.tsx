@@ -113,32 +113,16 @@ export default function AuthPage() {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  // Mostrar tela de verificação de email se tivermos dados de verificação
-  if (verificationData) {
-    return (
-      <div className="min-h-screen w-full flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 bg-background">
-        <div className="absolute top-4 right-4 flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-          >
-            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
-          </Button>
-          <LanguageSelector />
-        </div>
-        
+  // Renderizamos o componente de verificação como um modal
+  
+  return (
+    <div className="min-h-screen w-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center py-8">
+      {verificationData && (
         <EmailVerification 
           verificationData={verificationData} 
           onBack={handleBackFromVerification} 
         />
-      </div>
-    );
-  }
-  
-  return (
-    <div className="min-h-screen w-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center py-8">
+      )}
       <div className="absolute top-2 right-2 z-50 flex items-center gap-1">
         <LanguageSelector />
         <Button
