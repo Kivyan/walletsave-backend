@@ -21,7 +21,6 @@ type ResendVerificationData = {
 
 type RegisterResponse = {
   message: string;
-  verificationCode: string;
   userId: number;
   email: string;
 };

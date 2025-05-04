@@ -33,7 +33,6 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
   const { t } = useTranslation();
   const { verifyEmailMutation, resendVerificationMutation } = useAuth();
   const { toast } = useToast();
-  const [showVerificationCode, setShowVerificationCode] = useState(false);
   
   const form = useForm({
     resolver: zodResolver(verificationSchema),
@@ -105,13 +104,11 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
             </form>
           </Form>
 
-          {showVerificationCode && (
-            <Alert className="mt-4 bg-muted">
-              <AlertDescription>
-                <strong>{t("auth.verification_code") || "Código de Verificação"}:</strong> {verificationData.verificationCode}
-              </AlertDescription>
-            </Alert>
-          )}
+          <Alert className="mt-4 bg-muted">
+            <AlertDescription>
+              {t("auth.check_email") || "Verifique seu email para obter o código de verificação."}
+            </AlertDescription>
+          </Alert>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-3">
           <Button
@@ -124,15 +121,7 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
               ? t("auth.resending_code") || "Reenviando código..."
               : t("auth.resend_code") || "Reenviar código"}
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setShowVerificationCode(!showVerificationCode)}
-            className="text-sm"
-          >
-            {showVerificationCode
-              ? t("auth.hide_code") || "Ocultar código"
-              : t("auth.show_code") || "Mostrar código (apenas para teste)"}
-          </Button>
+
           <Button
             variant="link"
             onClick={onBack}
