@@ -153,7 +153,7 @@ export default function AuthPage() {
       
       <div className="auth-container w-full max-w-md mx-auto px-4 pb-4 pt-2 flex flex-col items-center justify-center relative">
         <div className="mb-3 text-center">
-          <h1 className="font-heading font-bold text-2xl mb-1 text-secondary dark:text-accent">Wallet Save</h1>
+          <h1 className="font-heading font-bold text-3xl mb-1 text-secondary dark:text-accent">Wallet Save</h1>
           <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
         </div>
 
