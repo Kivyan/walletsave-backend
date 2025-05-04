@@ -21,6 +21,10 @@ let transporter: nodemailer.Transporter;
 
 // Função que inicializa o transporter do Nodemailer
 export async function initializeEmailService() {
+  // Para debugging, podemos forçar reinicialização do transporter
+  // descomentando a linha abaixo
+  // transporter = undefined;
+  
   if (transporter) {
     return transporter;
   }
@@ -34,7 +38,12 @@ export async function initializeEmailService() {
   }
 
   // Determina o serviço com base no domínio do email
-  const emailDomain = emailUser.split('@')[1].toLowerCase();
+  const emailDomain = emailUser.split('@')[1]?.toLowerCase() || '';
+  
+  // Para testes, podemos forçar um provedor específico, independente do domínio do email
+  // Descomentar a linha abaixo e substituir pelo provedor desejado:
+  // const forceProvider = 'outlook'; // 'gmail', 'outlook', 'yahoo', etc.
+  // const providerToUse = forceProvider || emailDomain;
   
   // Configurações para diferentes provedores de email
   let mailConfig: EmailConfig;
@@ -102,6 +111,13 @@ export async function initializeEmailService() {
     return transporter;
   } catch (error) {
     console.error('Erro na conexão com o servidor de email:', error);
+    
+    // Mensagem específica para erro de autenticação do Gmail
+    if (emailDomain.includes('gmail.com') && error instanceof Error && error.message.includes('Username and Password not accepted')) {
+      console.error(`\nERRO DE AUTENTICAÇÃO DO GMAIL: ${error.message}\n`);
+      console.error(`IMPORTANTE: Para usar o Gmail, você precisa:\n1. Ativar a verificação em duas etapas na sua conta Google\n2. Criar uma "Senha de App" específica para este aplicativo em: https://myaccount.google.com/apppasswords\n`);
+    }
+    
     throw new Error(`Não foi possível conectar ao servidor de email: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
