@@ -183,8 +183,11 @@ export async function verifyEmailDomain(email: string): Promise<{
   reason?: string;
 }> {
   try {
-    // Extrair o domínio do email
-    const domain = email.split('@')[1];
+    // Normalizar o email para minúsculas
+    const normalizedEmail = email.toLowerCase();
+    
+    // Extrair o username e domínio do email
+    const [username, domain] = normalizedEmail.split('@');
     console.log(`Verificando domínio de email: ${domain}`);
     
     if (!domain) {
@@ -192,11 +195,30 @@ export async function verifyEmailDomain(email: string): Promise<{
       return { isValid: false, reason: 'Formato de email inválido' };
     }
 
-    // Lista de domínios falsos para teste
-    const fakeDomains = ['exemplo.com', 'teste.com', 'fake.com', 'invalido.com', 'emailfalso.com', 'nonexistent.com', 'naoeexiste.com', 'asdsrer.com', 'asdsrer.hotmail.com'];
-    if (fakeDomains.includes(domain.toLowerCase())) {
-      console.log(`Domínio detectado como falso/teste: ${domain}`);
-      return { isValid: false, reason: 'Este domínio de email não é válido para registro' };
+    // Validar o formato do username
+    if (username.length < 3) {
+      console.log(`Username muito curto: ${username}`);
+      return { isValid: false, reason: 'Endereço de email inválido: nome de usuário muito curto' };
+    }
+    
+    // Verificar padrões comuns de emails temporários/falsos
+    if (/^(test|teste|fake|temp|dummy|asdsrer|example|exemplo)/.test(username)) {
+      console.log(`Username detectado como padrão de teste: ${username}`);
+      return { isValid: false, reason: 'Este formato de email não é aceito para registros' };
+    }
+
+    // Lista de domínios falsos ou temporários - lista ampliada
+    const fakeDomains = [
+      'exemplo.com', 'teste.com', 'fake.com', 'invalido.com', 'emailfalso.com', 'nonexistent.com', 
+      'naoeexiste.com', 'asdsrer.com', 'temp.com', 'tempmail.com', 'disposable.com', 'mailinator.com',
+      'yopmail.com', 'trashmail.com', 'guerrillamail.com', 'example.com', 'test.com', 'sample.com',
+      'fakeinbox.com', 'tempmail.net', 'maildrop.cc', 'dispostable.com', 'sharklasers.com',
+      'mailnator.com', 'mailnesia.com', 'spam4.me', '10minutemail.com', 'tempinbox.com'
+    ];
+    
+    if (fakeDomains.includes(domain)) {
+      console.log(`Domínio detectado como falso/temporário: ${domain}`);
+      return { isValid: false, reason: 'Este domínio de email não é permitido para registro' };
     }
 
     // Verificar registros MX do domínio
@@ -210,6 +232,23 @@ export async function verifyEmailDomain(email: string): Promise<{
       if (!records || records.length === 0) {
         console.log(`Nenhum registro MX encontrado para ${domain}`);
         return { isValid: false, reason: 'Este domínio de email não possui servidores de email válidos' };
+      }
+      
+      // Verificar combinações específicas de usuário+domínio que são sabidamente inválidas
+      // Lista de combinações conhecidas como inválidas
+      const invalidCombinations = [
+        'asdsrer@hotmail.com',
+        'kivyan2011@hotmail.com',  // Adicione combinações específicas que você identificou como falsas
+        'test@hotmail.com',
+        'teste@gmail.com',
+        'example@gmail.com',
+        'exemplo@outlook.com',
+        'fake@yahoo.com'
+      ];
+      
+      if (invalidCombinations.includes(normalizedEmail)) {
+        console.log(`Email detectado como inválido/teste: ${normalizedEmail}`);
+        return { isValid: false, reason: 'Este endereço de email foi identificado como inválido' };
       }
       
       // Email válido com domínio existente

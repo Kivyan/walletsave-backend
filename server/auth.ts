@@ -83,10 +83,44 @@ export function setupAuth(app: Express) {
 
   app.post("/api/register", async (req, res, next) => {
     try {
-      // Validar se o email tem formato correto
-      const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      // Validar se o nome completo foi fornecido
+      if (!req.body.fullName || req.body.fullName.trim().length < 3) {
+        return res.status(400).json({ message: "Por favor, informe seu nome completo" });
+      }
+      
+      // Validar se o email tem formato correto usando uma expressão regular mais rigorosa
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailRegex.test(req.body.username)) {
         return res.status(400).json({ message: "Formato de email inválido" });
+      }
+      
+      // Verificação preliminar de padrões suspeitos no email
+      const lowerEmail = req.body.username.toLowerCase();
+      const [localPart] = lowerEmail.split('@');
+      
+      // Rejeitar emails com nomes de usuário muito curtos
+      if (localPart.length < 3) {
+        return res.status(400).json({ message: "Email inválido: nome de usuário muito curto" });
+      }
+      
+      // Rejeitar emails com padrões suspeitos
+      const suspiciousPatterns = ['test', 'teste', 'fake', 'temp', 'dummy', 'example', 'exemplo', 'asdsrer', 'abc123'];
+      if (suspiciousPatterns.some(pattern => localPart.includes(pattern))) {
+        return res.status(400).json({ message: "Este formato de email não é aceito para registros. Por favor, use seu email pessoal." });
+      }
+      
+      // Verificar se é um dos emails conhecidos como falsos em domínios válidos
+      const knownFakeEmails = [
+        'asdsrer@hotmail.com',
+        'kivyan2011@hotmail.com',
+        'test@gmail.com',
+        'teste@outlook.com',
+        'example@yahoo.com',
+        'exemplo@gmail.com'
+      ];
+      
+      if (knownFakeEmails.includes(lowerEmail)) {
+        return res.status(400).json({ message: "Este email foi identificado como inválido. Por favor, use seu email pessoal." });
       }
       
       // Verificar se o domínio de email existe e é válido
