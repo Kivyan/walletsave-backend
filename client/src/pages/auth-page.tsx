@@ -185,10 +185,6 @@ export default function AuthPage() {
             <div className="sparkle-effect sparkle-2"></div>
             <div className="sparkle-effect sparkle-3"></div>
           </div>
-          
-          <h2 className="mt-4 text-lg font-semibold text-center text-secondary dark:text-accent">
-            Wallet Save
-          </h2>
         </div>
 
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-3 md:p-4 form-container w-full">
