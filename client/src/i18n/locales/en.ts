@@ -37,6 +37,13 @@ const translations = {
     privacy_policy: "Privacy Policy",
     slogan: "Smart expense tracking",
     or: "or",
+    confirm_email: "Confirm your email",
+    code_sent_to: "Code sent to",
+    checking: "Checking...",
+    confirm: "Confirm",
+    no_code: "No code received?",
+    sending: "Sending...",
+    send_again: "Resend code",
   },
   navigation: {
     home: "Home",

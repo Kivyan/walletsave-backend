@@ -37,6 +37,13 @@ const translations = {
     privacy_policy: "Política de Privacidade",
     slogan: "Controle inteligente de gastos",
     or: "ou",
+    confirm_email: "Confirme seu email",
+    code_sent_to: "Código enviado para",
+    checking: "Verificando...",
+    confirm: "Confirmar",
+    no_code: "Não recebeu?",
+    sending: "Enviando...",
+    send_again: "Reenviar código",
   },
   navigation: {
     home: "Início",
