@@ -94,17 +94,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
       
       try {
-        const res = await apiRequest("POST", "/api/login", credentials);
+        // Usar fetch diretamente ao invés de apiRequest para capturar o status 403
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+          credentials: "include"
+        });
+        
         const userData = await res.json();
         
-        // Verifica se a resposta indica necessidade de verificação de email
-        if ('needsVerification' in userData && userData.needsVerification) {
+        // Se o status for 403, significa que o usuário não está verificado
+        if (res.status === 403 && userData.needsVerification) {
+          console.log("Usuário precisa verificar email:", userData);
           // Define o estado que irá acionar a exibição do modal de verificação
           setNeedsVerification({
             userId: userData.userId,
             email: userData.email
           });
           return userData; // Retorna o objeto com informações de verificação
+        }
+        
+        // Se a resposta não for 200 OK e não for o caso especial de verificação,
+        // lançamos um erro
+        if (!res.ok) {
+          throw new Error(userData.message || res.statusText);
         }
         
         // Continua com o processo normal para login bem-sucedido
