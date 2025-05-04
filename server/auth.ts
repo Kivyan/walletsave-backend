@@ -165,19 +165,63 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err: Error | null, user: SelectUser | false, info: { message: string } | undefined) => {
-      if (err) return next(err);
-      if (!user) {
-        return res.status(401).json({
-          message: info?.message || "Email ou senha inválidos"
+  app.post("/api/login", async (req, res, next) => {
+    try {
+      // Verificar se existe um usuário com o email fornecido
+      const userCheck = await storage.getUserByUsername(req.body.username);
+      
+      // Se existe o usuário mas não está verificado
+      if (userCheck && !userCheck.isVerified && await comparePasswords(req.body.password, userCheck.password)) {
+        // Gerar novo código de verificação
+        const verificationCode = generateVerificationCode();
+        
+        // Atualizar o código no banco de dados
+        await storage.updateUser(userCheck.id, {
+          verificationCode
+        });
+        
+        // Enviar novo email com código de verificação
+        try {
+          const emailResult = await resendVerificationCode(
+            userCheck.username,
+            verificationCode,
+            userCheck.fullName
+          );
+          
+          if (emailResult.success) {
+            log(`Código de verificação enviado automaticamente durante login para ${userCheck.username}`);
+          } else {
+            log(`Falha ao enviar código durante login: ${emailResult.error}`);
+          }
+        } catch (error) {
+          log(`Erro ao enviar código durante login: ${error instanceof Error ? error.message : String(error)}`);
+        }
+        
+        // Retornar erro 403 (não autorizado) com informações para mostrar o modal de verificação
+        return res.status(403).json({
+          needsVerification: true,
+          message: "Por favor, verifique seu email antes de fazer login",
+          userId: userCheck.id,
+          email: userCheck.username
         });
       }
-      req.login(user, (err: Error | null) => {
+      
+      // Continuar com a autenticação normal se não for o caso de email não verificado
+      passport.authenticate("local", (err: Error | null, user: SelectUser | false, info: { message: string } | undefined) => {
         if (err) return next(err);
-        res.status(200).json(req.user);
-      });
-    })(req, res, next);
+        if (!user) {
+          return res.status(401).json({
+            message: info?.message || "Email ou senha inválidos"
+          });
+        }
+        req.login(user, (err: Error | null) => {
+          if (err) return next(err);
+          res.status(200).json(req.user);
+        });
+      })(req, res, next);
+    } catch (error) {
+      next(error);
+    }
   });
 
   app.post("/api/logout", (req, res, next) => {

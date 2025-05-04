@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import {
   useQuery,
   useMutation,
@@ -30,15 +30,27 @@ type VerifyEmailResponse = {
   user: SelectUser;
 };
 
+type LoginResponse = SelectUser | {
+  needsVerification: true;
+  message: string;
+  userId: number;
+  email: string;
+};
+
 type AuthContextType = {
   user: SelectUser | null;
   isLoading: boolean;
   error: Error | null;
-  loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
+  needsVerification: {
+    userId: number;
+    email: string;
+  } | null;
+  loginMutation: UseMutationResult<LoginResponse, Error, LoginData>;
   logoutMutation: UseMutationResult<string, Error, void>;
   registerMutation: UseMutationResult<RegisterResponse, Error, InsertUser>;
   verifyEmailMutation: UseMutationResult<VerifyEmailResponse, Error, VerifyEmailData>;
   resendVerificationMutation: UseMutationResult<RegisterResponse, Error, ResendVerificationData>;
+  clearNeedsVerification: () => void;
 };
 
 type LoginData = Pick<InsertUser, "username" | "password">;
@@ -47,6 +59,8 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const { t } = useTranslation();
+  const [needsVerification, setNeedsVerification] = useState<{ userId: number; email: string } | null>(null);
+  
   const {
     data: user,
     error,
@@ -74,29 +88,57 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user]);
 
-  const loginMutation = useMutation({
+  const loginMutation = useMutation<LoginResponse, Error, LoginData>({
     mutationFn: async (credentials: LoginData) => {
       // Primeiro salvamos o idioma atual
       const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
       
-      const res = await apiRequest("POST", "/api/login", credentials);
-      const userData = await res.json();
-      
-      // Após o login bem-sucedido, atualizamos o perfil do usuário com o idioma atual
-      // apenas se o usuário não tiver uma preferência de idioma
-      if (!userData.language && currentLanguage) {
-        try {
-          await apiRequest("PUT", "/api/user", { language: currentLanguage });
-          userData.language = currentLanguage; // Atualizamos o objeto localmente para que o onSuccess use o valor correto
-        } catch (error) {
-          console.error("Failed to save language preference during login", error);
+      try {
+        const res = await apiRequest("POST", "/api/login", credentials);
+        const userData = await res.json();
+        
+        // Verifica se a resposta indica necessidade de verificação de email
+        if ('needsVerification' in userData && userData.needsVerification) {
+          // Define o estado que irá acionar a exibição do modal de verificação
+          setNeedsVerification({
+            userId: userData.userId,
+            email: userData.email
+          });
+          return userData; // Retorna o objeto com informações de verificação
         }
+        
+        // Continua com o processo normal para login bem-sucedido
+        // Após o login bem-sucedido, atualizamos o perfil do usuário com o idioma atual
+        // apenas se o usuário não tiver uma preferência de idioma
+        if (!userData.language && currentLanguage) {
+          try {
+            await apiRequest("PUT", "/api/user", { language: currentLanguage });
+            userData.language = currentLanguage; // Atualizamos o objeto localmente para que o onSuccess use o valor correto
+          } catch (error) {
+            console.error("Failed to save language preference during login", error);
+          }
+        }
+        
+        return userData;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (response) => {
+      // Se a resposta indica que o email precisa ser verificado
+      if ('needsVerification' in response && response.needsVerification) {
+        // Não atualiza o usuário, apenas exibe a mensagem
+        toast({
+          title: "Verificação necessária",
+          description: response.message || "Por favor, verifique seu email antes de continuar",
+        });
+        return;
       }
       
-      return userData;
-    },
-    onSuccess: (user: SelectUser) => {
+      // Para respostas de login bem-sucedidas
+      const user = response as SelectUser;
       queryClient.setQueryData(["/api/user"], user);
+      
       // Store currency in localStorage when user logs in
       localStorage.setItem("userCurrency", user.currency || "BRL");
       
@@ -223,12 +265,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Função para limpar o estado de verificação quando o usuário fechar o modal
+  const clearNeedsVerification = () => {
+    setNeedsVerification(null);
+  };
+  
   return (
     <AuthContext.Provider
       value={{
         user: user ?? null,
         isLoading,
         error,
+        needsVerification,
+        clearNeedsVerification,
         loginMutation,
         logoutMutation,
         registerMutation,
