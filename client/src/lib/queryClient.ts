@@ -2,8 +2,15 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    try {
+      // Tenta extrair a mensagem de erro do JSON
+      const errorData = await res.json();
+      throw new Error(errorData.message || `${res.status}: ${res.statusText}`);
+    } catch (jsonError) {
+      // Se não for um JSON válido, usa o texto da resposta
+      const text = await res.text();
+      throw new Error(text || `${res.status}: ${res.statusText}`);
+    }
   }
 }
 
@@ -11,6 +18,7 @@ export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
+  skipErrorCheck: boolean = false
 ): Promise<Response> {
   const res = await fetch(url, {
     method,
@@ -19,7 +27,9 @@ export async function apiRequest(
     credentials: "include",
   });
 
-  await throwIfResNotOk(res);
+  if (!skipErrorCheck) {
+    await throwIfResNotOk(res);
+  }
   return res;
 }
 

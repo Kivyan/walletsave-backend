@@ -178,16 +178,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerMutation = useMutation({
     mutationFn: async (credentials: InsertUser) => {
-      // Primeiro salvamos o idioma atual
-      const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
-      
-      // Incluir o idioma atual nos dados de registro, se não foi especificado
-      if (!credentials.language && currentLanguage) {
-        credentials.language = currentLanguage;
+      try {
+        // Primeiro salvamos o idioma atual
+        const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+        
+        // Incluir o idioma atual nos dados de registro, se não foi especificado
+        if (!credentials.language && currentLanguage) {
+          credentials.language = currentLanguage;
+        }
+        
+        const res = await apiRequest("POST", "/api/register", credentials, true); // Skip auto error check
+        
+        if (!res.ok) {
+          // Processar respostas de erro
+          try {
+            const errorData = await res.json();
+            throw new Error(errorData.message || `Erro no registro: ${res.statusText}`); 
+          } catch (jsonError) {
+            // Se não for JSON válido
+            throw new Error(`Erro no registro: ${res.statusText}`); 
+          }
+        }
+        
+        return await res.json();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error; 
+        }
+        throw new Error("Erro ao criar conta. Tente novamente.");
       }
-      
-      const res = await apiRequest("POST", "/api/register", credentials);
-      return await res.json();
     },
     onSuccess: (response: RegisterResponse) => {
       toast({
@@ -207,8 +226,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Mutação para verificar o email
   const verifyEmailMutation = useMutation({
     mutationFn: async (data: VerifyEmailData) => {
-      const res = await apiRequest("POST", "/api/verify-email", data);
-      return await res.json();
+      try {
+        const res = await apiRequest("POST", "/api/verify-email", data, true);
+        
+        if (!res.ok) {
+          try {
+            const errorData = await res.json();
+            throw new Error(errorData.message || `Erro na verificação: ${res.statusText}`);
+          } catch (jsonError) {
+            throw new Error(`Erro na verificação: ${res.statusText}`);
+          }
+        }
+        
+        return await res.json();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+        throw new Error("Erro ao verificar email. Tente novamente.");
+      }
     },
     onSuccess: (response: VerifyEmailResponse) => {
       queryClient.setQueryData(["/api/user"], response.user);
@@ -229,8 +265,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Mutação para reenviar código de verificação
   const resendVerificationMutation = useMutation({
     mutationFn: async (data: ResendVerificationData) => {
-      const res = await apiRequest("POST", "/api/resend-verification", data);
-      return await res.json();
+      try {
+        const res = await apiRequest("POST", "/api/resend-verification", data, true);
+        
+        if (!res.ok) {
+          try {
+            const errorData = await res.json();
+            throw new Error(errorData.message || `Erro ao reenviar código: ${res.statusText}`);
+          } catch (jsonError) {
+            throw new Error(`Erro ao reenviar código: ${res.statusText}`);
+          }
+        }
+        
+        return await res.json();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+        throw new Error("Erro ao reenviar código de verificação. Tente novamente.");
+      }
     },
     onSuccess: (response: RegisterResponse) => {
       toast({
