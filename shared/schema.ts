@@ -11,16 +11,30 @@ export const users = pgTable("users", {
   language: text("language").default("en").notNull(),
   theme: text("theme").default("light").notNull(),
   currency: text("currency").default("BRL").notNull(),
+  isVerified: boolean("is_verified").default(false).notNull(),
+  verificationCode: text("verification_code"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
+const baseUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
   fullName: true,
   language: true,
   theme: true,
   currency: true,
+});
+
+export const insertUserSchema = baseUserSchema.extend({
+  username: z.string()
+    .min(5, "Email deve ter pelo menos 5 caracteres")
+    .email("Formato de email inválido")
+    .refine(email => {
+      // Validação adicional para garantir que o email tenha um formato válido
+      const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      return emailRegex.test(email);
+    }, "Formato de email inválido"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 });
 
 // Categories table
