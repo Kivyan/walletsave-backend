@@ -226,6 +226,8 @@ const translations = {
     category_required: "Category is required",
     name_required: "Name is required",
     target_required: "Target amount is required",
+    code_six_digits: "Code must be 6 digits",
+    code_numbers_only: "Code must contain only numbers",
   },
   toast: {
     error: "Error",

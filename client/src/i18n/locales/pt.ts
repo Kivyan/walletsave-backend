@@ -209,6 +209,8 @@ const translations = {
     category_required: "Categoria é obrigatória",
     name_required: "Nome é obrigatório",
     target_required: "Valor da meta é obrigatório",
+    code_six_digits: "O código deve ter 6 dígitos",
+    code_numbers_only: "O código deve conter apenas números",
   },
   toast: {
     error: "Erro",
