@@ -91,13 +91,19 @@ export function setupAuth(app: Express) {
       
       // Verificar se o domínio de email existe e é válido
       try {
+        log(`Verificando se o email existe: ${req.body.username}`);
         const { isValid, reason } = await verifyEmailDomain(req.body.username);
+        log(`Resultado da verificação de email: isValid = ${isValid}, reason = ${reason || "N/A"}`);
+        
         if (!isValid) {
+          log(`Email rejeitado: ${req.body.username} - Motivo: ${reason || "Email inválido ou inexistente"}`);
           return res.status(400).send(reason || "Email inválido ou inexistente");
         }
+        log(`Email validado com sucesso: ${req.body.username}`);
       } catch (error) {
         log(`Erro ao verificar domínio de email: ${error instanceof Error ? error.message : String(error)}`);
-        // Continuar mesmo em caso de erro na verificação, já que a função de envio de email ainda pode funcionar
+        // Retornar erro em vez de prosseguir
+        return res.status(400).send("Não foi possível validar o email. Tente novamente.");
       }
 
       const existingUser = await storage.getUserByUsername(req.body.username);

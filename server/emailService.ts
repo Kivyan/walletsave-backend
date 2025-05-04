@@ -185,25 +185,40 @@ export async function verifyEmailDomain(email: string): Promise<{
   try {
     // Extrair o domínio do email
     const domain = email.split('@')[1];
+    console.log(`Verificando domínio de email: ${domain}`);
     
     if (!domain) {
+      console.log('Formato de email inválido: domínio ausente');
       return { isValid: false, reason: 'Formato de email inválido' };
+    }
+
+    // Lista de domínios falsos para teste
+    const fakeDomains = ['exemplo.com', 'teste.com', 'fake.com', 'invalido.com', 'emailfalso.com', 'nonexistent.com', 'naoeexiste.com', 'asdsrer.com', 'asdsrer.hotmail.com'];
+    if (fakeDomains.includes(domain.toLowerCase())) {
+      console.log(`Domínio detectado como falso/teste: ${domain}`);
+      return { isValid: false, reason: 'Este domínio de email não é válido para registro' };
     }
 
     // Verificar registros MX do domínio
     const resolveMx = promisify(dns.resolveMx);
     
     try {
+      console.log(`Consultando registros MX para ${domain}...`);
       const records = await resolveMx(domain);
+      console.log(`Registros MX para ${domain}:`, records);
+      
       if (!records || records.length === 0) {
+        console.log(`Nenhum registro MX encontrado para ${domain}`);
         return { isValid: false, reason: 'Este domínio de email não possui servidores de email válidos' };
       }
       
       // Email válido com domínio existente
+      console.log(`Domínio válido com ${records.length} servidores de email`);
       return { isValid: true };
     } catch (error) {
       console.error(`Erro ao verificar registros MX para ${domain}:`, error);
-      return { isValid: false, reason: 'Não foi possível verificar servidores de email para este domínio' };
+      // Se não conseguir resolver o MX, provavelmente o domínio não existe
+      return { isValid: false, reason: `Domínio de email inválido ou inexistente: ${domain}` };
     }
   } catch (error) {
     console.error('Erro ao verificar domínio de email:', error);
