@@ -7,7 +7,7 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser, InsertCategory } from "@shared/schema";
 import { DEFAULT_CATEGORIES } from "../client/src/lib/utils";
-import { sendVerificationEmail, resendVerificationCode } from "./emailService";
+import { sendVerificationEmail, resendVerificationCode, verifyEmailDomain } from "./emailService";
 import { log } from "./vite";
 
 declare global {
@@ -87,6 +87,17 @@ export function setupAuth(app: Express) {
       const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
       if (!emailRegex.test(req.body.username)) {
         return res.status(400).send("Formato de email inválido");
+      }
+      
+      // Verificar se o domínio de email existe e é válido
+      try {
+        const { isValid, reason } = await verifyEmailDomain(req.body.username);
+        if (!isValid) {
+          return res.status(400).send(reason || "Email inválido ou inexistente");
+        }
+      } catch (error) {
+        log(`Erro ao verificar domínio de email: ${error instanceof Error ? error.message : String(error)}`);
+        // Continuar mesmo em caso de erro na verificação, já que a função de envio de email ainda pode funcionar
       }
 
       const existingUser = await storage.getUserByUsername(req.body.username);

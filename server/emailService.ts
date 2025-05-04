@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 import { User } from '@shared/schema';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import dns from 'dns';
+import { promisify } from 'util';
 
 type EmailConfig = {
   service?: string;
@@ -172,6 +174,40 @@ export async function sendVerificationEmail(
       success: false,
       error: error instanceof Error ? error.message : 'Erro desconhecido',
     };
+  }
+}
+
+// Verificar se um domínio de email é válido e existe
+export async function verifyEmailDomain(email: string): Promise<{
+  isValid: boolean;
+  reason?: string;
+}> {
+  try {
+    // Extrair o domínio do email
+    const domain = email.split('@')[1];
+    
+    if (!domain) {
+      return { isValid: false, reason: 'Formato de email inválido' };
+    }
+
+    // Verificar registros MX do domínio
+    const resolveMx = promisify(dns.resolveMx);
+    
+    try {
+      const records = await resolveMx(domain);
+      if (!records || records.length === 0) {
+        return { isValid: false, reason: 'Este domínio de email não possui servidores de email válidos' };
+      }
+      
+      // Email válido com domínio existente
+      return { isValid: true };
+    } catch (error) {
+      console.error(`Erro ao verificar registros MX para ${domain}:`, error);
+      return { isValid: false, reason: 'Não foi possível verificar servidores de email para este domínio' };
+    }
+  } catch (error) {
+    console.error('Erro ao verificar domínio de email:', error);
+    return { isValid: false, reason: 'Erro ao verificar domínio de email' };
   }
 }
 
