@@ -28,7 +28,7 @@ import { Sun, Moon } from "lucide-react";
 export default function AuthPage() {
   const { t, i18n } = useTranslation();
   const [, navigate] = useLocation();
-  const { user, loginMutation, registerMutation } = useAuth();
+  const { user, loginMutation, registerMutation, needsVerification, clearNeedsVerification } = useAuth();
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("login");
   const [verificationData, setVerificationData] = useState<{ userId: number; email: string } | null>(null);
@@ -39,6 +39,13 @@ export default function AuthPage() {
       navigate("/");
     }
   }, [user, navigate]);
+  
+  // Efeito para mostrar a verificação de email caso seja necessário
+  useEffect(() => {
+    if (needsVerification) {
+      setVerificationData(needsVerification);
+    }
+  }, [needsVerification]);
 
   // Login form schema
   const loginSchema = z.object({
@@ -107,6 +114,10 @@ export default function AuthPage() {
   const handleBackFromVerification = () => {
     setVerificationData(null);
     setActiveTab("login");
+    // Limpar também o estado de verificação do contexto global
+    if (needsVerification) {
+      clearNeedsVerification();
+    }
   };
 
   const toggleTheme = () => {
