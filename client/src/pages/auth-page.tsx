@@ -9,7 +9,7 @@ import { LanguageSelector } from "@/components/language-selector";
 import { useTheme } from "@/components/theme-provider";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWallet, faCoins, faDollarSign, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
+import { faWallet, faCoins, faDollarSign, faMoneyBillWave, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { EmailVerification } from "@/components/email-verification";
 
 import {
@@ -32,6 +32,9 @@ export default function AuthPage() {
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("login");
   const [verificationData, setVerificationData] = useState<{ userId: number; email: string } | null>(null);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -216,9 +219,22 @@ export default function AuthPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("auth.password")}</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="******" {...field} />
-                        </FormControl>
+                        <div className="relative">
+                          <FormControl>
+                            <Input 
+                              type={showLoginPassword ? "text" : "password"} 
+                              placeholder="******" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <button 
+                            type="button" 
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-secondary focus:outline-none"
+                            onClick={() => setShowLoginPassword(!showLoginPassword)}
+                          >
+                            <FontAwesomeIcon icon={showLoginPassword ? faEyeSlash : faEye} className="h-4 w-4" />
+                          </button>
+                        </div>
                         <div className="mt-1 text-right">
                           <a href="#" className="text-xs text-secondary dark:text-accent hover:underline">
                             {t("auth.forgot_password")}
@@ -274,9 +290,22 @@ export default function AuthPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("auth.password")}</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="******" {...field} />
-                        </FormControl>
+                        <div className="relative">
+                          <FormControl>
+                            <Input 
+                              type={showRegisterPassword ? "text" : "password"} 
+                              placeholder="******" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <button 
+                            type="button" 
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-secondary focus:outline-none"
+                            onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                          >
+                            <FontAwesomeIcon icon={showRegisterPassword ? faEyeSlash : faEye} className="h-4 w-4" />
+                          </button>
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -287,9 +316,22 @@ export default function AuthPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("auth.confirm_password")}</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="******" {...field} />
-                        </FormControl>
+                        <div className="relative">
+                          <FormControl>
+                            <Input 
+                              type={showConfirmPassword ? "text" : "password"} 
+                              placeholder="******" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <button 
+                            type="button" 
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-secondary focus:outline-none"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          >
+                            <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} className="h-4 w-4" />
+                          </button>
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
