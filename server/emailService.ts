@@ -44,16 +44,19 @@ export async function initializeEmailService() {
     // Para o Gmail, é necessário usar uma "Senha de App" ou configurar OAuth2
     // https://nodemailer.com/usage/using-gmail/
     mailConfig = {
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // use TLS
       auth: {
         user: emailUser,
         pass: emailPassword
       },
+      // Desative a validação de certificado para debug
       tls: {
         rejectUnauthorized: false
       }
     };
-    console.log('Configurando serviço de email com Gmail');
+    console.log('Configurando serviço de email com Gmail (porta 465/SSL)');
   } else if (emailDomain.includes('outlook.com') || emailDomain.includes('hotmail.com')) {
     // Configuração para Outlook/Hotmail
     mailConfig = {

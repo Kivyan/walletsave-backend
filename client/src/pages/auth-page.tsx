@@ -31,7 +31,7 @@ export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("login");
-  const [verificationData, setVerificationData] = useState<{ verificationCode: string; userId: number; email: string } | null>(null);
+  const [verificationData, setVerificationData] = useState<{ userId: number; email: string } | null>(null);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -96,7 +96,6 @@ export default function AuthPage() {
       onSuccess: (data) => {
         // Quando o registro for bem-sucedido, armazenar os dados de verificação
         setVerificationData({
-          verificationCode: data.verificationCode,
           userId: data.userId,
           email: data.email
         });

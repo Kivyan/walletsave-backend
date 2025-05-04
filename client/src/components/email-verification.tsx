@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next";
 
 interface EmailVerificationProps {
   verificationData: {
-    verificationCode: string;
     userId: number;
     email: string;
   },
