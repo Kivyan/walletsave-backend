@@ -33,6 +33,13 @@ const translations = {
     dont_have_account: "没有账户？",
     welcome: "欢迎使用Wallet Save",
     app_description: "您的全面个人财务管理解决方案",
+    confirm_email: "验证您的电子邮件",
+    code_sent_to: "验证码已发送至",
+    checking: "验证中...",
+    confirm: "确认",
+    no_code: "没收到验证码？",
+    sending: "发送中...",
+    send_again: "重新发送",
   },
   navigation: {
     home: "首页",
@@ -248,6 +255,8 @@ const translations = {
     end_date_after_start: "结束日期必须在开始日期之后",
     username_required: "用户名为必填项",
     full_name_required: "全名为必填项",
+    code_six_digits: "验证码必须是6位数字",
+    code_numbers_only: "验证码只能包含数字",
   },
   toast: {
     success: "成功",
