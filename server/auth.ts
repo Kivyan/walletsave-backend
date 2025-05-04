@@ -128,7 +128,7 @@ export function setupAuth(app: Express) {
         );
         
         if (emailResult.success) {
-          log(`Email de verificação enviado com sucesso para ${user.username}. Preview: ${emailResult.previewUrl}`);
+          log(`Email de verificação enviado com sucesso para ${user.username}`);
         } else {
           log(`Falha ao enviar email de verificação: ${emailResult.error}`);
         }
@@ -137,10 +137,9 @@ export function setupAuth(app: Express) {
       }
 
       // Ao invés de fazer login, primeiro exigimos a verificação
-      // Para fins de demonstração, ainda enviamos o código na resposta
+      // Não enviamos o código na resposta, pois ele será enviado por email
       res.status(201).json({
-        message: "Conta criada com sucesso! Por favor, verifique seu email.",
-        verificationCode,
+        message: "Conta criada com sucesso! Por favor, verifique seu email para obter o código de verificação.",
         userId: user.id,
         email: user.username
       });
@@ -302,7 +301,7 @@ export function setupAuth(app: Express) {
         );
         
         if (emailResult.success) {
-          log(`Novo código de verificação enviado com sucesso para ${user.username}. Preview: ${emailResult.previewUrl}`);
+          log(`Novo código de verificação enviado com sucesso para ${user.username}`);
         } else {
           log(`Falha ao enviar novo código de verificação: ${emailResult.error}`);
         }
@@ -310,10 +309,9 @@ export function setupAuth(app: Express) {
         log(`Erro ao enviar novo código de verificação: ${error instanceof Error ? error.message : String(error)}`);
       }
       
-      // Para demonstração, ainda retornamos o código na resposta
+      // Não enviamos o código na resposta, pois ele será enviado por email
       res.status(200).json({
-        message: "Novo código de verificação enviado!",
-        verificationCode,
+        message: "Um novo código de verificação foi enviado para seu email.",
         userId: user.id
       });
     } catch (error) {
