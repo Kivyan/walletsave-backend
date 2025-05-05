@@ -210,7 +210,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                                
             // Se for um erro de email, atualiza o estado específico para isso
             if (isEmailError) {
-              setEmailError(errorMessage);
+              // Simplificamos a mensagem de erro para "Email inválido."
+              setEmailError("Email inválido.");
             }
                                
             throw new Error(errorMessage);
@@ -235,11 +236,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: t("toast.registrationFailed"),
-        description: error.message,
-        variant: "destructive",
-      });
+      // Não mostrar toast se for um erro de email (já tratado na interface)
+      if (!emailError) {
+        toast({
+          title: t("toast.registrationFailed"),
+          description: error.message,
+          variant: "destructive",
+        });
+      }
     },
   });
   

@@ -133,13 +133,12 @@ export default function AuthPage() {
         const errorMessage = error.message;
         
         // Verificar se a mensagem de erro está relacionada à existência de email
-        if (errorMessage.includes("não existe") || 
-            errorMessage.includes("email não existe") || 
-            errorMessage.includes("email inválido") ||
-            errorMessage.includes("email foi identificado como inválido")) {
+        if (errorMessage.toLowerCase().includes("email") || 
+            errorMessage.toLowerCase().includes("não existe") ||
+            errorMessage.toLowerCase().includes("inválido")) {
           
-          // Definir o erro específico de email
-          setEmailError(errorMessage);
+          // Definir o erro específico de email com mensagem simplificada
+          setEmailError("Email inválido.");
           
           // Focar no campo de email
           setTimeout(() => {
