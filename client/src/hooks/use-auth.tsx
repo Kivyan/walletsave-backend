@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [needsVerification, setNeedsVerification] = useState<{ userId: number; email: string } | null>(null);
-  const [emailError, setEmailError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null); // Estado para armazenar erros de email específicos
   
   const {
     data: user,

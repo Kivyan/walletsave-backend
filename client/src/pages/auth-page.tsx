@@ -28,7 +28,7 @@ import { Sun, Moon } from "lucide-react";
 export default function AuthPage() {
   const { t, i18n } = useTranslation();
   const [, navigate] = useLocation();
-  const { user, loginMutation, registerMutation, needsVerification, clearNeedsVerification } = useAuth();
+  const { user, loginMutation, registerMutation, needsVerification, clearNeedsVerification, emailError, setEmailError } = useAuth();
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("login");
   const [verificationData, setVerificationData] = useState<{ userId: number; email: string } | null>(null);
@@ -67,8 +67,7 @@ export default function AuthPage() {
     path: ["confirmPassword"],
   });
 
-  // Estado para armazenar erros de email específicos
-  const [emailError, setEmailError] = useState<string | null>(null);
+  // Usamos o estado de erro de email do contexto de autenticação
   
   // Initialize forms
   const loginForm = useForm<z.infer<typeof loginSchema>>({
@@ -105,7 +104,7 @@ export default function AuthPage() {
       });
       return () => subscription.unsubscribe();
     }
-  }, [registerForm, emailError]);
+  }, [registerForm, emailError, setEmailError]);
   
   const onRegisterSubmit = (values: z.infer<typeof registerSchema>) => {
     // Limpar qualquer erro anterior
