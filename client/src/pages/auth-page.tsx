@@ -67,6 +67,9 @@ export default function AuthPage() {
     path: ["confirmPassword"],
   });
 
+  // Estado para armazenar erros de email específicos
+  const [emailError, setEmailError] = useState<string | null>(null);
+  
   // Initialize forms
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -91,7 +94,23 @@ export default function AuthPage() {
     loginMutation.mutate(values);
   };
   
+  // Limpar erro de email quando o campo muda
+  useEffect(() => {
+    if (emailError) {
+      // Quando o usuário começa a digitar no campo de email, limpamos o erro específico
+      const subscription = registerForm.watch((value, { name }) => {
+        if (name === 'username' && emailError) {
+          setEmailError(null);
+        }
+      });
+      return () => subscription.unsubscribe();
+    }
+  }, [registerForm, emailError]);
+  
   const onRegisterSubmit = (values: z.infer<typeof registerSchema>) => {
+    // Limpar qualquer erro anterior
+    setEmailError(null);
+    
     const { confirmPassword, ...registerData } = values;
     
     // Use o idioma atual do usuário ao invés de fixar em "en"
@@ -109,6 +128,28 @@ export default function AuthPage() {
           userId: data.userId,
           email: data.email
         });
+      },
+      onError: (error) => {
+        // Capturar mensagens de erro relacionadas ao email
+        const errorMessage = error.message;
+        
+        // Verificar se a mensagem de erro está relacionada à existência de email
+        if (errorMessage.includes("não existe") || 
+            errorMessage.includes("email não existe") || 
+            errorMessage.includes("email inválido") ||
+            errorMessage.includes("email foi identificado como inválido")) {
+          
+          // Definir o erro específico de email
+          setEmailError(errorMessage);
+          
+          // Focar no campo de email
+          setTimeout(() => {
+            const emailInput = document.querySelector('input[name="username"]');
+            if (emailInput) {
+              (emailInput as HTMLInputElement).focus();
+            }
+          }, 100);
+        }
       }
     });
   };
@@ -278,9 +319,19 @@ export default function AuthPage() {
                       <FormItem>
                         <FormLabel>{t("auth.username")}</FormLabel>
                         <FormControl>
-                          <Input placeholder={t("auth.username_placeholder")} {...field} />
+                          <Input 
+                            placeholder={t("auth.username_placeholder")} 
+                            {...field} 
+                            className={emailError ? "border-red-500 ring-1 ring-red-500 focus:ring-red-500" : ""}
+                          />
                         </FormControl>
-                        <FormMessage />
+                        {emailError ? (
+                          <div className="text-sm font-medium text-red-500 mt-1 animate-pulse">
+                            {emailError}
+                          </div>
+                        ) : (
+                          <FormMessage />
+                        )}
                       </FormItem>
                     )}
                   />
