@@ -9,7 +9,7 @@ import { LanguageSelector } from "@/components/language-selector";
 import { useTheme } from "@/components/theme-provider";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWallet, faCoins, faDollarSign, faMoneyBillWave, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faWallet, faCoins, faDollarSign, faMoneyBillWave, faEye, faEyeSlash, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { EmailVerification } from "@/components/email-verification";
 
 import {
@@ -322,11 +322,12 @@ export default function AuthPage() {
                           <Input 
                             placeholder={t("auth.username_placeholder")} 
                             {...field} 
-                            className={emailError ? "border-red-500 ring-1 ring-red-500 focus:ring-red-500" : ""}
+                            className={emailError ? "error-highlight" : ""}
                           />
                         </FormControl>
                         {emailError ? (
-                          <div className="text-sm font-medium text-red-500 mt-1 animate-pulse">
+                          <div className="text-sm font-medium text-red-500 mt-1 animate-pulse flex items-center">
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-1" />
                             {emailError}
                           </div>
                         ) : (

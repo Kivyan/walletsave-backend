@@ -329,6 +329,18 @@
     50% { opacity: 1; transform: scale(1.5); } /* Efeito mais visível */
   }
   
+  /* Animação para o erro de email */
+  @keyframes errorPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  .error-highlight {
+    animation: errorPulse 1.5s ease-in-out infinite;
+    border-color: rgb(239, 68, 68) !important;
+    box-shadow: 0 0 0 1px rgb(239, 68, 68) !important;
+  }
+  
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
   @media (max-width: 767px) {
     ::-webkit-scrollbar {
