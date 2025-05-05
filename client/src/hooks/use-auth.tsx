@@ -171,11 +171,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onError: (error: Error) => {
-      toast({
-        title: t("toast.error"),
-        description: error.message,
-        variant: "destructive",
-      });
+      // Não exibimos toasts mais - isso será tratado diretamente na interface de login
+      console.error("Erro de login:", error.message);
     },
   });
 
@@ -236,14 +233,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     },
     onError: (error: Error) => {
-      // Não mostrar toast se for um erro de email (já tratado na interface)
-      if (!emailError) {
-        toast({
-          title: t("toast.registrationFailed"),
-          description: error.message,
-          variant: "destructive",
-        });
-      }
+      // Não mostrar toast em caso nenhum no registro - 
+      // todos os erros devem ser tratados direto na interface
+      // para melhor experiência do usuário
     },
   });
   

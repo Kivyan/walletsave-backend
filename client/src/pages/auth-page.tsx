@@ -90,7 +90,23 @@ export default function AuthPage() {
 
   // Form submission handlers
   const onLoginSubmit = (values: z.infer<typeof loginSchema>) => {
-    loginMutation.mutate(values);
+    loginMutation.mutate(values, {
+      onError: (error) => {
+        const errorMessage = error.message;
+        
+        if (errorMessage.toLowerCase().includes("email") || 
+            errorMessage.toLowerCase().includes("usuário") || 
+            errorMessage.toLowerCase().includes("username")) {
+          loginForm.setError("username", { message: "Email ou usuário incorreto" });
+        } else if (errorMessage.toLowerCase().includes("senha") || 
+                   errorMessage.toLowerCase().includes("password")) {
+          loginForm.setError("password", { message: "Senha incorreta" });
+        } else {
+          // Caso genérico, atribuir o erro ao campo de senha
+          loginForm.setError("password", { message: "Credenciais inválidas" });
+        }
+      }
+    });
   };
   
   // Limpar erro de email quando o campo muda
@@ -147,7 +163,16 @@ export default function AuthPage() {
               (emailInput as HTMLInputElement).focus();
             }
           }, 100);
+        } else if (errorMessage.toLowerCase().includes("username") ||
+                   errorMessage.toLowerCase().includes("usuário")) {
+          // Definir erro genérico para usuário (por ex. usuário já existe) sem usar toast
+          registerForm.setError("username", { message: "Usuário já existe" });
+        } else if (errorMessage.toLowerCase().includes("password") ||
+                   errorMessage.toLowerCase().includes("senha")) {
+          // Definir erro genérico para senha sem usar toast
+          registerForm.setError("password", { message: "Senha inválida" });
         }
+        // Para outros erros genéricos, não exibimos toast, apenas focamos no formulário
       }
     });
   };
