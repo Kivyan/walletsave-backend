@@ -41,6 +41,7 @@ type AuthContextType = {
   user: SelectUser | null;
   isLoading: boolean;
   error: Error | null;
+  emailError: string | null; // Adicionado para erros específicos de email
   needsVerification: {
     userId: number;
     email: string;
@@ -51,6 +52,7 @@ type AuthContextType = {
   verifyEmailMutation: UseMutationResult<VerifyEmailResponse, Error, VerifyEmailData>;
   resendVerificationMutation: UseMutationResult<RegisterResponse, Error, ResendVerificationData>;
   clearNeedsVerification: () => void;
+  setEmailError: (error: string | null) => void; // Função para definir o erro de email
 };
 
 type LoginData = Pick<InsertUser, "username" | "password">;
@@ -60,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [needsVerification, setNeedsVerification] = useState<{ userId: number; email: string } | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   
   const {
     data: user,
@@ -179,6 +182,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const registerMutation = useMutation({
     mutationFn: async (credentials: InsertUser) => {
       try {
+        // Limpar qualquer erro de email anterior
+        setEmailError(null);
+        
         // Primeiro salvamos o idioma atual
         const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
         
@@ -193,7 +199,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           // Processar respostas de erro
           try {
             const errorData = await res.json();
-            throw new Error(errorData.message || `Erro no registro: ${res.statusText}`); 
+            
+            // Verificamos especificamente se o erro está relacionado ao email
+            const errorMessage = errorData.message || `Erro no registro: ${res.statusText}`;
+            const isEmailError = errorMessage.toLowerCase().includes('email') || 
+                                errorMessage.toLowerCase().includes('formato') ||
+                                errorMessage.toLowerCase().includes('existe') ||
+                                errorMessage.toLowerCase().includes('válido') ||
+                                errorMessage.toLowerCase().includes('verificação');
+                               
+            // Se for um erro de email, atualiza o estado específico para isso
+            if (isEmailError) {
+              setEmailError(errorMessage);
+            }
+                               
+            throw new Error(errorMessage);
           } catch (jsonError) {
             // Se não for JSON válido
             throw new Error(`Erro no registro: ${res.statusText}`); 
@@ -343,8 +363,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user: user ?? null,
         isLoading,
         error,
+        emailError,
         needsVerification,
         clearNeedsVerification,
+        setEmailError,
         loginMutation,
         logoutMutation,
         registerMutation,
