@@ -318,21 +318,27 @@ export default function AuthPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("auth.username")}</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder={t("auth.username_placeholder")} 
-                            {...field} 
-                            className={emailError ? "error-highlight" : ""}
-                          />
-                        </FormControl>
-                        {emailError ? (
-                          <div className="text-sm font-medium text-red-500 mt-1 animate-pulse flex items-center">
-                            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-1" />
-                            {emailError}
-                          </div>
-                        ) : (
-                          <FormMessage />
-                        )}
+                        <div className="relative">
+                          <FormControl>
+                            <Input 
+                              placeholder={t("auth.username_placeholder")} 
+                              {...field} 
+                              className={emailError ? "error-highlight pr-8" : ""}
+                            />
+                          </FormControl>
+                          {emailError && (
+                            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-red-500">
+                              <FontAwesomeIcon icon={faExclamationTriangle} className="h-4 w-4" />
+                            </div>
+                          )}
+                        </div>
+                        <FormMessage>
+                          {emailError && (
+                            <div className="text-sm font-medium text-red-500 mt-1">
+                              {emailError}
+                            </div>
+                          )}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />

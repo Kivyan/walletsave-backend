@@ -337,8 +337,9 @@
   
   .error-highlight {
     animation: errorPulse 1.5s ease-in-out infinite;
-    border-color: rgb(239, 68, 68) !important;
+    border: 2px solid rgb(239, 68, 68) !important;
     box-shadow: 0 0 0 1px rgb(239, 68, 68) !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
   }
   
   /* Para celulares mantém scrollbar mais fina, mas nas mesmas cores */
