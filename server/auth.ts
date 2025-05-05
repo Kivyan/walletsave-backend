@@ -126,13 +126,21 @@ export function setupAuth(app: Express) {
       // Verificar se o domínio de email existe e é válido
       try {
         log(`Verificando se o email existe: ${req.body.username}`);
-        const { isValid, reason } = await verifyEmailDomain(req.body.username);
-        log(`Resultado da verificação de email: isValid = ${isValid}, reason = ${reason || "N/A"}`);
+        const { isValid, reason, mailboxExists } = await verifyEmailDomain(req.body.username);
+        log(`Resultado da verificação de email: isValid = ${isValid}, mailboxExists = ${mailboxExists}, reason = ${reason || "N/A"}`);
         
+        // Se o email não é válido ou a caixa postal não existe, rejeitamos o cadastro
         if (!isValid) {
           log(`Email rejeitado: ${req.body.username} - Motivo: ${reason || "Email inválido ou inexistente"}`);
           return res.status(400).json({ message: reason || "Email inválido ou inexistente" });
         }
+        
+        // Verificamos explicitamente se a caixa postal existe
+        if (mailboxExists === false) { // Usando === false para verificar estritamente quando sabemos que não existe
+          log(`Caixa postal não existe: ${req.body.username}`);
+          return res.status(400).json({ message: "Este endereço de email não existe ou não pode receber mensagens. Por favor, use um email válido." });
+        }
+        
         log(`Email validado com sucesso: ${req.body.username}`);
       } catch (error) {
         log(`Erro ao verificar domínio de email: ${error instanceof Error ? error.message : String(error)}`);
