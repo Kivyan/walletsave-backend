@@ -184,65 +184,64 @@ async function checkEmailExists(email: string): Promise<boolean> {
   return new Promise((resolve) => {
     try {
       console.log(`Verificando existência da caixa de email: ${email}`);
+      const [, domain] = email.toLowerCase().split('@');
       
-      // Sempre realizamos a verificação SMTP para confirmar a existência da caixa
+      // Vamos usar uma abordagem mais flexível para evitar falsos positivos
+      const allowListDomains = [
+        'gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'icloud.com',
+        'aol.com', 'live.com', 'me.com', 'msn.com', 'yandex.com'
+      ];
+      
+      // Para domínios conhecidos, tentamos a verificação, mas permitimos em caso de falha técnica
+      // Isso evita que emails válidos sejam rejeitados por problemas de verificação
+      const isKnownProvider = allowListDomains.includes(domain);
+      
+      // Função para verificar via biblioteca
       emailExistence.check(email, (error: Error | null, result: boolean) => {
         if (error) {
           console.error(`Erro na verificação de existência do email: ${error.message}`);
-          // Se ocorrer um erro específico de conexão recusada, provavelmente o email não existe
-          if (error.message.includes('connection refused') || 
-              error.message.includes('timeout') ||
-              error.message.includes('no such user')) {
-            console.log(`Email rejeitado pelo servidor: ${email}`);
+          
+          // Erros específicos que realmente indicam que o email não existe
+          if (error.message.includes('no such user') || 
+              error.message.includes('user not found') ||
+              error.message.includes('recipient rejected')) {
+            console.log(`Email confirmado como inexistente pelo servidor: ${email}`);
             resolve(false);
             return;
           }
           
-          // Para outros erros técnicos, vamos fazer uma tentativa baseada em heurística
-          // Verificamos se o domínio é um domínio comum e se o email parece válido
-          const [username, domain] = email.toLowerCase().split('@');
-          
-          // Lista de alguns domínios conhecidos por verificações rígidas
-          const strictDomains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com'];
-          
-          if (strictDomains.includes(domain)) {
-            // Para domínios estritamente controlados, se houve erro, 
-            // há grande chance de que o email não exista
-            console.log(`Domínio com controle rígido (${domain}) retornou erro na verificação: ${email}`);
-            resolve(false);
-            return;
-          }
-          
-          // Para outros domínios, permitimos continuar para não bloquear por problemas técnicos
-          console.log(`Erro técnico na verificação, prosseguindo com cautela: ${email}`);
+          // Para problemas técnicos, permitimos o registro para evitar falsos positivos
+          console.log(`Erro técnico na verificação, permitindo (evitando falso positivo): ${email}`);
           resolve(true);
           return;
         }
         
+        // Se não houver erro e o resultado for positivo (o email existe)
         if (result) {
-          console.log(`Email verificado e existe: ${email}`);
-        } else {
-          console.log(`Email verificado e não existe: ${email}`);
+          console.log(`Email verificado com sucesso e existe: ${email}`);
+          resolve(true);
+          return;
         }
         
-        resolve(result);
+        // Se o verificador retornar que o email não existe
+        console.log(`Email verificado e não existe: ${email}`);
+        
+        // Para domínios conhecidos, consideramos o resultado 
+        if (isKnownProvider) {
+          console.log(`Domínio conhecido (${domain}), considerando resultado da verificação`);
+          resolve(false);
+          return;
+        }
+        
+        // Para domínios desconhecidos, permitimos mesmo com resultado negativo
+        // para evitar falsos positivos em servidores que não respondem corretamente
+        console.log(`Domínio desconhecido (${domain}), permitindo com cautela`);
+        resolve(true);
       });
     } catch (error) {
       console.error(`Exceção ao verificar existência do email: ${error instanceof Error ? error.message : 'erro desconhecido'}`);
-      
-      // Mesmo com erro de código, tentamos fazer uma verificação mais básica
-      // Se o domínio for conhecido por filtros rígidos, consideramos que falhas podem indicar emails inválidos
-      const [, domain] = email.toLowerCase().split('@');
-      const strictDomains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com'];
-      
-      if (strictDomains.includes(domain)) {
-        console.log(`Erro ao verificar email em domínio estrito (${domain}): ${email}`);
-        resolve(false);
-        return;
-      }
-      
-      // Para outros domínios menos conhecidos, permitimos continuar
-      console.log(`Erro na verificação, prosseguindo com cautela: ${email}`);
+      // Em caso de erro interno no código, permitimos o registro
+      console.log(`Erro no código de verificação, permitindo (evitando falso positivo): ${email}`);
       resolve(true);
     }
   });
