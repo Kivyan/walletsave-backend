@@ -53,8 +53,19 @@ export function LanguageSelector() {
         document.documentElement.dir = 'ltr';
       }
       
-      // Forçar a atualização de todos os componentes
-      window.dispatchEvent(new Event('languageChanged'));
+      // Executar um timer curto para garantir que todas as mudanças sejam aplicadas
+      setTimeout(() => {
+        // Forçar a atualização de todos os componentes
+        window.dispatchEvent(new Event('languageChanged'));
+        
+        // Também recarregar o i18n para garantir que todas as traduções sejam carregadas
+        i18n.reloadResources(languageCode).then(() => {
+          console.log(`Recursos de idioma ${languageCode} recarregados`);
+          
+          // Disparar evento novamente após recarga para garantir
+          window.dispatchEvent(new Event('languageChanged'));
+        });
+      }, 50);
       
       // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
       if (user && user.language !== languageCode) {

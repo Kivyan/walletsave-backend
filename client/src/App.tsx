@@ -18,6 +18,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
 import { AutoScaleContainer } from "@/components/auto-scale-container";
+import { I18nProvider } from "@/components/i18n-provider";
 
 function Router(): ReactElement {
   const renderHomePage = (): ReactElement => <HomePage />;
@@ -50,11 +51,13 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ThemeProvider>
-          <AutoScaleContainer>
-            <Router />
-            <NavigationButtons />
-            <Toaster />
-          </AutoScaleContainer>
+          <I18nProvider>
+            <AutoScaleContainer>
+              <Router />
+              <NavigationButtons />
+              <Toaster />
+            </AutoScaleContainer>
+          </I18nProvider>
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
