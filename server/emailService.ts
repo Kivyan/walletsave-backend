@@ -4,7 +4,6 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import dns from 'dns';
 import { promisify } from 'util';
 import * as emailValidator from 'email-validator';
-import * as emailExistence from 'email-existence';
 
 type EmailConfig = {
   service?: string;
@@ -180,68 +179,56 @@ export async function sendVerificationEmail(
 }
 
 // Função para verificar se um endereço de email existe (mailbox verification)
+// Devido a limitações da biblioteca e falsos positivos, faremos uma verificação muito básica
 async function checkEmailExists(email: string): Promise<boolean> {
   return new Promise((resolve) => {
     try {
-      console.log(`Verificando existência da caixa de email: ${email}`);
-      const [, domain] = email.toLowerCase().split('@');
+      console.log(`Verificando formato do email: ${email}`);
       
-      // Vamos usar uma abordagem mais flexível para evitar falsos positivos
-      const allowListDomains = [
-        'gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'icloud.com',
-        'aol.com', 'live.com', 'me.com', 'msn.com', 'yandex.com'
+      // Verificar se o email tem formato válido usando validator
+      if (!emailValidator.validate(email)) {
+        console.log(`Email com formato inválido: ${email}`);
+        resolve(false);
+        return;
+      }
+      
+      // Extrair domínio do email
+      const [username, domain] = email.toLowerCase().split('@');
+      
+      // Lista de domínios obviamente falsos ou temporários
+      const fakeDomains = [
+        'exemplo.com', 'teste.com', 'fake.com', 'invalido.com', 'emailfalso.com',
+        'tempmail.com', 'mailinator.com', 'yopmail.com', 'guerrillamail.com',
+        'example.com', 'test.com', 'sample.com', 'disposable.com'
       ];
       
-      // Para domínios conhecidos, tentamos a verificação, mas permitimos em caso de falha técnica
-      // Isso evita que emails válidos sejam rejeitados por problemas de verificação
-      const isKnownProvider = allowListDomains.includes(domain);
+      if (fakeDomains.includes(domain)) {
+        console.log(`Domínio conhecido como temporário/falso: ${domain}`);
+        resolve(false);
+        return;
+      }
       
-      // Função para verificar via biblioteca
-      emailExistence.check(email, (error: Error | null, result: boolean) => {
-        if (error) {
-          console.error(`Erro na verificação de existência do email: ${error.message}`);
-          
-          // Erros específicos que realmente indicam que o email não existe
-          if (error.message.includes('no such user') || 
-              error.message.includes('user not found') ||
-              error.message.includes('recipient rejected')) {
-            console.log(`Email confirmado como inexistente pelo servidor: ${email}`);
-            resolve(false);
-            return;
-          }
-          
-          // Para problemas técnicos, permitimos o registro para evitar falsos positivos
-          console.log(`Erro técnico na verificação, permitindo (evitando falso positivo): ${email}`);
-          resolve(true);
-          return;
-        }
-        
-        // Se não houver erro e o resultado for positivo (o email existe)
-        if (result) {
-          console.log(`Email verificado com sucesso e existe: ${email}`);
-          resolve(true);
-          return;
-        }
-        
-        // Se o verificador retornar que o email não existe
-        console.log(`Email verificado e não existe: ${email}`);
-        
-        // Para domínios conhecidos, consideramos o resultado 
-        if (isKnownProvider) {
-          console.log(`Domínio conhecido (${domain}), considerando resultado da verificação`);
-          resolve(false);
-          return;
-        }
-        
-        // Para domínios desconhecidos, permitimos mesmo com resultado negativo
-        // para evitar falsos positivos em servidores que não respondem corretamente
-        console.log(`Domínio desconhecido (${domain}), permitindo com cautela`);
-        resolve(true);
-      });
+      // Verificar nomes de usuário muito curtos ou genéricos
+      if (username.length < 3) {
+        console.log(`Nome de usuário muito curto: ${username}`);
+        resolve(false);
+        return;
+      }
+      
+      // Verificar nomes de usuário obviamente genéricos ou de teste
+      const invalidUsernames = ['test', 'teste', 'admin', 'user', 'example', 'exemplo', 'demo', 'fake'];
+      if (invalidUsernames.includes(username.toLowerCase())) {
+        console.log(`Nome de usuário genérico/de teste: ${username}`);
+        resolve(false);
+        return;
+      }
+      
+      // Para todos os outros casos, permitimos o email (vamos confiar na verificação por email)
+      console.log(`Email passa na verificação básica: ${email}`);
+      resolve(true);
     } catch (error) {
-      console.error(`Exceção ao verificar existência do email: ${error instanceof Error ? error.message : 'erro desconhecido'}`);
-      // Em caso de erro interno no código, permitimos o registro
-      console.log(`Erro no código de verificação, permitindo (evitando falso positivo): ${email}`);
+      console.error(`Erro ao verificar email: ${error instanceof Error ? error.message : 'erro desconhecido'}`);
+      // Para evitar bloquear usuários legítimos, permitimos o registro em caso de erro
       resolve(true);
     }
   });
