@@ -132,6 +132,7 @@ const translations = {
     income_placeholder: "Ex: 5000",
     setup_budget: "Configure seu orçamento mensal",
     no_budget: "Nenhum orçamento para este mês",
+    monthly_budget: "Orçamento Mensal",
   },
   wallet: {
     wallet: "Carteira",
@@ -146,6 +147,7 @@ const translations = {
     total: "Saldo Total",
     delete_wallet: "Excluir Carteira",
     delete_wallet_description: "Tem certeza que deseja excluir esta carteira? Esta ação não pode ser desfeita.",
+    manage_wallets: "Gerenciar Carteiras",
   },
   saving: {
     savings: "Economias",

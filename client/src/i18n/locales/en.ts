@@ -145,6 +145,7 @@ const translations = {
     income_placeholder: "E.g. 5000",
     setup_budget: "Set up your monthly budget",
     no_budget: "No budget for this month",
+    monthly_budget: "Monthly Budget",
   },
   wallet: {
     wallet: "Wallet",
@@ -159,6 +160,7 @@ const translations = {
     total: "Total Balance",
     delete_wallet: "Delete Wallet",
     delete_wallet_description: "Are you sure you want to delete this wallet? This action cannot be undone.",
+    manage_wallets: "Manage Wallets",
   },
   saving: {
     savings: "Savings",

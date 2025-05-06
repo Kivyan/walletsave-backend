@@ -10,6 +10,7 @@ import { insertExpenseSchema, Expense, Category } from "@shared/schema";
 import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
 import { getLocaleFromLanguage, formatDate } from "@/lib/utils";
+import { TranslatedText } from "@/components/translated-text";
 
 import {
   Dialog,
@@ -278,7 +279,12 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               className="w-3 h-3 rounded-full mr-2"
                               style={{ backgroundColor: category.color }}
                             />
-                            {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, { defaultValue: category.name })}
+                            <TranslatedText 
+                              i18nKey={`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`}
+                              tag="span"
+                            >
+                              {category.name}
+                            </TranslatedText>
                           </div>
                         </SelectItem>
                       ))}
