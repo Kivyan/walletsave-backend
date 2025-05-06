@@ -261,7 +261,7 @@ export async function verifyEmailDomain(email: string): Promise<{
     
     // Verificar padrões comuns de emails temporários/falsos
     // Mas ignoramos se o email contém números, pois muitos emails legítimos têm números no nome
-    const containsNumbers = /\d+/.test(username);
+    let containsNumbers = /\d+/.test(username);
     if (!containsNumbers && /^(test|teste|fake|temp|dummy|asdsrer|example|exemplo)$/.test(username)) {
       console.log(`Username detectado como padrão de teste: ${username}`);
       return { isValid: false, reason: 'Este formato de email não é aceito para registros', mailboxExists: false };
