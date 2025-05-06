@@ -184,6 +184,25 @@ async function checkEmailExists(email: string): Promise<boolean> {
   return new Promise((resolve) => {
     try {
       console.log(`Verificando existência da caixa de email: ${email}`);
+      
+      // Verificação de domínios que sabemos que funcionam para não precisar verificar via SMTP
+      const [, domain] = email.toLowerCase().split('@');
+      const commonValidDomains = [
+        'gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'icloud.com',
+        'aol.com', 'protonmail.com', 'mail.com', 'zoho.com', 'yandex.com',
+        'gmx.com', 'live.com', 'me.com', 'msn.com', 'web.de', 'comcast.net',
+        'protonmail.ch', 'hotmail.fr', 'hotmail.co.uk', 'mail.ru', 'inbox.ru'
+      ];
+      
+      // Se for de um domínio comum, assumimos que existe
+      // Isso é necessário porque muitos servidores de email bloqueiam verificações SMTP
+      if (commonValidDomains.includes(domain)) {
+        console.log(`Domínio comum detectado (${domain}), presumindo email válido: ${email}`);
+        resolve(true);
+        return;
+      }
+      
+      // Para outros domínios, tentamos verificar via SMTP
       emailExistence.check(email, (error: Error | null, result: boolean) => {
         if (error) {
           console.error(`Erro na verificação de existência do email: ${error.message}`);
@@ -241,7 +260,9 @@ export async function verifyEmailDomain(email: string): Promise<{
     }
     
     // Verificar padrões comuns de emails temporários/falsos
-    if (/^(test|teste|fake|temp|dummy|asdsrer|example|exemplo)/.test(username)) {
+    // Mas ignoramos se o email contém números, pois muitos emails legítimos têm números no nome
+    const containsNumbers = /\d+/.test(username);
+    if (!containsNumbers && /^(test|teste|fake|temp|dummy|asdsrer|example|exemplo)$/.test(username)) {
       console.log(`Username detectado como padrão de teste: ${username}`);
       return { isValid: false, reason: 'Este formato de email não é aceito para registros', mailboxExists: false };
     }
@@ -261,20 +282,45 @@ export async function verifyEmailDomain(email: string): Promise<{
     }
 
     // Verificar combinações específicas de usuário+domínio que são sabidamente inválidas
+    // Apenas padrões genéricos óbvios, não emails específicos de usuários reais
     const invalidCombinations = [
-      'asdsrer@hotmail.com',
-      'kivyan2011@hotmail.com',
       'test@hotmail.com',
       'teste@gmail.com',
       'example@gmail.com',
       'exemplo@outlook.com',
       'fake@yahoo.com',
-      'asherd@hotmail.com' // Adicionando caso recente que não existe
+      'admin@example.com',
+      'user@example.com',
+      'info@example.com'
     ];
     
+    // Padrões óbvios de teste/fake que não são emails reais
+    const invalidPatterns = [
+      /^test\d*@/i,        // test@, test1@, test123@, etc
+      /^admin@/i,          // admin@
+      /^example@/i,        // example@
+      /^user\d*@/i,        // user@, user1@, user123@, etc
+      /^demo@/i,           // demo@
+      /^fake@/i,           // fake@
+      /^sample@/i,         // sample@
+      /^noreply@/i,        // noreply@
+      /^dummy@/i           // dummy@
+    ];
+    
+    // Verificação de combinação exata
     if (invalidCombinations.includes(normalizedEmail)) {
-      console.log(`Email detectado como inválido/teste: ${normalizedEmail}`);
-      return { isValid: false, reason: 'Este endereço de email foi identificado como inválido', mailboxExists: false };
+      console.log(`Email detectado como padrão inválido/genérico: ${normalizedEmail}`);
+      return { isValid: false, reason: 'Este email parece ser um endereço genérico ou de teste', mailboxExists: false };
+    }
+    
+    // Verificação de padrões - já estamos usando a variável containsNumbers definida acima
+    if (!containsNumbers) {
+      for (const pattern of invalidPatterns) {
+        if (pattern.test(normalizedEmail)) {
+          console.log(`Email detectado com padrão suspeito: ${normalizedEmail}`);
+          return { isValid: false, reason: 'Este email segue um padrão típico de endereços genéricos', mailboxExists: false };
+        }
+      }
     }
 
     // Verificar registros MX do domínio
