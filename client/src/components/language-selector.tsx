@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { languages as availableLanguages, changeLanguage } from "@/i18n";
 
 import {
   DropdownMenu,
@@ -37,25 +38,23 @@ export function LanguageSelector() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   
-  const changeLanguage = async (language: string) => {
-    // Mudar o idioma na interface
-    await i18n.changeLanguage(language);
+  const handleLanguageChange = async (languageCode: string) => {
+    // Usar a função centralizada para mudar o idioma
+    await changeLanguage(languageCode);
     setIsOpen(false);
     
-    // Sempre salvar no localStorage para usuários não autenticados
-    localStorage.setItem("i18nextLng", language);
-    
     // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
-    if (user && user.language !== language) {
+    if (user && user.language !== languageCode) {
       try {
-        await apiRequest("PUT", "/api/user", { language });
+        await apiRequest("PUT", "/api/user", { language: languageCode });
         queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       } catch (error) {
-        console.error("Failed to save language preference", error);
+        console.error("Erro ao salvar preferência de idioma:", error);
       }
     }
   };
   
+  // Determinar o idioma atual para destacar no menu
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
   
   return (
@@ -63,14 +62,14 @@ export function LanguageSelector() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
           <Globe className="h-4 w-4" />
-          <span className="sr-only">Toggle language</span>
+          <span className="sr-only">Alterar idioma</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {languages.map((language) => (
           <DropdownMenuItem 
             key={language.code}
-            onClick={() => changeLanguage(language.code)}
+            onClick={() => handleLanguageChange(language.code)}
             className={language.code === currentLanguage.code ? "bg-neutral-100 dark:bg-neutral-800" : ""}
           >
             <span className="mr-2">{language.flag}</span>

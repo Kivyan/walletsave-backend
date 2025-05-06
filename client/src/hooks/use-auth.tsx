@@ -7,7 +7,7 @@ import {
 import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import i18n from "@/i18n";
+import i18n, { changeLanguage } from "@/i18n";
 import { useTranslation } from "react-i18next";
 
 type VerifyEmailData = {
@@ -81,7 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Update language if it exists in user preferences
       if (user.language) {
-        i18n.changeLanguage(user.language);
+        // Usar a função centralizada para mudar idioma
+        changeLanguage(user.language);
       }
       
       // Update theme if it exists in user preferences
@@ -161,8 +162,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Aplicamos o idioma do usuário, que agora deve incluir qualquer atualização feita no mutationFn
       if (user.language) {
-        i18n.changeLanguage(user.language);
-        localStorage.setItem("i18nextLng", user.language);
+        // Usar a função centralizada para mudar idioma
+        changeLanguage(user.language);
       }
       
       // Update theme if available
@@ -336,7 +337,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Garantimos que o idioma seja mantido após o logout
       if (language) {
-        i18n.changeLanguage(language);
+        // Usar a função centralizada para mudar idioma
+        changeLanguage(language);
       }
     },
     onError: (error: Error) => {

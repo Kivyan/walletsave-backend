@@ -26,6 +26,28 @@ export const languages = {
   ar: "العربية",
 };
 
+// Get stored language preference
+const getStoredLanguage = () => {
+  const storedLang = localStorage.getItem("i18nextLng");
+  // Only return if it's one of our supported languages
+  if (storedLang && Object.keys(languages).includes(storedLang)) {
+    return storedLang;
+  }
+  return null;
+};
+
+// Get browser language, but only if it's one of our supported languages
+const getBrowserLanguage = () => {
+  const browserLang = navigator.language.split('-')[0]; // Get base language code
+  if (Object.keys(languages).includes(browserLang)) {
+    return browserLang;
+  }
+  return null;
+};
+
+// Determine the initial language to use
+const initialLanguage = getStoredLanguage() || getBrowserLanguage() || "en";
+
 // Initialize i18next
 i18n
   .use(initReactI18next)
@@ -63,25 +85,49 @@ i18n
       translation: arTranslations,
     },
   },
-  lng: "en", // Default language
+  lng: initialLanguage, // Set initial language
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
+  },
+  detection: {
+    order: ['localStorage', 'navigator'],
+    lookupLocalStorage: 'i18nextLng',
+    caches: ['localStorage'],
   },
   react: {
     useSuspense: false,
   },
 });
 
-// Save language preference when changed
+// Make sure the language is saved in localStorage when changed
 i18n.on("languageChanged", (lng) => {
   localStorage.setItem("i18nextLng", lng);
+  document.documentElement.lang = lng; // Also set the html lang attribute
+  
+  // If the app direction should change based on language (for RTL languages like Arabic)
+  if (lng === 'ar') {
+    document.documentElement.dir = 'rtl';
+  } else {
+    document.documentElement.dir = 'ltr';
+  }
 });
 
-// Initialize with stored language on app load
-const storedLang = localStorage.getItem("i18nextLng");
-if (storedLang) {
-  i18n.changeLanguage(storedLang);
+// Apply the initial language settings to the HTML element
+document.documentElement.lang = initialLanguage;
+if (initialLanguage === 'ar') {
+  document.documentElement.dir = 'rtl';
+} else {
+  document.documentElement.dir = 'ltr';
 }
+
+// Public method to change language that ensures all side effects are applied
+export const changeLanguage = async (lang: string) => {
+  if (Object.keys(languages).includes(lang)) {
+    await i18n.changeLanguage(lang);
+    return true;
+  }
+  return false;
+};
 
 export default i18n;
