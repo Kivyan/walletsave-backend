@@ -46,7 +46,7 @@ export function TranslatedText({
       data-i18n-key={i18nKey}
       data-i18n-direction={dir}
     >
-      {t(i18nKey, values) || children}
+      {i18nKey.includes("app.name") ? "Wallet Save" : (t(i18nKey, values) || children)}
     </Tag>
   );
 }
