@@ -19,6 +19,7 @@ import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
 import { AutoScaleContainer } from "@/components/auto-scale-container";
 import { I18nProvider } from "@/components/i18n-provider";
+import { LanguageDemo } from "@/components/language-demo";
 
 function Router(): ReactElement {
   const renderHomePage = (): ReactElement => <HomePage />;
@@ -29,6 +30,7 @@ function Router(): ReactElement {
   const renderFinancePage = (): ReactElement => <FinancePage />;
   const renderTermsOfService = (): ReactElement => <TermsOfService />;
   const renderPrivacyPolicy = (): ReactElement => <PrivacyPolicy />;
+  const renderLanguageDemo = (): ReactElement => <LanguageDemo />;
 
   return (
     <Switch>
@@ -41,6 +43,7 @@ function Router(): ReactElement {
       <Route path="/auth" component={AuthPage} />
       <Route path="/terms-of-service" component={renderTermsOfService} />
       <Route path="/privacy-policy" component={renderPrivacyPolicy} />
+      <Route path="/language-demo" component={renderLanguageDemo} />
       <Route component={NotFound} />
     </Switch>
   );
