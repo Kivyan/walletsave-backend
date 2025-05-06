@@ -36,7 +36,6 @@ function Router(): ReactElement {
     <Switch>
       <ProtectedRoute path="/" component={renderHomePage} />
       <ProtectedRoute path="/profile" component={renderProfilePage} />
-      <ProtectedRoute path="/wallet" component={renderWalletPage} />
       <ProtectedRoute path="/finance" component={renderFinancePage} />
       <ProtectedRoute path="/reports" component={renderReportsPage} />
       <ProtectedRoute path="/savings" component={renderSavingsPage} />

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { formatMoney } from "@/lib/utils";
 import { Expense, Category } from "@shared/schema";
+import { TranslatedText } from "./translated-text";
 
 interface ExpenseChartProps {
   expenses: Expense[];
@@ -14,6 +15,8 @@ interface ChartData {
   value: number;
   color: string;
   percentage: number;
+  translationKey: string;
+  defaultName: string;
 }
 
 export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
@@ -53,12 +56,18 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const category = categories.find((c) => c.id === Number(categoryId));
       const percentage = Math.round((amount / totalAmount) * 100);
       
-      // Traduza o nome da categoria com base na chave de tradução
+      // Prepare category info for translations
       const categoryKey = category?.name.toLowerCase().replace(/\s+/g, '_') || 'unknown';
-      const translatedName = t(`categories.${categoryKey}`, { defaultValue: category?.name || t('common.unknown') });
+      const translationKey = `categories.${categoryKey}`;
+      const defaultName = category?.name || t('common.unknown');
+      
+      // Use o hook de tradução para garantir que a tradução será atualizada quando o idioma mudar
+      const translatedName = t(translationKey, { defaultValue: defaultName });
       
       return {
         name: translatedName,
+        translationKey: translationKey, // Salvar a chave para usar com TranslatedText
+        defaultName: defaultName,      // Salvar o nome padrão
         value: amount,
         color: category?.color || "#6B7280",
         percentage,
@@ -77,7 +86,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const data = payload[0].payload;
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
-          <p className="font-medium">{data.name}</p>
+          <TranslatedText 
+            i18nKey={data.translationKey}
+            className="font-medium"
+            tag="p"
+          >
+            {data.defaultName}
+          </TranslatedText>
           <p>{formatMoney(data.value)}</p>
           <p>{data.percentage}%</p>
         </div>
@@ -117,9 +132,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       {/* Chart legend */}
       <div className="w-full sm:w-1/2">
         <div className="text-center sm:text-left mb-4">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            {t("expense.total")}
-          </p>
+          <TranslatedText 
+            i18nKey="expense.total"
+            className="text-sm text-neutral-500 dark:text-neutral-400"
+            tag="p"
+          >
+            Total de Despesas
+          </TranslatedText>
           <p className="text-xl font-semibold">
             {total <= categories.length ? "-" : formatMoney(total)}
           </p>
@@ -132,9 +151,12 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   className="w-3 h-3 rounded-full mr-2"
                   style={{ backgroundColor: item.color }}
                 />
-                <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                  {item.name}
-                </span>
+                <TranslatedText 
+                  i18nKey={item.translationKey}
+                  className="text-sm text-neutral-700 dark:text-neutral-300"
+                >
+                  {item.defaultName}
+                </TranslatedText>
               </div>
               <div>
                 <span className="text-sm font-medium text-neutral-800 dark:text-white">
