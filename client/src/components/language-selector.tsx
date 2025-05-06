@@ -39,17 +39,31 @@ export function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
   
   const handleLanguageChange = async (languageCode: string) => {
-    // Usar a função centralizada para mudar o idioma
-    await changeLanguage(languageCode);
     setIsOpen(false);
     
-    // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
-    if (user && user.language !== languageCode) {
-      try {
-        await apiRequest("PUT", "/api/user", { language: languageCode });
-        queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-      } catch (error) {
-        console.error("Erro ao salvar preferência de idioma:", error);
+    // Usar a função centralizada para mudar o idioma
+    const success = await changeLanguage(languageCode);
+    
+    if (success) {
+      // Aplicar a mudança de idioma globalmente
+      document.documentElement.lang = languageCode;
+      if (languageCode === 'ar') {
+        document.documentElement.dir = 'rtl';
+      } else {
+        document.documentElement.dir = 'ltr';
+      }
+      
+      // Forçar a atualização de todos os componentes
+      window.dispatchEvent(new Event('languageChanged'));
+      
+      // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
+      if (user && user.language !== languageCode) {
+        try {
+          await apiRequest("PUT", "/api/user", { language: languageCode });
+          queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+        } catch (error) {
+          console.error("Erro ao salvar preferência de idioma:", error);
+        }
       }
     }
   };

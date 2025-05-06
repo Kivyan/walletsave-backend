@@ -50,9 +50,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ThemeProvider>
-          <Router />
-          <NavigationButtons />
-          <Toaster />
+          <AutoScaleContainer>
+            <Router />
+            <NavigationButtons />
+            <Toaster />
+          </AutoScaleContainer>
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>

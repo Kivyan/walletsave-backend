@@ -87,6 +87,7 @@ i18n
   },
   lng: initialLanguage, // Set initial language
   fallbackLng: "en",
+  load: 'languageOnly', // Load only the language code (e.g., 'pt' instead of 'pt-BR')
   interpolation: {
     escapeValue: false,
   },
@@ -97,7 +98,12 @@ i18n
   },
   react: {
     useSuspense: false,
+    bindI18n: 'languageChanged loaded', // React to language changes and loading events
+    bindI18nStore: 'added removed', // React to resource store changes
   },
+  // Ensure keys/translations are loaded before rendering
+  partialBundledLanguages: false,
+  preload: Object.keys(languages), // Preload all languages
 });
 
 // Make sure the language is saved in localStorage when changed
