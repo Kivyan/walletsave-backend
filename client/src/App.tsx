@@ -8,7 +8,7 @@ import { ProtectedRoute } from "./lib/protected-route";
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import ProfilePage from "@/pages/profile-page";
-import WalletPage from "@/pages/wallet-page";
+// Wallet integrado na página de Finanças
 import ReportsPage from "@/pages/reports-page";
 import SavingsPage from "@/pages/savings-page";
 import FinancePage from "@/pages/finance-page-new";
@@ -24,7 +24,6 @@ import { LanguageDemo } from "@/components/language-demo";
 function Router(): ReactElement {
   const renderHomePage = (): ReactElement => <HomePage />;
   const renderProfilePage = (): ReactElement => <ProfilePage />;
-  const renderWalletPage = (): ReactElement => <WalletPage />;
   const renderReportsPage = (): ReactElement => <ReportsPage />;
   const renderSavingsPage = (): ReactElement => <SavingsPage />;
   const renderFinancePage = (): ReactElement => <FinancePage />;

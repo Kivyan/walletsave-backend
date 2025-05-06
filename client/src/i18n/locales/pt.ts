@@ -112,6 +112,10 @@ const translations = {
     other: "Outros",
     unknown: "Desconhecido",
   },
+  finance: {
+    overview: "Visão Geral",
+    financial_summary: "Finanças",
+  },
   budget: {
     budget: "Orçamento",
     overview: "Visão Geral do Mês",

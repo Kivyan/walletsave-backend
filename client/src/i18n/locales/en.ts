@@ -57,6 +57,7 @@ const translations = {
     overview: "Overview",
     recent_expenses: "Recent Expenses",
     manage_wallets: "Manage Wallets",
+    financial_summary: "Finances",
   },
   reports: {
     monthly: "Monthly",
