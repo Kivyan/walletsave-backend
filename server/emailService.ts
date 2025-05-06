@@ -185,29 +185,36 @@ async function checkEmailExists(email: string): Promise<boolean> {
     try {
       console.log(`Verificando existência da caixa de email: ${email}`);
       
-      // Verificação de domínios que sabemos que funcionam para não precisar verificar via SMTP
-      const [, domain] = email.toLowerCase().split('@');
-      const commonValidDomains = [
-        'gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'icloud.com',
-        'aol.com', 'protonmail.com', 'mail.com', 'zoho.com', 'yandex.com',
-        'gmx.com', 'live.com', 'me.com', 'msn.com', 'web.de', 'comcast.net',
-        'protonmail.ch', 'hotmail.fr', 'hotmail.co.uk', 'mail.ru', 'inbox.ru'
-      ];
-      
-      // Se for de um domínio comum, assumimos que existe
-      // Isso é necessário porque muitos servidores de email bloqueiam verificações SMTP
-      if (commonValidDomains.includes(domain)) {
-        console.log(`Domínio comum detectado (${domain}), presumindo email válido: ${email}`);
-        resolve(true);
-        return;
-      }
-      
-      // Para outros domínios, tentamos verificar via SMTP
+      // Sempre realizamos a verificação SMTP para confirmar a existência da caixa
       emailExistence.check(email, (error: Error | null, result: boolean) => {
         if (error) {
           console.error(`Erro na verificação de existência do email: ${error.message}`);
-          // Se ocorrer um erro, vamos considerar como inconclusivo e retornar true 
-          // para não bloquear o registro baseado em uma falha técnica
+          // Se ocorrer um erro específico de conexão recusada, provavelmente o email não existe
+          if (error.message.includes('connection refused') || 
+              error.message.includes('timeout') ||
+              error.message.includes('no such user')) {
+            console.log(`Email rejeitado pelo servidor: ${email}`);
+            resolve(false);
+            return;
+          }
+          
+          // Para outros erros técnicos, vamos fazer uma tentativa baseada em heurística
+          // Verificamos se o domínio é um domínio comum e se o email parece válido
+          const [username, domain] = email.toLowerCase().split('@');
+          
+          // Lista de alguns domínios conhecidos por verificações rígidas
+          const strictDomains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com'];
+          
+          if (strictDomains.includes(domain)) {
+            // Para domínios estritamente controlados, se houve erro, 
+            // há grande chance de que o email não exista
+            console.log(`Domínio com controle rígido (${domain}) retornou erro na verificação: ${email}`);
+            resolve(false);
+            return;
+          }
+          
+          // Para outros domínios, permitimos continuar para não bloquear por problemas técnicos
+          console.log(`Erro técnico na verificação, prosseguindo com cautela: ${email}`);
           resolve(true);
           return;
         }
@@ -222,7 +229,20 @@ async function checkEmailExists(email: string): Promise<boolean> {
       });
     } catch (error) {
       console.error(`Exceção ao verificar existência do email: ${error instanceof Error ? error.message : 'erro desconhecido'}`);
-      // Em caso de erro, consideramos inconclusivo
+      
+      // Mesmo com erro de código, tentamos fazer uma verificação mais básica
+      // Se o domínio for conhecido por filtros rígidos, consideramos que falhas podem indicar emails inválidos
+      const [, domain] = email.toLowerCase().split('@');
+      const strictDomains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com'];
+      
+      if (strictDomains.includes(domain)) {
+        console.log(`Erro ao verificar email em domínio estrito (${domain}): ${email}`);
+        resolve(false);
+        return;
+      }
+      
+      // Para outros domínios menos conhecidos, permitimos continuar
+      console.log(`Erro na verificação, prosseguindo com cautela: ${email}`);
       resolve(true);
     }
   });
