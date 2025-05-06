@@ -88,65 +88,20 @@ export function setupAuth(app: Express) {
         return res.status(400).json({ message: "Por favor, informe seu nome completo" });
       }
       
-      // Validar se o email tem formato correto usando uma expressão regular mais rigorosa
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      // Validar se o email tem formato correto usando uma expressão regular simples
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(req.body.username)) {
         return res.status(400).json({ message: "Formato de email inválido" });
       }
       
-      // Verificação preliminar de padrões suspeitos no email
+      // Normalizar o email para minúsculas para verificações
       const lowerEmail = req.body.username.toLowerCase();
-      const [localPart] = lowerEmail.split('@');
       
-      // Rejeitar emails com nomes de usuário muito curtos
-      if (localPart.length < 3) {
-        return res.status(400).json({ message: "Email inválido: nome de usuário muito curto" });
-      }
+      // Não fazemos nenhuma outra validação além do formato básico
+      // A verificação real será feita através do envio do código por email
+      log(`Email com formato básico válido: ${req.body.username} - permitindo registro`);
       
-      // Rejeitar emails com padrões suspeitos
-      const suspiciousPatterns = ['test', 'teste', 'fake', 'temp', 'dummy', 'example', 'exemplo', 'asdsrer', 'abc123'];
-      if (suspiciousPatterns.some(pattern => localPart.includes(pattern))) {
-        return res.status(400).json({ message: "Este formato de email não é aceito para registros. Por favor, use seu email pessoal." });
-      }
-      
-      // Verificar se é um dos emails conhecidos como falsos em domínios válidos
-      const knownFakeEmails = [
-        'asdsrer@hotmail.com',
-        'kivyan2011@hotmail.com',
-        'test@gmail.com',
-        'teste@outlook.com',
-        'example@yahoo.com',
-        'exemplo@gmail.com'
-      ];
-      
-      if (knownFakeEmails.includes(lowerEmail)) {
-        return res.status(400).json({ message: "Este email foi identificado como inválido. Por favor, use seu email pessoal." });
-      }
-      
-      // Verificar se o domínio de email existe e é válido
-      try {
-        log(`Verificando se o email existe: ${req.body.username}`);
-        const { isValid, reason, mailboxExists } = await verifyEmailDomain(req.body.username);
-        log(`Resultado da verificação de email: isValid = ${isValid}, mailboxExists = ${mailboxExists}, reason = ${reason || "N/A"}`);
-        
-        // Se o email não é válido ou a caixa postal não existe, rejeitamos o cadastro
-        if (!isValid) {
-          log(`Email rejeitado: ${req.body.username} - Motivo: ${reason || "Email inválido ou inexistente"}`);
-          return res.status(400).json({ message: reason || "Email inválido ou inexistente" });
-        }
-        
-        // Verificamos explicitamente se a caixa postal existe
-        if (mailboxExists === false) { // Usando === false para verificar estritamente quando sabemos que não existe
-          log(`Caixa postal não existe: ${req.body.username}`);
-          return res.status(400).json({ message: "Este endereço de email não existe ou não pode receber mensagens. Por favor, use um email válido." });
-        }
-        
-        log(`Email validado com sucesso: ${req.body.username}`);
-      } catch (error) {
-        log(`Erro ao verificar domínio de email: ${error instanceof Error ? error.message : String(error)}`);
-        // Retornar erro em vez de prosseguir
-        return res.status(400).json({ message: "Não foi possível validar o email. Tente novamente." });
-      }
+      // A verificação real será feita quando o usuário receber e confirmar o código
 
       const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {

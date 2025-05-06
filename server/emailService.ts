@@ -179,102 +179,66 @@ export async function sendVerificationEmail(
   }
 }
 
-// Função para verificar se um endereço de email existe (mailbox verification)
-// Utilizamos uma biblioteca especializada que verifica formato, domínio MX e SMTP
+// Função para verificar se um endereço de email existe
 async function checkEmailExists(email: string): Promise<boolean> {
   try {
-    console.log(`Iniciando verificação completa do email: ${email}`);
+    console.log(`Iniciando verificação do email: ${email}`);
     
-    // Criar instância do validador profundo de email
+    // Criar instância do validador mais confiável
     const emailDeepValidator = new EmailValidator();
     
-    // Verificação completa incluindo formato, domínio e caixa postal
-    console.log(`Realizando verificação completa para: ${email}`);
-    const { wellFormed, validDomain, validMailbox } = await emailDeepValidator.verify(email);
+    // Verificação básica incluindo formato e domínio MX
+    console.log(`Realizando verificação para: ${email}`);
+    const { wellFormed, validDomain } = await emailDeepValidator.verify(email);
     
-    // Registrando resultado de cada etapa da verificação
+    // Registrando resultado da verificação
     console.log(`Verificação do email ${email}:
       Formato válido: ${wellFormed ? 'Sim' : 'Não'}
-      Domínio válido (MX): ${validDomain ? 'Sim' : 'Não'}
-      Caixa postal existe: ${validMailbox !== null ? (validMailbox ? 'Sim' : 'Não') : 'Inconclusivo'}`);
+      Domínio válido (MX): ${validDomain ? 'Sim' : 'Não'}`);
     
-    // IMPORTANTE: validMailbox pode ser null se a verificação da caixa postal for inconclusiva
-    // ou boolean indicando se a caixa existe (true) ou não (false)
-    
-    // Verificar formato e domínio primeiro (obrigatório)
+    // Verificar apenas formato e domínio - são as verificações mais confiáveis
     if (!wellFormed || !validDomain) {
       console.log(`Email inválido (formato ou domínio): ${email}`);
       return false;
     }
     
-    // Agora verificamos a existência da caixa postal
-    // Se a verificação for inconclusiva (validMailbox === null), vamos realizar verificações adicionais
-    if (validMailbox === false) {
-      console.log(`Caixa postal confirmada como inexistente: ${email}`);
+    // Para todos os outros, assumimos que existe e deixamos 
+    // a verificação por email (envio do código) como confirmação real
+    
+    // IMPORTANTE: Não tentamos verificar a existência da caixa postal via SMTP
+    // porque muitos servidores bloqueiam essas verificações, causando falsos positivos
+    
+    // Extrair domínio e nome de usuário do email
+    const [username, domain] = email.toLowerCase().split('@');
+    
+    // Verificar nome de usuário muito curto
+    if (username.length < 3) {
+      console.log(`Nome de usuário muito curto: ${username}`);
       return false;
     }
     
-    // Se a verificação da caixa for inconclusiva, fazemos outras verificações
-    if (validMailbox === null) {
-      console.log(`Verificação da caixa postal inconclusiva para: ${email}`);
-      
-      // Extrair domínio e nome de usuário do email
-      const [username, domain] = email.toLowerCase().split('@');
-      
-      // Verificar nome de usuário muito curto
-      if (username.length < 3) {
-        console.log(`Nome de usuário muito curto: ${username}`);
-        return false;
-      }
-      
-      // Verificar nomes de usuário obviamente genéricos ou de teste
-      const invalidUsernames = ['test', 'teste', 'admin', 'user', 'example', 'exemplo', 'demo', 'fake'];
-      if (invalidUsernames.includes(username.toLowerCase())) {
-        console.log(`Nome de usuário genérico/de teste: ${username}`);
-        return false;
-      }
-      
-      // Para domínios conhecidos como Gmail, Hotmail, etc. somos mais cautelosos
-      const strictDomains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'icloud.com'];
-      if (strictDomains.includes(domain)) {
-        console.log(`Domínio conhecido (${domain}) mas verificação de caixa inconclusiva, precisa enviar email para confirmar: ${email}`);
-        // Para esses domínios, permitimos condicional à verificação por email
-        return true;
-      }
-      
-      // Para outros domínios menos conhecidos, permitimos o registro
-      console.log(`Domínio menos conhecido (${domain}), permitindo registro com verificação por email: ${email}`);
-      return true;
+    // Verificar nomes de usuário obviamente genéricos
+    const invalidUsernames = ['test', 'teste', 'admin', 'fake', 'example', 'exemplo'];
+    if (invalidUsernames.includes(username.toLowerCase())) {
+      console.log(`Nome de usuário genérico/de teste: ${username}`);
+      return false;
     }
     
-    // Se chegou aqui, a caixa postal foi confirmada como existente
-    console.log(`Email completamente validado e confirmado: ${email}`);
+    // Domínios conhecidos
+    const knownDomains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'icloud.com'];
+    
+    // Permitimos todos os emails que chegaram até aqui
+    console.log(`Email com formato e domínio válidos: ${email}`);
     return true;
   } catch (error) {
-    // Em caso de erro durante a verificação
-    console.error(`Erro ao verificar email ${email}: ${error instanceof Error ? error.message : String(error)}`);
-    
-    // Verificar se o erro contém indicações de que o email não existe
-    if (error instanceof Error) {
-      const errorMessage = error.message.toLowerCase();
-      if (
-        errorMessage.includes('mailbox not found') || 
-        errorMessage.includes('user not found') || 
-        errorMessage.includes('does not exist') ||
-        errorMessage.includes('recipient rejected')
-      ) {
-        console.log(`Erro indica que o email não existe: ${email}`);
-        return false;
-      }
-    }
-    
-    // Para outros erros técnicos, permitimos o registro com verificação por email
-    console.log(`Erro técnico na verificação do email, permitindo com verificação por email: ${email}`);
+    // Em caso de erro, permitimos o registro (evitando falsos positivos)
+    console.error(`Erro na verificação do email ${email}: ${error instanceof Error ? error.message : String(error)}`);
+    console.log(`Devido ao erro, permitindo com verificação por email: ${email}`);
     return true;
   }
 }
 
-// Verificar se um domínio de email é válido e existe
+// Verificar se um domínio de email é válido (de forma simples)
 export async function verifyEmailDomain(email: string): Promise<{
   isValid: boolean;
   reason?: string;
@@ -299,115 +263,24 @@ export async function verifyEmailDomain(email: string): Promise<{
       return { isValid: false, reason: 'Formato de email inválido', mailboxExists: false };
     }
 
-    // Validar o formato do username
-    if (username.length < 3) {
-      console.log(`Username muito curto: ${username}`);
-      return { isValid: false, reason: 'Endereço de email inválido: nome de usuário muito curto', mailboxExists: false };
-    }
-    
-    // Verificar padrões comuns de emails temporários/falsos
-    // Mas ignoramos se o email contém números, pois muitos emails legítimos têm números no nome
-    let containsNumbers = /\d+/.test(username);
-    if (!containsNumbers && /^(test|teste|fake|temp|dummy|asdsrer|example|exemplo)$/.test(username)) {
-      console.log(`Username detectado como padrão de teste: ${username}`);
-      return { isValid: false, reason: 'Este formato de email não é aceito para registros', mailboxExists: false };
-    }
-
-    // Lista de domínios falsos ou temporários - lista ampliada
+    // Domínios obviamente inválidos - lista muito reduzida
     const fakeDomains = [
-      'exemplo.com', 'teste.com', 'fake.com', 'invalido.com', 'emailfalso.com', 'nonexistent.com', 
-      'naoeexiste.com', 'asdsrer.com', 'temp.com', 'tempmail.com', 'disposable.com', 'mailinator.com',
-      'yopmail.com', 'trashmail.com', 'guerrillamail.com', 'example.com', 'test.com', 'sample.com',
-      'fakeinbox.com', 'tempmail.net', 'maildrop.cc', 'dispostable.com', 'sharklasers.com',
-      'mailnator.com', 'mailnesia.com', 'spam4.me', '10minutemail.com', 'tempinbox.com'
+      'example.com', 'test.com', 'fake.com'
     ];
     
     if (fakeDomains.includes(domain)) {
-      console.log(`Domínio detectado como falso/temporário: ${domain}`);
+      console.log(`Domínio obviamente inválido: ${domain}`);
       return { isValid: false, reason: 'Este domínio de email não é permitido para registro', mailboxExists: false };
     }
 
-    // Verificar combinações específicas de usuário+domínio que são sabidamente inválidas
-    // Apenas padrões genéricos óbvios, não emails específicos de usuários reais
-    const invalidCombinations = [
-      'test@hotmail.com',
-      'teste@gmail.com',
-      'example@gmail.com',
-      'exemplo@outlook.com',
-      'fake@yahoo.com',
-      'admin@example.com',
-      'user@example.com',
-      'info@example.com'
-    ];
-    
-    // Padrões óbvios de teste/fake que não são emails reais
-    const invalidPatterns = [
-      /^test\d*@/i,        // test@, test1@, test123@, etc
-      /^admin@/i,          // admin@
-      /^example@/i,        // example@
-      /^user\d*@/i,        // user@, user1@, user123@, etc
-      /^demo@/i,           // demo@
-      /^fake@/i,           // fake@
-      /^sample@/i,         // sample@
-      /^noreply@/i,        // noreply@
-      /^dummy@/i           // dummy@
-    ];
-    
-    // Verificação de combinação exata
-    if (invalidCombinations.includes(normalizedEmail)) {
-      console.log(`Email detectado como padrão inválido/genérico: ${normalizedEmail}`);
-      return { isValid: false, reason: 'Este email parece ser um endereço genérico ou de teste', mailboxExists: false };
-    }
-    
-    // Verificação de padrões - já estamos usando a variável containsNumbers definida acima
-    if (!containsNumbers) {
-      for (const pattern of invalidPatterns) {
-        if (pattern.test(normalizedEmail)) {
-          console.log(`Email detectado com padrão suspeito: ${normalizedEmail}`);
-          return { isValid: false, reason: 'Este email segue um padrão típico de endereços genéricos', mailboxExists: false };
-        }
-      }
-    }
-
-    // Verificar registros MX do domínio
-    const resolveMx = promisify(dns.resolveMx);
-    
-    try {
-      console.log(`Consultando registros MX para ${domain}...`);
-      const records = await resolveMx(domain);
-      console.log(`Registros MX para ${domain}:`, records);
-      
-      if (!records || records.length === 0) {
-        console.log(`Nenhum registro MX encontrado para ${domain}`);
-        return { isValid: false, reason: 'Este domínio de email não possui servidores de email válidos', mailboxExists: false };
-      }
-      
-      // Verificando se a caixa de email (mailbox) existe realmente
-      try {
-        // Esta verificação pode ser demorada e não é 100% confiável, mas é uma camada extra de segurança
-        console.log(`Verificando se a caixa de email existe: ${email}`);
-        const mailboxExists = await checkEmailExists(email);
-        
-        if (!mailboxExists) {
-          console.log(`A caixa de email não existe: ${email}`);
-          return { isValid: false, reason: 'Este endereço de email não existe ou não pode receber mensagens', mailboxExists: false };
-        }
-        
-        console.log(`A caixa de email existe e pode receber mensagens: ${email}`);
-        return { isValid: true, mailboxExists: true };
-      } catch (mailboxError) {
-        console.error(`Erro ao verificar existência da caixa de email: ${mailboxError instanceof Error ? mailboxError.message : String(mailboxError)}`);
-        // Se a verificação da caixa falhar por algum motivo técnico, permitimos continuar pois o domínio é válido
-        return { isValid: true, reason: 'Domínio válido, mas não foi possível verificar a caixa de email', mailboxExists: undefined };
-      }
-    } catch (error) {
-      console.error(`Erro ao verificar registros MX para ${domain}:`, error);
-      // Se não conseguir resolver o MX, provavelmente o domínio não existe
-      return { isValid: false, reason: `Domínio de email inválido ou inexistente: ${domain}`, mailboxExists: false };
-    }
+    // Para todos os outros domínios, consideramos válidos
+    // A verificação real será feita pelo envio de email
+    console.log(`Email aceito para verificação posterior: ${email}`);
+    return { isValid: true, mailboxExists: true };
   } catch (error) {
+    // Em caso de qualquer erro, permitimos o registro (o email será verificado depois)
     console.error('Erro ao verificar domínio de email:', error);
-    return { isValid: false, reason: 'Erro ao verificar domínio de email', mailboxExists: false };
+    return { isValid: true, reason: 'Permitindo registro com verificação por email', mailboxExists: true };
   }
 }
 
