@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { LanguageSelector } from "@/components/language-selector";
+import { TranslatedText } from "@/components/translated-text";
 import { useTheme } from "@/components/theme-provider";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -220,8 +221,20 @@ export default function AuthPage() {
       
       <div className="auth-container w-full max-w-md mx-auto px-4 pb-4 pt-2 flex flex-col items-center justify-center relative">
         <div className="mb-3 text-center">
-          <h1 className="font-heading font-bold text-3xl mb-1 text-secondary dark:text-accent">Wallet Save</h1>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">{t("auth.slogan")}</p>
+          <TranslatedText 
+            i18nKey="app.name" 
+            tag="h1"
+            className="font-heading font-bold text-3xl mb-1 text-secondary dark:text-accent"
+          >
+            Wallet Save
+          </TranslatedText>
+          <TranslatedText 
+            i18nKey="auth.slogan"
+            tag="p"
+            className="text-sm text-neutral-600 dark:text-neutral-400"
+          >
+            Controle inteligente de gastos
+          </TranslatedText>
         </div>
 
               {/* Animação da carteira usando CSS puro */}
@@ -257,8 +270,12 @@ export default function AuthPage() {
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-3 md:p-4 form-container w-full">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-2 mb-2 md:mb-4 p-1">
-              <TabsTrigger value="login" className="py-1 md:py-2 text-xs md:text-sm">{t("auth.login")}</TabsTrigger>
-              <TabsTrigger value="register" className="py-1 md:py-2 text-xs md:text-sm">{t("auth.register")}</TabsTrigger>
+              <TabsTrigger value="login" className="py-1 md:py-2 text-xs md:text-sm">
+                <TranslatedText i18nKey="auth.login">Entrar</TranslatedText>
+              </TabsTrigger>
+              <TabsTrigger value="register" className="py-1 md:py-2 text-xs md:text-sm">
+                <TranslatedText i18nKey="auth.register">Cadastrar</TranslatedText>
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
