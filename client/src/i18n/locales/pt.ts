@@ -48,6 +48,7 @@ const translations = {
   navigation: {
     home: "Início",
     wallet: "Carteira",
+    finance: "Finanças",
     reports: "Relatórios",
     savings: "Economia",
     notifications: "Notificações",
