@@ -7,6 +7,7 @@ interface TranslatedTextProps {
   i18nKey: string;
   values?: Record<string, any>;
   tag?: keyof JSX.IntrinsicElements;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -17,7 +18,8 @@ export function TranslatedText({
   className = '', 
   i18nKey,
   values,
-  tag: Tag = 'span' 
+  tag: Tag = 'span',
+  style
 }: TranslatedTextProps) {
   const { t, i18n } = useTranslation();
   const [, setLang] = useState(i18n.language);
@@ -45,6 +47,7 @@ export function TranslatedText({
       className={`i18n-text ${className}`}
       data-i18n-key={i18nKey}
       data-i18n-direction={dir}
+      style={style}
     >
       {i18nKey.includes("app.name") ? "Wallet Save" : (t(i18nKey, values) || children)}
     </Tag>
