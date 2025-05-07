@@ -324,7 +324,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           <RadioGroupItem value="fixed" id="expense-type-fixed" />
                         </FormControl>
                         <FormLabel className="font-normal" htmlFor="expense-type-fixed">
-                          {t("expense.fixed")}
+                          <TranslatedText i18nKey="expense.fixed">Fixo</TranslatedText>
                         </FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-2 space-y-0">
@@ -332,7 +332,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           <RadioGroupItem value="variable" id="expense-type-variable" />
                         </FormControl>
                         <FormLabel className="font-normal" htmlFor="expense-type-variable">
-                          {t("expense.variable")}
+                          <TranslatedText i18nKey="expense.variable">Variável</TranslatedText>
                         </FormLabel>
                       </FormItem>
                     </RadioGroup>
@@ -348,7 +348,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between space-y-0 rounded-md border p-3">
                   <div className="space-y-0.5">
-                    <FormLabel>{t("expense.recurring")}</FormLabel>
+                    <FormLabel>
+                      <TranslatedText i18nKey="expense.recurring">Recorrente</TranslatedText>
+                    </FormLabel>
                   </div>
                   <FormControl>
                     <Switch
@@ -370,7 +372,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   name="recurringFrequency"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("expense.frequency")}</FormLabel>
+                      <FormLabel>
+                        <TranslatedText i18nKey="expense.frequency">Frequência</TranslatedText>
+                      </FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
@@ -399,7 +403,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   name="recurringEndDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{t("expense.end_date")}</FormLabel>
+                      <FormLabel>
+                        <TranslatedText i18nKey="expense.end_date">Data Final</TranslatedText>
+                      </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -440,10 +446,13 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                 onClick={() => onOpenChange(false)}
                 disabled={expenseMutation.isPending}
               >
-                {t("common.cancel")}
+                <TranslatedText i18nKey="common.cancel">Cancelar</TranslatedText>
               </Button>
               <Button type="submit" disabled={expenseMutation.isPending}>
-                {expenseMutation.isPending ? t("common.saving") : t("common.save")}
+                {expenseMutation.isPending 
+                  ? <TranslatedText i18nKey="common.saving">Salvando...</TranslatedText> 
+                  : <TranslatedText i18nKey="common.save">Salvar</TranslatedText>
+                }
               </Button>
             </DialogFooter>
           </form>
