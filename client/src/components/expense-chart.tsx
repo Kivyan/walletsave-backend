@@ -81,13 +81,9 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
           <p className="font-medium">
-            {data.translationKey && data.translationKey.includes('categories.shopping') 
-              ? "Shopping"
-              : data.translationKey && data.translationKey.includes('categories.health') 
-                ? "Health"
-                : data.translationKey 
-                  ? t(data.translationKey, { defaultValue: data.name })
-                  : data.name}
+            {data.translationKey 
+              ? t(data.translationKey, { defaultValue: data.name })
+              : data.name}
           </p>
           <p>{formatMoney(data.value)}</p>
           <p>{data.percentage}%</p>
@@ -144,13 +140,9 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                  {item.translationKey && item.translationKey.includes('categories.shopping') 
-                    ? "Shopping"
-                    : item.translationKey && item.translationKey.includes('categories.health') 
-                      ? "Health"
-                      : item.translationKey 
-                        ? t(item.translationKey, { defaultValue: item.name })
-                        : item.name}
+                  {item.translationKey 
+                    ? t(item.translationKey, { defaultValue: item.name })
+                    : item.name}
                 </span>
               </div>
               <div>
