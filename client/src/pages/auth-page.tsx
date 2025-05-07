@@ -224,8 +224,8 @@ export default function AuthPage() {
           <TranslatedText 
             i18nKey="app.name" 
             tag="h1"
-            className="font-heading font-bold text-3xl mb-1 text-gray-800 dark:text-accent"
-            style={{ color: "#1a202c" }}
+            className="font-heading font-bold text-3xl mb-1 text-gray-600 dark:text-accent"
+            style={{ color: "#4B5563" }}
           >
             Wallet Save
           </TranslatedText>
