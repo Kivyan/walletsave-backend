@@ -120,6 +120,7 @@ const translations = {
     financial_summary: "Finanças",
     recent_expenses: "Despesas Recentes",
     manage_wallets: "Gerenciar Carteiras",
+    budget: "Orçamento",
   },
   budget: {
     budget: "Orçamento",
