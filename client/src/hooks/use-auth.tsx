@@ -79,30 +79,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Store currency in localStorage
       localStorage.setItem("userCurrency", user.currency || "BRL");
       
+      // Primeiro verificamos se existe um idioma armazenado no localStorage antes mesmo de verificar o usuário
+      const savedLanguage = localStorage.getItem("i18nextLng");
+      
       // Update language if it exists in user preferences
       if (user.language) {
-        // Usar a função centralizada para mudar idioma
+        // O usuário tem um idioma configurado no perfil
         console.log("Effect detectou alteração de usuário, aplicando idioma:", user.language);
-        changeLanguage(user.language);
-      } else {
-        // Se o usuário não tem idioma configurado, vamos usar o idioma do localStorage
-        // e atualizar o perfil do usuário
-        const savedLanguage = localStorage.getItem("i18nextLng");
-        if (savedLanguage) {
-          console.log("Usuário não tem idioma, usando do localStorage:", savedLanguage);
-          // Atualizar o perfil do usuário com o idioma do localStorage
-          apiRequest("PUT", "/api/user", { language: savedLanguage })
-            .then(() => {
-              console.log("Perfil do usuário atualizado com idioma do localStorage");
-              queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-            })
-            .catch(error => {
-              console.error("Erro ao atualizar idioma do usuário:", error);
-            });
-          
-          // Aplicar o idioma
-          changeLanguage(savedLanguage);
+        
+        // Só atualizamos o localStorage se o idioma do usuário for diferente do atual
+        if (savedLanguage !== user.language) {
+          localStorage.setItem("i18nextLng", user.language);
         }
+        
+        changeLanguage(user.language);
+      } else if (savedLanguage) {
+        // Se o usuário não tem idioma configurado, mas temos um no localStorage,
+        // atualizamos o perfil do usuário com esse idioma
+        console.log("Usuário não tem idioma, usando do localStorage:", savedLanguage);
+        
+        // Atualizar o perfil do usuário com o idioma do localStorage
+        apiRequest("PUT", "/api/user", { language: savedLanguage })
+          .then(() => {
+            console.log("Perfil do usuário atualizado com idioma do localStorage");
+            // Atualizar a query do usuário com o novo idioma sem buscar do servidor
+            queryClient.setQueryData(["/api/user"], {
+              ...user,
+              language: savedLanguage
+            });
+          })
+          .catch(error => {
+            console.error("Erro ao atualizar idioma do usuário:", error);
+          });
+        
+        // Aplicar o idioma
+        changeLanguage(savedLanguage);
+      } else {
+        // Se nem o usuário nem localStorage têm idioma definido, usamos inglês como padrão
+        const defaultLanguage = "en";
+        console.log("Nenhum idioma definido, usando padrão:", defaultLanguage);
+        
+        // Atualizar o perfil do usuário com o idioma padrão
+        apiRequest("PUT", "/api/user", { language: defaultLanguage })
+          .then(() => {
+            console.log("Perfil do usuário atualizado com idioma padrão");
+            // Atualizar a query do usuário com o novo idioma sem buscar do servidor
+            queryClient.setQueryData(["/api/user"], {
+              ...user,
+              language: defaultLanguage
+            });
+          })
+          .catch(error => {
+            console.error("Erro ao atualizar idioma do usuário:", error);
+          });
+        
+        localStorage.setItem("i18nextLng", defaultLanguage);
+        changeLanguage(defaultLanguage);
       }
       
       // Update theme if it exists in user preferences
@@ -215,6 +247,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Primeiro salvamos o idioma atual
         const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
         
+        // Garantimos que o idioma esteja sempre presente no localStorage
+        localStorage.setItem("i18nextLng", currentLanguage);
+        
         // Sempre incluir o idioma atual nos dados de registro para garantir persistência
         credentials.language = currentLanguage;
         console.log("Definindo idioma no registro:", currentLanguage);
@@ -247,6 +282,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
         
+        // Registro bem-sucedido, garantir que o idioma seja mantido
+        changeLanguage(currentLanguage);
+        
         return await res.json();
       } catch (error) {
         if (error instanceof Error) {
@@ -256,6 +294,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onSuccess: (response: RegisterResponse) => {
+      // Garantir que o idioma persista após registro bem-sucedido
+      const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+      localStorage.setItem("i18nextLng", currentLanguage);
+      
       toast({
         title: t("auth.register_success"),
         description: response.message || "Verifique seu email para confirmar sua conta.",
@@ -272,6 +314,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const verifyEmailMutation = useMutation({
     mutationFn: async (data: VerifyEmailData) => {
       try {
+        // Primeiro salvamos o idioma atual
+        const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+        localStorage.setItem("i18nextLng", currentLanguage);
+        
         const res = await apiRequest("POST", "/api/verify-email", data, true);
         
         if (!res.ok) {
@@ -283,7 +329,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
         
-        return await res.json();
+        // Verificamos se o idioma deve ser incluído na resposta
+        const responseData = await res.json();
+        
+        // Se o usuário não tiver idioma definido, definimos o atual
+        if (responseData.user && !responseData.user.language) {
+          responseData.user.language = currentLanguage;
+        }
+        
+        return responseData;
       } catch (error) {
         if (error instanceof Error) {
           throw error;
@@ -292,15 +346,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onSuccess: (response: VerifyEmailResponse) => {
+      // Registramos o usuário no cliente
       queryClient.setQueryData(["/api/user"], response.user);
+      
+      // Garantimos que o idioma seja mantido
+      if (response.user && response.user.language) {
+        changeLanguage(response.user.language);
+      } else {
+        // Se o usuário não tem idioma definido, mantemos o atual
+        const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+        changeLanguage(currentLanguage);
+      }
+      
       toast({
-        title: "Email verificado",
-        description: response.message || "Seu email foi verificado com sucesso.",
+        title: t("auth.email_verified"),
+        description: response.message || t("auth.email_verified_description"),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Erro na verificação",
+        title: t("auth.verification_error"),
         description: error.message,
         variant: "destructive",
       });
@@ -311,6 +376,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const resendVerificationMutation = useMutation({
     mutationFn: async (data: ResendVerificationData) => {
       try {
+        // Primeiro salvamos o idioma atual
+        const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+        localStorage.setItem("i18nextLng", currentLanguage);
+        
         const res = await apiRequest("POST", "/api/resend-verification", data, true);
         
         if (!res.ok) {
@@ -331,14 +400,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onSuccess: (response: RegisterResponse) => {
+      // Garantimos que o idioma seja mantido
+      const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+      localStorage.setItem("i18nextLng", currentLanguage);
+      changeLanguage(currentLanguage);
+      
       toast({
-        title: "Código reenviado",
-        description: response.message || "Um novo código de verificação foi enviado para seu email.",
+        title: t("auth.code_resent"),
+        description: response.message || t("auth.verification_code_resent"),
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Erro ao reenviar",
+        title: t("auth.resend_error"),
         description: error.message,
         variant: "destructive",
       });
@@ -349,22 +423,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: async () => {
       // Salvamos o idioma atual antes de fazer logout
       const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
+      console.log("Preservando idioma durante logout:", currentLanguage);
       
       // Executamos o logout
       await apiRequest("POST", "/api/logout");
       
-      // Registramos o idioma no localStorage para que continue após o logout
+      // Garantimos que o idioma seja explicitamente definido no localStorage antes de limpar outros dados
       localStorage.setItem("i18nextLng", currentLanguage);
       
       return currentLanguage;
     },
     onSuccess: (language: string) => {
+      // Limpa os dados do usuário na cache
       queryClient.setQueryData(["/api/user"], null);
+      
       // Definimos a moeda padrão
       localStorage.setItem("userCurrency", "BRL");
       
       // Garantimos que o idioma seja mantido após o logout
       if (language) {
+        console.log("Aplicando idioma após logout:", language);
+        
+        // Verificamos se o idioma ainda está definido no localStorage
+        const storedLanguage = localStorage.getItem("i18nextLng");
+        if (!storedLanguage || storedLanguage !== language) {
+          localStorage.setItem("i18nextLng", language);
+        }
+        
         // Usar a função centralizada para mudar idioma
         changeLanguage(language);
       }
