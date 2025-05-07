@@ -289,12 +289,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               className="w-3 h-3 rounded-full mr-2"
                               style={{ backgroundColor: category.color }}
                             />
-                            <TranslatedText 
-                              i18nKey={`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`}
-                              tag="span"
-                            >
-                              {category.name}
-                            </TranslatedText>
+                            <span>
+                              {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, category.name)}
+                            </span>
                           </div>
                         </SelectItem>
                       ))}

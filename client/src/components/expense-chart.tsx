@@ -88,37 +88,37 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
     
     // Mapeamento explícito para garantir que todas as categorias sejam traduzidas corretamente
     if (normalizedName === "health") {
-      return t("categories.health");
+      return t("categories.health", "Health");
     } else if (normalizedName === "shopping") {
-      return t("categories.shopping");
+      return t("categories.shopping", "Shopping");
     } else if (normalizedName === "housing") {
-      return t("categories.housing");
+      return t("categories.housing", "Housing");
     } else if (normalizedName === "food") {
-      return t("categories.food");
+      return t("categories.food", "Food");
     } else if (normalizedName === "transportation") {
-      return t("categories.transportation");
+      return t("categories.transportation", "Transportation");
     } else if (normalizedName === "utilities") {
-      return t("categories.utilities");
+      return t("categories.utilities", "Utilities");
     } else if (normalizedName === "entertainment") {
-      return t("categories.entertainment");
+      return t("categories.entertainment", "Entertainment");
     } else if (normalizedName === "education") {
-      return t("categories.education");
+      return t("categories.education", "Education");
     } else if (normalizedName === "debt") {
-      return t("categories.debt");
+      return t("categories.debt", "Debt");
     } else if (normalizedName === "savings") {
-      return t("categories.savings");
+      return t("categories.savings", "Savings");
     } else if (normalizedName === "gifts") {
-      return t("categories.gifts");
+      return t("categories.gifts", "Gifts");
     } else if (normalizedName === "personal") {
-      return t("categories.personal");
+      return t("categories.personal", "Personal");
     } else if (normalizedName === "other") {
-      return t("categories.other");
+      return t("categories.other", "Other");
     } else if (normalizedName === "unknown") {
-      return t("categories.unknown");
+      return t("categories.unknown", "Unknown");
     }
     
     // Se não for uma categoria conhecida, tenta usar a chave de tradução ou o nome original
-    return t(`categories.${normalizedName.replace(/\s+/g, '_')}`, { defaultValue: categoryName });
+    return t(`categories.${normalizedName.replace(/\s+/g, '_')}`, categoryName);
   };
 
   const CustomTooltip = ({ active, payload }: any) => {
