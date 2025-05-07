@@ -59,6 +59,11 @@ export function I18nProvider({ children }: I18nProviderProps) {
   }, [i18n]);
   
   const setLanguage = (lang: string) => {
+    // Primeiro salvamos no localStorage para garantir persistência
+    localStorage.setItem("i18nextLng", lang);
+    console.log("I18nProvider.setLanguage: Idioma salvo no localStorage:", lang);
+    
+    // Depois mudamos o idioma no i18next
     i18n.changeLanguage(lang);
   };
   

@@ -82,7 +82,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Update language if it exists in user preferences
       if (user.language) {
         // Usar a função centralizada para mudar idioma
+        console.log("Effect detectou alteração de usuário, aplicando idioma:", user.language);
         changeLanguage(user.language);
+      } else {
+        // Se o usuário não tem idioma configurado, vamos usar o idioma do localStorage
+        // e atualizar o perfil do usuário
+        const savedLanguage = localStorage.getItem("i18nextLng");
+        if (savedLanguage) {
+          console.log("Usuário não tem idioma, usando do localStorage:", savedLanguage);
+          // Atualizar o perfil do usuário com o idioma do localStorage
+          apiRequest("PUT", "/api/user", { language: savedLanguage })
+            .then(() => {
+              console.log("Perfil do usuário atualizado com idioma do localStorage");
+              queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar idioma do usuário:", error);
+            });
+          
+          // Aplicar o idioma
+          changeLanguage(savedLanguage);
+        }
       }
       
       // Update theme if it exists in user preferences
@@ -126,16 +146,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         
         // Continua com o processo normal para login bem-sucedido
-        // Após o login bem-sucedido, atualizamos o perfil do usuário com o idioma atual
-        // apenas se o usuário não tiver uma preferência de idioma
-        if (!userData.language && currentLanguage) {
-          try {
-            await apiRequest("PUT", "/api/user", { language: currentLanguage });
-            userData.language = currentLanguage; // Atualizamos o objeto localmente para que o onSuccess use o valor correto
-          } catch (error) {
-            console.error("Failed to save language preference during login", error);
-          }
+        // Após o login bem-sucedido, sempre atualizamos o perfil do usuário com o idioma atual
+      // para garantir que a configuração de idioma persista
+      if (currentLanguage) {
+        try {
+          await apiRequest("PUT", "/api/user", { language: currentLanguage });
+          userData.language = currentLanguage; // Atualizamos o objeto localmente para que o onSuccess use o valor correto
+          console.log("Idioma salvo durante login:", currentLanguage);
+        } catch (error) {
+          console.error("Failed to save language preference during login", error);
         }
+      }
         
         return userData;
       } catch (error) {
@@ -163,7 +184,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Aplicamos o idioma do usuário, que agora deve incluir qualquer atualização feita no mutationFn
       if (user.language) {
         // Usar a função centralizada para mudar idioma
+        console.log(`Aplicando idioma do usuário após login: ${user.language}`);
         changeLanguage(user.language);
+      } else {
+        // Se o usuário não tem idioma definido, usamos o idioma do navegador ou localStorage
+        const savedLanguage = localStorage.getItem("i18nextLng");
+        if (savedLanguage) {
+          console.log(`Usando idioma do localStorage após login: ${savedLanguage}`);
+          changeLanguage(savedLanguage);
+        }
       }
       
       // Update theme if available
@@ -186,10 +215,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Primeiro salvamos o idioma atual
         const currentLanguage = i18n.language || localStorage.getItem("i18nextLng") || "en";
         
-        // Incluir o idioma atual nos dados de registro, se não foi especificado
-        if (!credentials.language && currentLanguage) {
-          credentials.language = currentLanguage;
-        }
+        // Sempre incluir o idioma atual nos dados de registro para garantir persistência
+        credentials.language = currentLanguage;
+        console.log("Definindo idioma no registro:", currentLanguage);
         
         const res = await apiRequest("POST", "/api/register", credentials, true); // Skip auto error check
         

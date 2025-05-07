@@ -22,6 +22,11 @@ export function LanguageSelector() {
   const handleLanguageChange = async (languageCode: string) => {
     setIsOpen(false);
     
+    console.log(`Alterando idioma para: ${languageCode}, usuário logado: ${!!user}`);
+    
+    // Salvar no localStorage primeiro para garantir persistência
+    localStorage.setItem("i18nextLng", languageCode);
+    
     // Usar o novo contexto para mudar o idioma
     setLanguage(languageCode);
     
@@ -34,13 +39,16 @@ export function LanguageSelector() {
     }, 50);
     
     // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
-    if (user && user.language !== languageCode) {
+    if (user) {
       try {
+        console.log(`Salvando preferência de idioma ${languageCode} no perfil do usuário ${user.id}`);
         await apiRequest("PUT", "/api/user", { language: languageCode });
         queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       } catch (error) {
         console.error("Erro ao salvar preferência de idioma:", error);
       }
+    } else {
+      console.log("Usuário não está logado, idioma salvo apenas no localStorage");
     }
   };
   
