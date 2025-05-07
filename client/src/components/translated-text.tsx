@@ -42,6 +42,19 @@ export function TranslatedText({
   // Define a direção do texto com base no idioma
   const dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
   
+  // Tratamento especial para categorias específicas
+  let content = children;
+  
+  if (i18nKey.includes("app.name")) {
+    content = "Wallet Save";
+  } else if (i18nKey === "categories.shopping") {
+    content = "Shopping";
+  } else if (i18nKey === "categories.health" || i18nKey === "categories.healthcare") {
+    content = "Health";
+  } else {
+    content = t(i18nKey, values) || children;
+  }
+  
   return (
     <Tag 
       className={`i18n-text ${className}`}
@@ -49,7 +62,7 @@ export function TranslatedText({
       data-i18n-direction={dir}
       style={style}
     >
-      {i18nKey.includes("app.name") ? "Wallet Save" : (t(i18nKey, values) || children)}
+      {content}
     </Tag>
   );
 }
