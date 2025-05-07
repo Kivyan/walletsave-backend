@@ -57,17 +57,24 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const percentage = Math.round((amount / totalAmount) * 100);
       
       // Prepare category info for translations
+      // Transformamos o nome da categoria em uma chave de tradução
       const categoryKey = category?.name.toLowerCase().replace(/\s+/g, '_') || 'unknown';
-      const translationKey = `categories.${categoryKey}`;
+      
+      // Simplificamos para "shopping" e "health" diretamente
+      // E para outras categorias, mantemos o prefixo "categories."
+      let translationKey;
+      if (categoryKey === 'shopping' || categoryKey === 'health') {
+        translationKey = categoryKey;
+      } else {
+        translationKey = `categories.${categoryKey}`;
+      }
+      
       const defaultName = category?.name || t('common.unknown');
       
-      // Use o hook de tradução para garantir que a tradução será atualizada quando o idioma mudar
-      const translatedName = t(translationKey, { defaultValue: defaultName });
-      
       return {
-        name: translatedName,
-        translationKey: translationKey, // Salvar a chave para usar com TranslatedText
-        defaultName: defaultName,      // Salvar o nome padrão
+        name: defaultName,              // Nome original 
+        translationKey: translationKey, // Chave de tradução simplificada
+        defaultName: defaultName,       // Nome padrão como backup
         value: amount,
         color: category?.color || "#6B7280",
         percentage,

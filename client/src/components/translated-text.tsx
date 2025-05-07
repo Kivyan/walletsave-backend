@@ -42,16 +42,17 @@ export function TranslatedText({
   // Define a direção do texto com base no idioma
   const dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
   
-  // Tratamento especial para categorias específicas
+  // Tratamento especial para categorias e outros textos
   let content = children;
   
   if (i18nKey.includes("app.name")) {
     content = "Wallet Save";
-  } else if (i18nKey === "categories.shopping") {
+  } else if (i18nKey === "shopping") {
     content = "Shopping";
-  } else if (i18nKey === "categories.health" || i18nKey === "categories.healthcare") {
+  } else if (i18nKey === "health") {
     content = "Health";
   } else {
+    // Para todas as outras chaves, usamos a tradução normal
     content = t(i18nKey, values) || children;
   }
   
