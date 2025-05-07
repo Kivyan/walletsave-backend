@@ -47,6 +47,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AddExpenseDialog } from "@/components/add-expense-dialog";
 import { ExpensesList } from "@/components/expenses-list";
 import { ExpenseChart } from "@/components/expense-chart";
+import { TranslatedText } from "@/components/translated-text";
 
 export default function FinancePage() {
   const { t } = useTranslation();
@@ -383,7 +384,9 @@ export default function FinancePage() {
               {/* Wallet Balance Card */}
               <Card className="bg-secondary dark:bg-secondary">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-white text-lg">{t("wallet.total")}</CardTitle>
+                  <CardTitle className="text-white text-lg">
+                    <TranslatedText i18nKey="wallet.total">Saldo Total</TranslatedText>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-3xl font-bold text-white mb-2">
@@ -407,7 +410,9 @@ export default function FinancePage() {
               <Card>
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg">{t("budget.monthly_budget")}</CardTitle>
+                    <CardTitle className="text-lg">
+                      <TranslatedText i18nKey="budget.monthly_budget">Orçamento Mensal</TranslatedText>
+                    </CardTitle>
                     <Button
                       variant="ghost"
                       size="sm"
