@@ -88,12 +88,21 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      
+      // Tradução explícita das categorias
+      let displayName = data.name;
+      if (data.name === "Health" || data.name.toLowerCase() === "health") {
+        displayName = t("categories.health");
+      } else if (data.name === "Shopping" || data.name.toLowerCase() === "shopping") {
+        displayName = t("categories.shopping");
+      } else if (data.translationKey) {
+        displayName = t(data.translationKey, { defaultValue: data.name });
+      }
+      
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
           <p className="font-medium">
-            {data.translationKey 
-              ? t(data.translationKey, { defaultValue: data.name })
-              : data.name}
+            {displayName}
           </p>
           <p>{formatMoney(data.value)}</p>
           <p>{data.percentage}%</p>
@@ -150,9 +159,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                  {item.translationKey 
-                    ? t(item.translationKey, { defaultValue: item.name })
-                    : item.name}
+                  {item.name === "Health" || item.name.toLowerCase() === "health"
+                    ? t("categories.health")
+                    : item.name === "Shopping" || item.name.toLowerCase() === "shopping"
+                      ? t("categories.shopping")
+                      : item.translationKey
+                        ? t(item.translationKey, { defaultValue: item.name })
+                        : item.name}
                 </span>
               </div>
               <div>
