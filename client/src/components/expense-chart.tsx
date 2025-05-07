@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { formatMoney } from "@/lib/utils";
 import { Expense, Category } from "@shared/schema";
-import { TranslatedText } from "./translated-text";
 
 interface ExpenseChartProps {
   expenses: Expense[];
@@ -15,8 +14,6 @@ interface ChartData {
   value: number;
   color: string;
   percentage: number;
-  translationKey: string;
-  defaultName: string;
 }
 
 export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
@@ -56,25 +53,11 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const category = categories.find((c) => c.id === Number(categoryId));
       const percentage = Math.round((amount / totalAmount) * 100);
       
-      // Prepare category info for translations
-      // Transformamos o nome da categoria em uma chave de tradução
-      const categoryKey = category?.name.toLowerCase().replace(/\s+/g, '_') || 'unknown';
-      
-      // Simplificamos para "shopping" e "health" diretamente
-      // E para outras categorias, mantemos o prefixo "categories."
-      let translationKey;
-      if (categoryKey === 'shopping' || categoryKey === 'health') {
-        translationKey = categoryKey;
-      } else {
-        translationKey = `categories.${categoryKey}`;
-      }
-      
-      const defaultName = category?.name || t('common.unknown');
+      // Usamos o nome da categoria direto, sem tradução
+      const categoryName = category?.name || "Unknown";
       
       return {
-        name: defaultName,              // Nome original 
-        translationKey: translationKey, // Chave de tradução simplificada
-        defaultName: defaultName,       // Nome padrão como backup
+        name: categoryName,             // Nome da categoria direto sem tradução
         value: amount,
         color: category?.color || "#6B7280",
         percentage,
@@ -94,11 +77,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
           <p className="font-medium">
-            {data.translationKey === "shopping" 
-              ? "Shopping" 
-              : data.translationKey === "health" 
-                ? "Health" 
-                : t(data.translationKey, { defaultValue: data.defaultName })}
+            {data.name}
           </p>
           <p>{formatMoney(data.value)}</p>
           <p>{data.percentage}%</p>
@@ -155,11 +134,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                  {item.translationKey === "shopping" 
-                    ? "Shopping" 
-                    : item.translationKey === "health" 
-                      ? "Health" 
-                      : t(item.translationKey, { defaultValue: item.defaultName })}
+                  {item.name}
                 </span>
               </div>
               <div>
