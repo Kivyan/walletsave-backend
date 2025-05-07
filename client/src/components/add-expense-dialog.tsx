@@ -184,7 +184,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {editExpense ? t("expense.edit_expense") : t("expense.add_expense")}
+            <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
+              {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
+            </TranslatedText>
           </DialogTitle>
         </DialogHeader>
         
@@ -195,7 +197,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("expense.description")}</FormLabel>
+                  <FormLabel>
+                    <TranslatedText i18nKey="expense.description">Descrição</TranslatedText>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder={t("expense.description_placeholder")} {...field} />
                   </FormControl>
@@ -209,7 +213,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("expense.amount")}</FormLabel>
+                  <FormLabel>
+                    <TranslatedText i18nKey="expense.amount">Valor</TranslatedText>
+                  </FormLabel>
                   <FormControl>
                     <Input 
                       type="number" 
@@ -228,7 +234,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>{t("expense.date")}</FormLabel>
+                  <FormLabel>
+                    <TranslatedText i18nKey="expense.date">Data</TranslatedText>
+                  </FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -264,7 +272,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("expense.category")}</FormLabel>
+                  <FormLabel>
+                    <TranslatedText i18nKey="expense.category">Categoria</TranslatedText>
+                  </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -300,7 +310,9 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="isFixed"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel>{t("expense.type")}</FormLabel>
+                  <FormLabel>
+                    <TranslatedText i18nKey="expense.type">Tipo</TranslatedText>
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -366,9 +378,15 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="weekly">{t("expense.weekly")}</SelectItem>
-                          <SelectItem value="monthly">{t("expense.monthly")}</SelectItem>
-                          <SelectItem value="yearly">{t("expense.yearly")}</SelectItem>
+                          <SelectItem value="weekly">
+                            <TranslatedText i18nKey="expense.weekly">Semanal</TranslatedText>
+                          </SelectItem>
+                          <SelectItem value="monthly">
+                            <TranslatedText i18nKey="expense.monthly">Mensal</TranslatedText>
+                          </SelectItem>
+                          <SelectItem value="yearly">
+                            <TranslatedText i18nKey="expense.yearly">Anual</TranslatedText>
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
