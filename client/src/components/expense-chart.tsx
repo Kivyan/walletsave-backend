@@ -56,7 +56,17 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       
       // Criamos a chave de tradução baseada no nome da categoria
       const categoryName = category?.name || "Unknown";
-      const categoryKey = categoryName.toLowerCase().replace(/\s+/g, '_');
+      
+      // Mapeamento especial para garantir consistência nas chaves de tradução
+      let categoryKey = "";
+      if (categoryName.toLowerCase() === "health") {
+        categoryKey = "health";
+      } else if (categoryName.toLowerCase() === "shopping") {
+        categoryKey = "shopping";
+      } else {
+        categoryKey = categoryName.toLowerCase().replace(/\s+/g, '_');
+      }
+      
       const translationKey = `categories.${categoryKey}`;
       
       return {
