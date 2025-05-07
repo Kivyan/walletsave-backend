@@ -143,7 +143,6 @@ const translations = {
     other: "Other",
     unknown: "Unknown",
   },
-
   budget: {
     budget: "Budget",
     overview: "Month Overview",
