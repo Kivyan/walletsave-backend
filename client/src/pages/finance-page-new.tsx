@@ -341,10 +341,9 @@ export default function FinancePage() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid grid-cols-3 w-full">
-            <TabsTrigger value="overview">{t("finance.overview")}</TabsTrigger>
-            <TabsTrigger value="wallets">{t("wallet.wallets")}</TabsTrigger>
-            <TabsTrigger value="expenses">{t("expense.expenses")}</TabsTrigger>
+          <TabsList className="grid grid-cols-2 w-full">
+            <TabsTrigger value="overview"><TranslatedText i18nKey="finance.budget">Budget</TranslatedText></TabsTrigger>
+            <TabsTrigger value="expenses"><TranslatedText i18nKey="expense.expenses">Despesas</TranslatedText></TabsTrigger>
           </TabsList>
           
           {/* Overview Tab - Combined Dashboard */}
@@ -399,9 +398,9 @@ export default function FinancePage() {
                     variant="outline" 
                     size="sm" 
                     className="text-white border-white/30 hover:bg-white/10"
-                    onClick={() => setActiveTab("wallets")}
+                    onClick={handleAddWallet}
                   >
-                    {t("wallet.manage_wallets")}
+                    {t("wallet.add_wallet")}
                   </Button>
                 </CardFooter>
               </Card>
@@ -564,70 +563,7 @@ export default function FinancePage() {
             </div>
           </TabsContent>
           
-          {/* Wallets Tab */}
-          <TabsContent value="wallets">
-            {/* Add Wallet Button */}
-            <div className="flex justify-end mb-4">
-              <Button 
-                onClick={handleAddWallet}
-                className="flex items-center space-x-1"
-              >
-                <Plus className="h-4 w-4" />
-                <span>{t("wallet.add_wallet")}</span>
-              </Button>
-            </div>
-            
-            {/* Wallets List */}
-            {wallets.length === 0 ? (
-              <Card className="bg-white dark:bg-neutral-800 shadow p-8 text-center">
-                <CardContent className="pt-6">
-                  <p className="text-neutral-500 dark:text-neutral-400">
-                    {t("wallet.no_wallets")}
-                  </p>
-                  <Button 
-                    onClick={handleAddWallet} 
-                    className="mt-4"
-                  >
-                    {t("wallet.add_wallet")}
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {wallets.map((wallet) => (
-                  <Card key={wallet.id}>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-xl">{wallet.name}</CardTitle>
-                      <div className="flex space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleEditWallet(wallet)}
-                          title={t("common.edit")}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDeleteWallet(wallet)}
-                          title={t("common.delete")}
-                          className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-                        >
-                          <Trash className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-2xl font-semibold">
-                        {formatMoney(Number(wallet.balance))}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
+
           
           {/* Expenses Tab */}
           <TabsContent value="expenses">
