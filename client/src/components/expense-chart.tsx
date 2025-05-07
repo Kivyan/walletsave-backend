@@ -10,7 +10,8 @@ interface ExpenseChartProps {
 }
 
 interface ChartData {
-  name: string;
+  name: string;         // Nome original da categoria
+  translationKey: string; // Chave para tradução
   value: number;
   color: string;
   percentage: number;
@@ -53,11 +54,14 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const category = categories.find((c) => c.id === Number(categoryId));
       const percentage = Math.round((amount / totalAmount) * 100);
       
-      // Usamos o nome da categoria direto, sem tradução
+      // Criamos a chave de tradução baseada no nome da categoria
       const categoryName = category?.name || "Unknown";
+      const categoryKey = categoryName.toLowerCase().replace(/\s+/g, '_');
+      const translationKey = `categories.${categoryKey}`;
       
       return {
-        name: categoryName,             // Nome da categoria direto sem tradução
+        name: categoryName,             // Nome original da categoria
+        translationKey: translationKey, // Chave para tradução
         value: amount,
         color: category?.color || "#6B7280",
         percentage,
@@ -69,7 +73,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
     
     setData(chartData);
     setTotal(totalAmount);
-  }, [expenses, categories]);
+  }, [expenses, categories, t]);
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -77,7 +81,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
           <p className="font-medium">
-            {data.name}
+            {data.translationKey && data.translationKey.includes('categories.shopping') 
+              ? "Shopping"
+              : data.translationKey && data.translationKey.includes('categories.health') 
+                ? "Health"
+                : data.translationKey 
+                  ? t(data.translationKey, { defaultValue: data.name })
+                  : data.name}
           </p>
           <p>{formatMoney(data.value)}</p>
           <p>{data.percentage}%</p>
@@ -134,7 +144,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                  {item.name}
+                  {item.translationKey && item.translationKey.includes('categories.shopping') 
+                    ? "Shopping"
+                    : item.translationKey && item.translationKey.includes('categories.health') 
+                      ? "Health"
+                      : item.translationKey 
+                        ? t(item.translationKey, { defaultValue: item.name })
+                        : item.name}
                 </span>
               </div>
               <div>
