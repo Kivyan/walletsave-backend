@@ -222,7 +222,7 @@ export default function HomePage(): ReactElement {
                     <Icons.LineChart className="h-4 w-4 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("finance.budget")}</div>
+                    <div className="text-sm font-medium">{t("budget.budget")}</div>
                     <div className="text-lg font-bold">
                       {currentBudget ? formatMoney(Number(currentBudget.amount)) : "--"}
                     </div>
