@@ -93,13 +93,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const data = payload[0].payload;
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
-          <TranslatedText 
-            i18nKey={data.translationKey}
-            className="font-medium"
-            tag="p"
-          >
-            {data.defaultName}
-          </TranslatedText>
+          <p className="font-medium">
+            {data.translationKey === "shopping" 
+              ? "Shopping" 
+              : data.translationKey === "health" 
+                ? "Health" 
+                : t(data.translationKey, { defaultValue: data.defaultName })}
+          </p>
           <p>{formatMoney(data.value)}</p>
           <p>{data.percentage}%</p>
         </div>
@@ -154,12 +154,13 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   className="w-3 h-3 rounded-full mr-2"
                   style={{ backgroundColor: item.color }}
                 />
-                <TranslatedText 
-                  i18nKey={item.translationKey}
-                  className="text-sm text-neutral-700 dark:text-neutral-300"
-                >
-                  {item.defaultName}
-                </TranslatedText>
+                <span className="text-sm text-neutral-700 dark:text-neutral-300">
+                  {item.translationKey === "shopping" 
+                    ? "Shopping" 
+                    : item.translationKey === "health" 
+                      ? "Health" 
+                      : t(item.translationKey, { defaultValue: item.defaultName })}
+                </span>
               </div>
               <div>
                 <span className="text-sm font-medium text-neutral-800 dark:text-white">
