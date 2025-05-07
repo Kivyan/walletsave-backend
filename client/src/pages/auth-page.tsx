@@ -224,8 +224,8 @@ export default function AuthPage() {
           <TranslatedText 
             i18nKey="app.name" 
             tag="h1"
-            className="font-heading font-bold text-3xl mb-1 text-gray-600 dark:text-accent"
-            style={{ color: "#4B5563" }}
+            className="font-heading font-bold text-3xl mb-1 dark:text-accent"
+            style={{ color: theme === 'dark' ? undefined : "#4B5563" }}
           >
             Wallet Save
           </TranslatedText>
@@ -448,14 +448,14 @@ export default function AuthPage() {
           </Tabs>
         </div>
 
-        <div className="mt-4 text-center text-xs text-neutral-800 dark:text-neutral-400" style={{ color: "#1f2937" }}>
+        <div className="mt-4 text-center text-xs text-neutral-800 dark:text-neutral-400" style={{ color: theme === 'dark' ? undefined : "#1f2937" }}>
           <p>
             {t("auth.terms_agreement")}{" "}
-            <a href="/terms-of-service" className="font-medium dark:text-accent hover:underline" style={{ color: "#111827", fontWeight: "bold" }}>
+            <a href="/terms-of-service" className="font-medium dark:text-accent hover:underline" style={{ color: theme === 'dark' ? undefined : "#111827", fontWeight: theme === 'dark' ? undefined : "bold" }}>
               {t("auth.terms_of_service")}
             </a>{" "}
             {t("auth.and")}{" "}
-            <a href="/privacy-policy" className="font-medium dark:text-accent hover:underline" style={{ color: "#111827", fontWeight: "bold" }}>
+            <a href="/privacy-policy" className="font-medium dark:text-accent hover:underline" style={{ color: theme === 'dark' ? undefined : "#111827", fontWeight: theme === 'dark' ? undefined : "bold" }}>
               {t("auth.privacy_policy")}
             </a>
             .
