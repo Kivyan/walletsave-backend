@@ -132,13 +132,9 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       {/* Chart legend */}
       <div className="w-full sm:w-1/2">
         <div className="text-center sm:text-left mb-4">
-          <TranslatedText 
-            i18nKey="expense.total"
-            className="text-sm text-neutral-500 dark:text-neutral-400"
-            tag="p"
-          >
-            Total de Despesas
-          </TranslatedText>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            {t("expense.total")}
+          </p>
           <p className="text-xl font-semibold">
             {total <= categories.length ? "-" : formatMoney(total)}
           </p>
