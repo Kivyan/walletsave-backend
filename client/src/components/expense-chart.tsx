@@ -54,20 +54,15 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       const category = categories.find((c) => c.id === Number(categoryId));
       const percentage = Math.round((amount / totalAmount) * 100);
       
-      // Criamos a chave de tradução baseada no nome da categoria
+      // Obtemos o nome da categoria
       const categoryName = category?.name || "Unknown";
       
-      // Mapeamento especial para garantir consistência nas chaves de tradução
-      let categoryKey = "";
-      if (categoryName.toLowerCase() === "health") {
-        categoryKey = "health";
-      } else if (categoryName.toLowerCase() === "shopping") {
-        categoryKey = "shopping";
-      } else {
-        categoryKey = categoryName.toLowerCase().replace(/\s+/g, '_');
-      }
+      // Criamos a chave de tradução baseada no nome da categoria
+      // Mapeamento direto das categorias para chaves de tradução
+      const translationKey = `categories.${categoryName.toLowerCase().replace(/\s+/g, '_')}`;
       
-      const translationKey = `categories.${categoryKey}`;
+      // Log para depuração - aparecerá no console
+      console.log(`Category: ${categoryName}, Translation Key: ${translationKey}`);
       
       return {
         name: categoryName,             // Nome original da categoria
@@ -85,19 +80,53 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
     setTotal(totalAmount);
   }, [expenses, categories, t]);
 
+  // Função para obter o nome traduzido da categoria
+  // Usando useCallback para que a função seja recriada apenas quando t mudar
+  const getTranslatedCategoryName = (categoryName: string): string => {
+    // Normaliza o nome da categoria para comparação
+    const normalizedName = categoryName.toLowerCase().trim();
+    
+    // Mapeamento explícito para garantir que todas as categorias sejam traduzidas corretamente
+    if (normalizedName === "health") {
+      return t("categories.health");
+    } else if (normalizedName === "shopping") {
+      return t("categories.shopping");
+    } else if (normalizedName === "housing") {
+      return t("categories.housing");
+    } else if (normalizedName === "food") {
+      return t("categories.food");
+    } else if (normalizedName === "transportation") {
+      return t("categories.transportation");
+    } else if (normalizedName === "utilities") {
+      return t("categories.utilities");
+    } else if (normalizedName === "entertainment") {
+      return t("categories.entertainment");
+    } else if (normalizedName === "education") {
+      return t("categories.education");
+    } else if (normalizedName === "debt") {
+      return t("categories.debt");
+    } else if (normalizedName === "savings") {
+      return t("categories.savings");
+    } else if (normalizedName === "gifts") {
+      return t("categories.gifts");
+    } else if (normalizedName === "personal") {
+      return t("categories.personal");
+    } else if (normalizedName === "other") {
+      return t("categories.other");
+    } else if (normalizedName === "unknown") {
+      return t("categories.unknown");
+    }
+    
+    // Se não for uma categoria conhecida, tenta usar a chave de tradução ou o nome original
+    return t(`categories.${normalizedName.replace(/\s+/g, '_')}`, { defaultValue: categoryName });
+  };
+
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       
-      // Tradução explícita das categorias
-      let displayName = data.name;
-      if (data.name === "Health" || data.name.toLowerCase() === "health") {
-        displayName = t("categories.health");
-      } else if (data.name === "Shopping" || data.name.toLowerCase() === "shopping") {
-        displayName = t("categories.shopping");
-      } else if (data.translationKey) {
-        displayName = t(data.translationKey, { defaultValue: data.name });
-      }
+      // Usa a função de tradução para obter o nome traduzido
+      const displayName = getTranslatedCategoryName(data.name);
       
       return (
         <div className="bg-white dark:bg-neutral-800 p-2 shadow rounded border border-neutral-200 dark:border-neutral-700">
@@ -159,13 +188,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                  {item.name === "Health" || item.name.toLowerCase() === "health"
-                    ? t("categories.health")
-                    : item.name === "Shopping" || item.name.toLowerCase() === "shopping"
-                      ? t("categories.shopping")
-                      : item.translationKey
-                        ? t(item.translationKey, { defaultValue: item.name })
-                        : item.name}
+                  {getTranslatedCategoryName(item.name)}
                 </span>
               </div>
               <div>
