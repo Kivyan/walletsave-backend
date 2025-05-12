@@ -484,9 +484,6 @@ export default function FinancePage() {
                   </CardHeader>
                   <CardContent className="py-10 text-center">
                     <p className="text-neutral-500 dark:text-neutral-400">{t("expense.no_expenses_for_chart")}</p>
-                    <Button onClick={handleAddExpense} className="mt-4">
-                      {t("expense.add_expense")}
-                    </Button>
                   </CardContent>
                 </Card>
               )}
