@@ -555,16 +555,7 @@ export default function FinancePage() {
           
           {/* Expenses Tab */}
           <TabsContent value="expenses">
-            {/* Add Expense Button */}
-            <div className="flex justify-end mb-4">
-              <Button 
-                onClick={handleAddExpense}
-                className="flex items-center space-x-1"
-              >
-                <Plus className="h-4 w-4" />
-                <span>{t("expense.add_expense")}</span>
-              </Button>
-            </div>
+
             
             {monthlyExpenses.length === 0 ? (
               <Card className="bg-white dark:bg-neutral-800 shadow p-8 text-center">
