@@ -349,7 +349,7 @@ export default function FinancePage() {
           {/* Overview Tab - Combined Dashboard */}
           <TabsContent value="overview" className="space-y-6">
             {/* Quick Actions */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <Button 
                 onClick={handleAddWallet} 
                 variant="outline" 
@@ -366,15 +366,6 @@ export default function FinancePage() {
               >
                 <BarChart3 className="h-6 w-6 mb-2" />
                 <span className="text-xs text-center">{currentBudget ? t("budget.edit_budget") : t("budget.add_budget")}</span>
-              </Button>
-              
-              <Button 
-                onClick={handleAddExpense} 
-                variant="outline" 
-                className="flex flex-col items-center justify-center h-20 p-2"
-              >
-                <LineChart className="h-6 w-6 mb-2" />
-                <span className="text-xs text-center">{t("expense.add_expense")}</span>
               </Button>
             </div>
             
@@ -516,10 +507,7 @@ export default function FinancePage() {
                 <CardContent>
                   {monthlyExpenses.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-neutral-500 dark:text-neutral-400 mb-4">{t("expense.no_expenses")}</p>
-                      <Button onClick={handleAddExpense}>
-                        {t("expense.add_expense")}
-                      </Button>
+                      <p className="text-neutral-500 dark:text-neutral-400">{t("expense.no_expenses")}</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
