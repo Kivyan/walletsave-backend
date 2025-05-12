@@ -228,6 +228,10 @@ const translations = {
     savings_body: "Great job! You're making progress on your savings goals this month.",
     insufficient_funds_title: "Insufficient Funds Alert",
     insufficient_funds_body: "You have {{pending}} in pending expenses but only {{available}} available. Plan accordingly.",
+    saving_goal_reached_title: "Savings Goal Achieved!",
+    saving_goal_reached_body: "Congratulations! You've reached your goal of {{amount}} for {{name}}.",
+    saving_goal_near_title: "Savings Goal Within Reach!",
+    saving_goal_near_body: "You're at {{percent}}% of your target for {{name}}. Keep it up!",
   },
   validation: {
     username_required: "Email is required",

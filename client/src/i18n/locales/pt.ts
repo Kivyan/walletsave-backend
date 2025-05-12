@@ -217,6 +217,10 @@ const translations = {
     savings_body: "Bom trabalho! Você está progredindo em suas metas de economia este mês.",
     insufficient_funds_title: "Alerta de Fundos Insuficientes",
     insufficient_funds_body: "Você tem {{pending}} em despesas pendentes, mas apenas {{available}} disponível. Planeje-se adequadamente.",
+    saving_goal_reached_title: "Meta de Economia Alcançada!",
+    saving_goal_reached_body: "Parabéns! Você atingiu sua meta de {{amount}} para {{name}}.",
+    saving_goal_near_title: "Meta de Economia Próxima!",
+    saving_goal_near_body: "Você está a {{percent}}% de atingir sua meta para {{name}}. Continue assim!",
   },
   validation: {
     username_required: "Email é obrigatório",

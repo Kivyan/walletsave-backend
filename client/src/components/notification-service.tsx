@@ -121,11 +121,42 @@ export default function NotificationService({
       const currentDate = new Date();
       const currentMonth = `${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
       
-      // Verificar se houve aumento nas economias este mês
-      const lastMonth = new Date(currentDate);
-      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      // Verificar metas de economia atingidas
+      savingsData.forEach(saving => {
+        const savingKey = `saving-goal-${saving.id}-${currentMonth}`;
+        const currentAmount = Number(saving.currentAmount);
+        const targetAmount = Number(saving.targetAmount);
+        
+        // Verificar se a meta foi atingida (ou ultrapassada)
+        if (currentAmount >= targetAmount && lastChecked.savings !== savingKey) {
+          showNotification(
+            t('notifications.saving_goal_reached_title'),
+            t('notifications.saving_goal_reached_body', { 
+              name: saving.name,
+              amount: targetAmount.toFixed(2)
+            })
+          );
+          
+          setLastChecked(prev => ({ ...prev, savings: savingKey }));
+        }
+        
+        // Verificar se estamos próximos de atingir a meta (90%)
+        else if (currentAmount >= (targetAmount * 0.9) && currentAmount < targetAmount && 
+                 lastChecked.savings !== `${savingKey}-near`) {
+          showNotification(
+            t('notifications.saving_goal_near_title'),
+            t('notifications.saving_goal_near_body', { 
+              name: saving.name,
+              percent: Math.round((currentAmount / targetAmount) * 100)
+            })
+          );
+          
+          setLastChecked(prev => ({ ...prev, savings: `${savingKey}-near` }));
+        }
+      });
       
-      const savingsKey = `savings-${currentMonth}`;
+      // Também manter a notificação geral sobre economias
+      const savingsKey = `savings-general-${currentMonth}`;
       if (lastChecked.savings !== savingsKey) {
         // Lógica simples: se temos economias este mês, mostrar uma notificação positiva
         showNotification(
