@@ -15,11 +15,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// Interface para notificações de metas de economia
+interface SavingGoalNotification {
+  id: string;
+  savingId: number;
+  savingName: string;
+  targetAmount: number;
+  currentAmount: number;
+  isCompleted: boolean;
+  timestamp: number;
+  viewed: boolean;
+}
+
 export function NotificationsDropdown() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [viewedNotifications, setViewedNotifications] = useState<number[]>([]);
+  
+  // Estado para armazenar notificações de metas de economia
+  const [savingNotifications, setSavingNotifications] = useState<SavingGoalNotification[]>([]);
   
   const { data: expenses = [] } = useQuery<Expense[]>({
     queryKey: ["/api/expenses"],
@@ -71,20 +86,106 @@ export function NotificationsDropdown() {
     }
   }, [viewedNotifications]);
   
+  // Carregar notificações de metas de economia do localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('savingGoalNotifications');
+      if (stored) {
+        setSavingNotifications(JSON.parse(stored));
+      }
+    } catch (error) {
+      console.error("Erro ao carregar notificações de metas:", error);
+    }
+  }, []);
+  
+  // Salvar notificações de metas no localStorage
+  useEffect(() => {
+    if (savingNotifications.length > 0) {
+      localStorage.setItem('savingGoalNotifications', JSON.stringify(savingNotifications));
+    }
+  }, [savingNotifications]);
+  
+  // Monitorar alterações nas metas de economia para gerar notificações
+  useEffect(() => {
+    if (!savings || savings.length === 0) return;
+    
+    // Para cada meta de economia, verificar se atingiu o objetivo
+    savings.forEach(saving => {
+      const currentAmount = Number(saving.currentAmount);
+      const targetAmount = Number(saving.targetAmount);
+      
+      // Verificar se já temos uma notificação para esta meta atingida
+      const existingCompletedNotification = savingNotifications.find(
+        n => n.savingId === saving.id && n.isCompleted
+      );
+      
+      // Verificar se já temos uma notificação de 90% para esta meta
+      const existingNearNotification = savingNotifications.find(
+        n => n.savingId === saving.id && !n.isCompleted && n.currentAmount >= targetAmount * 0.9
+      );
+      
+      // Se a meta foi atingida e não temos uma notificação
+      if (currentAmount >= targetAmount && !existingCompletedNotification) {
+        // Adicionar notificação de meta atingida
+        const newNotification: SavingGoalNotification = {
+          id: `saving-completed-${saving.id}-${Date.now()}`,
+          savingId: saving.id,
+          savingName: saving.name,
+          targetAmount,
+          currentAmount,
+          isCompleted: true,
+          timestamp: Date.now(),
+          viewed: false
+        };
+        
+        setSavingNotifications(prev => [newNotification, ...prev]);
+      }
+      // Se está próximo de atingir a meta (90%) e não temos uma notificação
+      else if (currentAmount >= targetAmount * 0.9 && currentAmount < targetAmount && !existingNearNotification && !existingCompletedNotification) {
+        // Adicionar notificação de próximo de meta
+        const newNotification: SavingGoalNotification = {
+          id: `saving-near-${saving.id}-${Date.now()}`,
+          savingId: saving.id,
+          savingName: saving.name,
+          targetAmount,
+          currentAmount,
+          isCompleted: false,
+          timestamp: Date.now(),
+          viewed: false
+        };
+        
+        setSavingNotifications(prev => [newNotification, ...prev]);
+      }
+    });
+  }, [savings, savingNotifications]);
+  
   // Quando o dropdown é aberto, marcar todas as notificações como visualizadas
   useEffect(() => {
-    if (isOpen && upcomingExpenses?.length) {
-      const newViewedIds = upcomingExpenses.map(expense => expense.id);
-      setViewedNotifications(prev => {
-        // Combinar arrays e remover duplicatas manualmente
-        const combined = [...prev];
-        for (const id of newViewedIds) {
-          if (!combined.includes(id)) {
-            combined.push(id);
+    if (isOpen) {
+      // Marcar notificações de despesas como visualizadas
+      if (upcomingExpenses?.length) {
+        const newViewedIds = upcomingExpenses.map(expense => expense.id);
+        setViewedNotifications(prev => {
+          // Combinar arrays e remover duplicatas manualmente
+          const combined = [...prev];
+          for (const id of newViewedIds) {
+            if (!combined.includes(id)) {
+              combined.push(id);
+            }
           }
-        }
-        return combined;
-      });
+          return combined;
+        });
+      }
+      
+      // Marcar notificações de metas como visualizadas
+      if (savingNotifications.some(n => !n.viewed)) {
+        setSavingNotifications(prev => 
+          prev.map(notification => ({
+            ...notification,
+            viewed: true
+          }))
+        );
+      }
     }
   }, [isOpen, upcomingExpenses]);
   
@@ -184,27 +285,6 @@ export function NotificationsDropdown() {
           <h3 className="font-medium text-neutral-800 dark:text-white">
             {t("notifications.title")}
           </h3>
-        </div>
-        
-        {/* Seção para verificar metas de economia */}
-        <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 bg-gray-50 dark:bg-gray-800">
-          <div className="flex items-center gap-2 mb-2">
-            <Target className="h-4 w-4 text-green-600" />
-            <h4 className="text-sm font-medium text-neutral-800 dark:text-white">
-              Verificar Metas de Economia
-            </h4>
-          </div>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2">
-            Atualize valores da meta e clique para verificar seu progresso
-          </p>
-          <Button 
-            size="sm" 
-            variant="secondary" 
-            className="w-full text-xs" 
-            onClick={checkSavingsGoals}
-          >
-            Verificar Metas
-          </Button>
         </div>
         
         {/* Seção de despesas próximas */}

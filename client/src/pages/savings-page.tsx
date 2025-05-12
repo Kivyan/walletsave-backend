@@ -113,17 +113,35 @@ export default function SavingsPage() {
         userId: user!.id,
       };
 
+      // Armazenar para verificação de metas alcançadas
+      const currentAmount = Number(data.currentAmount);
+      const targetAmount = Number(data.targetAmount);
+      const savingName = data.name;
+      const isUpdating = !!editingSaving;
+      const previousValue = isUpdating ? Number(editingSaving.currentAmount) : 0;
+
       if (editingSaving) {
         await apiRequest("PUT", `/api/savings/${editingSaving.id}`, payload);
       } else {
         await apiRequest("POST", "/api/savings", payload);
       }
+
+      // Retornar os valores para usar no onSuccess
+      return {
+        savingName,
+        currentAmount,
+        targetAmount,
+        isUpdating,
+        previousValue
+      };
     },
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ["/api/savings"] });
       setIsDialogOpen(false);
       setEditingSaving(null);
       form.reset();
+      
+      // Mostrar toast de atualização/criação
       toast({
         title: editingSaving
           ? t("toast.saving_updated")
@@ -132,6 +150,35 @@ export default function SavingsPage() {
           ? t("toast.saving_updated_description")
           : t("toast.saving_added_description"),
       });
+
+      // Verificar se a meta foi atingida e mostrar notificação
+      const { currentAmount, targetAmount, savingName, isUpdating, previousValue } = result;
+      
+      // Só verificar se for uma atualização (não uma nova meta) e o valor aumentou
+      if (isUpdating && currentAmount > previousValue) {
+        // Meta atingida
+        if (currentAmount >= targetAmount) {
+          toast({
+            title: t("notifications.saving_goal_reached_title"),
+            description: t("notifications.saving_goal_reached_body", { 
+              name: savingName,
+              amount: targetAmount.toFixed(2)
+            }),
+            variant: "default"
+          });
+        }
+        // Próximo de atingir a meta (90%)
+        else if (currentAmount >= targetAmount * 0.9 && previousValue < targetAmount * 0.9) {
+          toast({
+            title: t("notifications.saving_goal_near_title"),
+            description: t("notifications.saving_goal_near_body", { 
+              name: savingName,
+              percent: Math.round((currentAmount / targetAmount) * 100)
+            }),
+            variant: "default"
+          });
+        }
+      }
     },
     onError: (error: Error) => {
       toast({
