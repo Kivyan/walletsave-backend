@@ -572,12 +572,6 @@ export default function FinancePage() {
                   <p className="text-neutral-500 dark:text-neutral-400">
                     {t("expense.no_expenses")}
                   </p>
-                  <Button 
-                    onClick={handleAddExpense} 
-                    className="mt-4"
-                  >
-                    {t("expense.add_expense")}
-                  </Button>
                 </CardContent>
               </Card>
             ) : (
