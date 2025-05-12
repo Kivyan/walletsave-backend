@@ -394,15 +394,6 @@ export default function NotificationService({
             <span>{t('notifications.enabled')}</span>
           </Button>
         )}
-        
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-          onClick={forceCheckSavingsGoals}
-        >
-          <span>Verificar Metas</span>
-        </Button>
       </div>
       
       <Dialog open={showPermissionDialog} onOpenChange={setShowPermissionDialog}>
