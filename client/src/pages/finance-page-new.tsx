@@ -332,22 +332,13 @@ export default function FinancePage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Month Selector */}
         <div className="flex justify-between items-center mb-6">
-          <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
+          <div className="flex items-center">
+            <h2 className="text-xl font-semibold mr-4">{t("navigation.finance")}</h2>
+            <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
+          </div>
         </div>
         
-        <Tabs 
-          defaultValue="overview" 
-          value={activeTab} 
-          onValueChange={setActiveTab}
-          className="space-y-6"
-        >
-          <TabsList className="grid grid-cols-2 w-full">
-            <TabsTrigger value="overview"><TranslatedText i18nKey="finance.budget">Budget</TranslatedText></TabsTrigger>
-            <TabsTrigger value="expenses"><TranslatedText i18nKey="expense.expenses">Despesas</TranslatedText></TabsTrigger>
-          </TabsList>
-          
-          {/* Overview Tab - Combined Dashboard */}
-          <TabsContent value="overview" className="space-y-6">
+        <div className="space-y-6">
             {/* Quick Actions */}
             <div className="grid grid-cols-2 gap-4">
               <Button 
@@ -492,14 +483,6 @@ export default function FinancePage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle>{t("finance.recent_expenses")}</CardTitle>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => setActiveTab("expenses")}
-                    className="text-secondary dark:text-accent"
-                  >
-                    {t("common.view_all")}
-                  </Button>
                 </CardHeader>
                 <CardContent>
                   {monthlyExpenses.length === 0 ? (
@@ -546,37 +529,7 @@ export default function FinancePage() {
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
-          
-
-          
-          {/* Expenses Tab */}
-          <TabsContent value="expenses">
-
-            
-            {monthlyExpenses.length === 0 ? (
-              <Card className="bg-white dark:bg-neutral-800 shadow p-8 text-center">
-                <CardContent className="pt-6">
-                  <p className="text-neutral-500 dark:text-neutral-400">
-                    {t("expense.no_expenses")}
-                  </p>
-                </CardContent>
-              </Card>
-            ) : (
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t("expense.expenses")}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ExpensesList 
-                    expenses={monthlyExpenses} 
-                    categories={categories} 
-                  />
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
+        </div>
       </main>
 
       <MobileNavigation />
