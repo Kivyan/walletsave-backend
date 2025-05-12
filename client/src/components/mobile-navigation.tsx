@@ -96,16 +96,25 @@ export function MobileNavigation() {
       {/* Modal de notificações */}
       <Dialog open={showNotifications} onOpenChange={setShowNotifications}>
         <DialogContent className="sm:max-w-md">
-          <div className="space-y-4 py-2">
-            <h2 className="text-lg font-medium text-center">
+          <div className="space-y-6 py-2">
+            <h2 className="text-lg font-medium text-center mb-4">
               {t("notifications.title") || "Notificações"}
             </h2>
-            <NotificationService 
-              expenseData={expenses}
-              budgetData={currentBudget}
-              walletData={wallets}
-              savingsData={savings}
-            />
+            
+            {/* Seção de verificação de metas de economia */}
+            <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
+              <h3 className="text-sm font-medium mb-3">Verificar Metas de Economia</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                Atualize valores e clique no botão abaixo para verificar se você atingiu alguma meta
+              </p>
+              
+              <NotificationService 
+                expenseData={expenses}
+                budgetData={currentBudget}
+                walletData={wallets}
+                savingsData={savings}
+              />
+            </div>
           </div>
         </DialogContent>
       </Dialog>
