@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@/components/ui/button';
 import { Expense, Wallet, Saving, Budget } from "@shared/schema";
 import { 
@@ -13,7 +11,6 @@ import {
   DialogContent, 
   DialogHeader, 
   DialogTitle, 
-  DialogTrigger, 
   DialogFooter,
 } from '@/components/ui/dialog';
 
@@ -68,10 +65,10 @@ export default function NotificationService({
   
   // Análises financeiras para gerar notificações
   useEffect(() => {
-    if (!notificationsEnabled || !user) return;
+    if (!user) return;
     
     // Verificar orçamento vs. despesas
-    if (budgetData && expenseData) {
+    if (budgetData && expenseData.length > 0) {
       const currentDate = new Date();
       const currentMonth = `${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
       
@@ -97,7 +94,7 @@ export default function NotificationService({
         if (totalExpenses > (budgetAmount * 0.8) && lastChecked.budget !== budgetKey) {
           const percentUsed = Math.round((totalExpenses / budgetAmount) * 100);
           
-          showNotification(
+          showToastNotification(
             t('notifications.budget_warning_title'),
             t('notifications.budget_warning_body', { percent: percentUsed })
           );
@@ -107,7 +104,7 @@ export default function NotificationService({
         
         // Verificar se as despesas ultrapassaram o orçamento
         if (totalExpenses > budgetAmount && lastChecked.budget !== `${budgetKey}-exceeded`) {
-          showNotification(
+          showToastNotification(
             t('notifications.budget_exceeded_title'),
             t('notifications.budget_exceeded_body')
           );
@@ -117,12 +114,12 @@ export default function NotificationService({
       }
     }
     
-    // Verificar economias
+    // Verificar metas de economia
     if (savingsData && savingsData.length > 0) {
       const currentDate = new Date();
       const currentMonth = `${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
       
-      // Verificar metas de economia atingidas (reescrito)
+      // Verificar metas de economia atingidas
       savingsData.forEach(saving => {
         const savingId = saving.id.toString();
         const currentAmount = typeof saving.currentAmount === 'string' 
@@ -132,19 +129,13 @@ export default function NotificationService({
           ? parseFloat(saving.targetAmount) 
           : Number(saving.targetAmount);
         
-        console.log('Verificando meta de economia:', {
-          id: savingId,
-          name: saving.name,
-          currentAmount,
-          targetAmount,
-          lastCheckedMap: lastChecked.savingGoals
-        });
+        console.log(`Verificando meta ${saving.name}: ${currentAmount}/${targetAmount}`);
         
         // Verificar se a meta foi atingida (ou ultrapassada)
         if (currentAmount >= targetAmount && !lastChecked.savingGoals[`reached-${savingId}`]) {
           console.log('Meta de economia atingida!', saving.name);
           
-          showNotification(
+          showToastNotification(
             t('notifications.saving_goal_reached_title'),
             t('notifications.saving_goal_reached_body', { 
               name: saving.name,
@@ -160,16 +151,6 @@ export default function NotificationService({
               [`reached-${savingId}`]: true
             }
           }));
-          
-          // Também mostrar um toast para garantir que a notificação seja vista
-          toast({
-            title: t('notifications.saving_goal_reached_title'),
-            description: t('notifications.saving_goal_reached_body', { 
-              name: saving.name,
-              amount: targetAmount.toFixed(2)
-            }),
-            variant: "default"
-          });
         }
         
         // Verificar se estamos próximos de atingir a meta (90%)
@@ -177,7 +158,7 @@ export default function NotificationService({
                  !lastChecked.savingGoals[`near-${savingId}`]) {
           console.log('Próximo de atingir meta de economia!', saving.name);
           
-          showNotification(
+          showToastNotification(
             t('notifications.saving_goal_near_title'),
             t('notifications.saving_goal_near_body', { 
               name: saving.name,
@@ -193,30 +174,8 @@ export default function NotificationService({
               [`near-${savingId}`]: true
             }
           }));
-          
-          // Também mostrar um toast para garantir que a notificação seja vista
-          toast({
-            title: t('notifications.saving_goal_near_title'),
-            description: t('notifications.saving_goal_near_body', { 
-              name: saving.name,
-              percent: Math.round((currentAmount / targetAmount) * 100)
-            }),
-            variant: "default"
-          });
         }
       });
-      
-      // Também manter a notificação geral sobre economias
-      const savingsKey = `savings-general-${currentMonth}`;
-      if (lastChecked.savings !== savingsKey) {
-        // Lógica simples: se temos economias este mês, mostrar uma notificação positiva
-        showNotification(
-          t('notifications.savings_title'),
-          t('notifications.savings_body')
-        );
-        
-        setLastChecked(prev => ({ ...prev, savings: savingsKey }));
-      }
     }
     
     // Verificar carteiras e alertar se saldo for insuficiente para despesas pendentes
@@ -246,7 +205,7 @@ export default function NotificationService({
       // Verificar se o saldo é suficiente para cobrir despesas pendentes
       const expensesKey = `expenses-${currentMonth}`;
       if (totalBalance < totalPendingAmount && lastChecked.expenses !== expensesKey) {
-        showNotification(
+        showToastNotification(
           t('notifications.insufficient_funds_title'),
           t('notifications.insufficient_funds_body', {
             pending: totalPendingAmount.toFixed(2),
@@ -257,38 +216,32 @@ export default function NotificationService({
         setLastChecked(prev => ({ ...prev, expenses: expensesKey }));
       }
     }
-  }, [notificationsEnabled, budgetData, expenseData, walletData, savingsData, user, t]);
+  }, [budgetData, expenseData, walletData, savingsData, user, t, lastChecked]);
   
-  // Função para mostrar notificação no navegador
-  const showNotification = (title: string, body: string) => {
-    try {
-      // Sempre mostrar no app como toast
-      toast({
-        title,
-        description: body,
-        variant: "default"
-      });
-      
-      // Apenas mostrar notificação do navegador se estiver habilitado
-      if (notificationsEnabled) {
-        try {
-          // Mostrar notificação do navegador
-          const notification = new Notification(title, {
-            body: body,
-            icon: '/logo.png',
-          });
-          
-          // Foco na aplicação quando clicada
-          notification.onclick = function() {
-            window.focus();
-            notification.close();
-          };
-        } catch (error) {
-          console.error('Erro ao mostrar notificação no navegador:', error);
-        }
+  // Mostrar notificação no toast e no navegador se habilitado
+  const showToastNotification = (title: string, body: string) => {
+    // Sempre mostrar um toast
+    toast({
+      title,
+      description: body,
+      variant: "default"
+    });
+    
+    // Se notificações do navegador estiverem habilitadas, mostrar lá também
+    if (notificationsEnabled) {
+      try {
+        const notification = new Notification(title, {
+          body,
+          icon: '/logo.png',
+        });
+        
+        notification.onclick = function() {
+          window.focus();
+          notification.close();
+        };
+      } catch (error) {
+        console.error('Erro ao mostrar notificação do navegador:', error);
       }
-    } catch (error) {
-      console.error('Erro ao mostrar notificação:', error);
     }
   };
   
@@ -308,8 +261,6 @@ export default function NotificationService({
   
   // Função para forçar a verificação das metas de economia
   const forceCheckSavingsGoals = () => {
-    console.log("Forçando verificação de metas de economia");
-    
     // Resetar o estado de verificação de metas de economia
     setLastChecked(prev => ({
       ...prev,
@@ -335,7 +286,6 @@ export default function NotificationService({
         
         console.log(`Verificando meta ${saving.name}: ${currentAmount}/${targetAmount}`);
         
-        // Verificar se atingiu a meta
         if (currentAmount >= targetAmount) {
           toast({
             title: t('notifications.saving_goal_reached_title'),
@@ -345,9 +295,7 @@ export default function NotificationService({
             }),
             variant: "default"
           });
-        }
-        // Verificar se está próximo de atingir
-        else if (currentAmount >= targetAmount * 0.9) {
+        } else if (currentAmount >= targetAmount * 0.9) {
           toast({
             title: t('notifications.saving_goal_near_title'),
             description: t('notifications.saving_goal_near_body', { 
@@ -370,7 +318,7 @@ export default function NotificationService({
   if (!user) return null;
   
   return (
-    <>
+    <div className="flex flex-col items-start">
       <div className="flex items-center gap-2">
         {!notificationsEnabled && (
           <Button
@@ -420,6 +368,6 @@ export default function NotificationService({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
