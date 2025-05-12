@@ -202,73 +202,9 @@ export function NotificationsDropdown() {
     expense => !viewedNotifications.includes(expense.id)
   );
   
-  // Função para verificar as metas de economia
-  const checkSavingsGoals = () => {
-    if (savings.length === 0) {
-      toast({
-        title: "Nenhuma Meta",
-        description: "Nenhuma meta de economia encontrada para verificar.",
-        variant: "default"
-      });
-      return;
-    }
-    
-    // Notificação de verificação iniciada
-    toast({
-      title: "Verificando Metas",
-      description: "Verificando o progresso das suas metas de economia...",
-      variant: "default"
-    });
-    
-    let goalReached = false;
-    let nearGoal = false;
-    
-    // Verificar cada meta de economia
-    savings.forEach(saving => {
-      const currentAmount = typeof saving.currentAmount === 'string' 
-        ? parseFloat(saving.currentAmount) 
-        : Number(saving.currentAmount);
-      const targetAmount = typeof saving.targetAmount === 'string' 
-        ? parseFloat(saving.targetAmount) 
-        : Number(saving.targetAmount);
-      
-      console.log(`Verificando meta ${saving.name}: ${currentAmount}/${targetAmount}`);
-      
-      // Meta atingida
-      if (currentAmount >= targetAmount) {
-        goalReached = true;
-        toast({
-          title: t('notifications.saving_goal_reached_title'),
-          description: t('notifications.saving_goal_reached_body', { 
-            name: saving.name,
-            amount: targetAmount.toFixed(2)
-          }),
-          variant: "default"
-        });
-      }
-      // Próximo de atingir a meta (90%)
-      else if (currentAmount >= targetAmount * 0.9) {
-        nearGoal = true;
-        toast({
-          title: t('notifications.saving_goal_near_title'),
-          description: t('notifications.saving_goal_near_body', { 
-            name: saving.name,
-            percent: Math.round((currentAmount / targetAmount) * 100)
-          }),
-          variant: "default"
-        });
-      }
-    });
-    
-    // Se nenhuma meta estiver próxima ou atingida
-    if (!goalReached && !nearGoal) {
-      toast({
-        title: "Progresso de Metas",
-        description: "Suas metas de economia ainda estão em progresso. Continue economizando!",
-        variant: "default"
-      });
-    }
-  };
+  // Esta função foi substituída pela verificação automática que ocorre quando 
+  // o usuário atualiza seus valores de economias ou quando os dados são carregados
+  // Ao invés do usuário ter que apertar um botão, o sistema notifica automaticamente
   
   // Filtrar notificações de metas não visualizadas
   const unviewedSavingNotifications = savingNotifications.filter(n => !n.viewed);

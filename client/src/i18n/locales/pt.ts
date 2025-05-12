@@ -198,6 +198,7 @@ const translations = {
     leave_blank_password: "Deixe em branco para manter a senha atual",
   },
   notifications: {
+    saving_goals: "Metas de Economia",
     title: "Notificações",
     due_today: "{{description}} vence hoje!",
     upcoming_expense: "{{description}} vence em {{date}}",

@@ -209,6 +209,7 @@ const translations = {
     leave_blank_password: "Leave blank to keep current password",
   },
   notifications: {
+    saving_goals: "Saving Goals",
     title: "Notifications",
     due_today: "{{description}} is due today!",
     upcoming_expense: "{{description}} due on {{date}}",
