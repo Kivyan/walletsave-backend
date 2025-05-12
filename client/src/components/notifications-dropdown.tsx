@@ -270,13 +270,19 @@ export function NotificationsDropdown() {
     }
   };
   
+  // Filtrar notificações de metas não visualizadas
+  const unviewedSavingNotifications = savingNotifications.filter(n => !n.viewed);
+  
+  // Total de notificações não visualizadas
+  const totalUnviewedNotifications = (unviewedExpenses?.length || 0) + unviewedSavingNotifications.length;
+  
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger className="relative text-neutral-500 dark:text-neutral-300">
         <Bell className="h-5 w-5" />
-        {unviewedExpenses && unviewedExpenses.length > 0 && (
+        {totalUnviewedNotifications > 0 && (
           <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
-            {unviewedExpenses.length}
+            {totalUnviewedNotifications}
           </span>
         )}
       </DropdownMenuTrigger>
@@ -335,6 +341,54 @@ export function NotificationsDropdown() {
                 {t("notifications.view_all")}
               </a>
             </div>
+          </>
+        )}
+        
+        {/* Seção de notificações de metas de economia */}
+        {savingNotifications.length > 0 && (
+          <>
+            <div className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
+              <h4 className="text-sm font-medium text-neutral-800 dark:text-white">
+                {t("notifications.saving_goals")}
+              </h4>
+            </div>
+            
+            {savingNotifications.map((notification) => {
+              // Calcular o ícone e as cores com base no tipo de notificação
+              const isCompleted = notification.isCompleted;
+              const iconColor = isCompleted ? "text-green-500" : "text-yellow-500";
+              const bgColor = isCompleted ? "bg-green-100 dark:bg-green-900/30" : "bg-yellow-100 dark:bg-yellow-900/30";
+              const icon = isCompleted ? "check-circle" : "circle-dollar-sign";
+              
+              return (
+                <div 
+                  key={notification.id}
+                  className="px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 border-b border-neutral-200 dark:border-neutral-700"
+                >
+                  <div className="flex">
+                    <div className={`w-8 h-8 rounded-full ${bgColor} flex items-center justify-center ${iconColor} mr-3`}>
+                      <Target className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                        {isCompleted 
+                          ? t("notifications.saving_goal_reached_body", { 
+                              name: notification.savingName,
+                              amount: notification.targetAmount.toFixed(2)
+                            })
+                          : t("notifications.saving_goal_near_body", { 
+                              name: notification.savingName,
+                              percent: Math.round((notification.currentAmount / notification.targetAmount) * 100)
+                            })}
+                      </p>
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                        {new Date(notification.timestamp).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </>
         )}
       </DropdownMenuContent>
