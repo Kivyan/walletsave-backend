@@ -4,7 +4,7 @@ import { Home, Wallet, PieChart, PiggyBank, Bell, DollarSign } from "lucide-reac
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import NotificationService from "@/components/notification-service";
+import NotificationService from "@/components/notification-service-fixed";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { Expense, Wallet as WalletType, Saving, Budget } from "@shared/schema";
