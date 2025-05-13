@@ -1,4 +1,7 @@
 const translations = {
+  app: {
+    name: "Wallet Save",
+  },
   common: {
     save: "Сохранить",
     cancel: "Отмена",
@@ -143,6 +146,7 @@ const translations = {
     utilities: "Коммунальные услуги",
     entertainment: "Развлечения",
     healthcare: "Здравоохранение",
+    health: "Здоровье",
     personal: "Личное",
     education: "Образование",
     shopping: "Покупки",
@@ -237,6 +241,7 @@ const translations = {
     saving_goal_reached: "Цель сбережения достигнута",
     budget_exceeded: "Бюджет превышен",
     upcoming_payment: "Предстоящий платеж",
+    upcoming_expenses: "Ближайшие расходы",
     new_feature: "Новая функция",
     view_details: "Просмотреть детали",
     dismiss: "Отклонить",
