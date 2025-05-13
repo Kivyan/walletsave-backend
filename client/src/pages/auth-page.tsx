@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faCoins, faDollarSign, faMoneyBillWave, faEye, faEyeSlash, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { EmailVerification } from "@/components/email-verification";
+import { ResetPasswordDialog } from "@/components/reset-password-dialog";
 
 import {
   Form,
@@ -36,6 +37,7 @@ export default function AuthPage() {
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -202,6 +204,10 @@ export default function AuthPage() {
           onBack={handleBackFromVerification} 
         />
       )}
+      <ResetPasswordDialog
+        open={resetPasswordOpen}
+        onOpenChange={setResetPasswordOpen}
+      />
       <div className="absolute top-2 right-2 z-50 flex items-center gap-1">
         <LanguageSelector />
         <Button
@@ -318,9 +324,16 @@ export default function AuthPage() {
                           </button>
                         </div>
                         <div className="mt-1 text-right">
-                          <a href="#" className="text-xs text-secondary dark:text-accent hover:underline">
+                          <button 
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setResetPasswordOpen(true);
+                            }}
+                            className="text-xs text-secondary dark:text-accent hover:underline"
+                          >
                             {t("auth.forgot_password")}
-                          </a>
+                          </button>
                         </div>
                         <FormMessage />
                       </FormItem>

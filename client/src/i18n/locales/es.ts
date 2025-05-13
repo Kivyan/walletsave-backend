@@ -201,6 +201,7 @@ const translations = {
     insufficient_funds_title: "Alerta de fondos insuficientes",
     insufficient_funds_body: "Tienes {{pending}} en gastos pendientes pero solo {{available}} disponible. Planifica en consecuencia.",
     saving_goals: "Objetivos de ahorro",
+    saving_goal_reached: "Objetivo de ahorro alcanzado",
     saving_goal_reached_title: "¡Objetivo de ahorro alcanzado!",
     saving_goal_reached_body: "¡Felicidades! Has alcanzado tu objetivo de {{amount}} para {{name}}.",
     saving_goal_near_title: "¡Objetivo de ahorro cerca!",
