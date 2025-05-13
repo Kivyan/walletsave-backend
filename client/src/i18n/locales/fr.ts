@@ -1,4 +1,7 @@
 const translations = {
+  app: {
+    name: "Wallet Save",
+  },
   common: {
     save: "Enregistrer",
     cancel: "Annuler",
@@ -194,6 +197,11 @@ const translations = {
     savings_body: "Bon travail ! Vous progressez dans vos objectifs d'épargne ce mois-ci.",
     insufficient_funds_title: "Alerte de fonds insuffisants",
     insufficient_funds_body: "Vous avez {{pending}} en dépenses en attente mais seulement {{available}} disponible. Planifiez en conséquence.",
+    saving_goals: "Objectifs d'épargne",
+    saving_goal_reached_title: "Objectif d'épargne atteint !",
+    saving_goal_reached_body: "Félicitations ! Vous avez atteint votre objectif de {{amount}} pour {{name}}.",
+    saving_goal_near_title: "Objectif d'épargne à portée de main !",
+    saving_goal_near_body: "Vous êtes à {{percent}}% de votre objectif pour {{name}}. Continuez comme ça !",
   },
   validation: {
     username_required: "L'email est requis",
