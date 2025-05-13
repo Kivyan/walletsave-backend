@@ -330,7 +330,7 @@ export default function AuthPage() {
                               e.preventDefault();
                               setResetPasswordOpen(true);
                             }}
-                            className="text-xs text-secondary dark:text-accent hover:underline"
+                            className="text-sm font-medium text-primary dark:text-accent hover:underline"
                           >
                             {t("auth.forgot_password")}
                           </button>
