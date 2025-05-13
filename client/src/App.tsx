@@ -14,6 +14,7 @@ import SavingsPage from "@/pages/savings-page";
 import FinancePage from "@/pages/finance-page-new";
 import TermsOfService from "@/pages/terms-of-service";
 import PrivacyPolicy from "@/pages/privacy-policy";
+import ResetPasswordPage from "@/pages/reset-password-page";
 import { ThemeProvider } from "@/components/theme-provider";
 import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
@@ -30,6 +31,7 @@ function Router(): ReactElement {
   const renderTermsOfService = (): ReactElement => <TermsOfService />;
   const renderPrivacyPolicy = (): ReactElement => <PrivacyPolicy />;
   const renderLanguageDemo = (): ReactElement => <LanguageDemo />;
+  const renderResetPasswordPage = (): ReactElement => <ResetPasswordPage />;
 
   return (
     <Switch>
@@ -39,6 +41,8 @@ function Router(): ReactElement {
       <ProtectedRoute path="/reports" component={renderReportsPage} />
       <ProtectedRoute path="/savings" component={renderSavingsPage} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/reset-password" component={renderResetPasswordPage} />
+      <Route path="/reset-password/:token" component={renderResetPasswordPage} />
       <Route path="/terms-of-service" component={renderTermsOfService} />
       <Route path="/privacy-policy" component={renderPrivacyPolicy} />
       <Route path="/language-demo" component={renderLanguageDemo} />
