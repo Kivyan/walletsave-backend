@@ -1,4 +1,7 @@
 const translations = {
+  app: {
+    name: "Wallet Save",
+  },
   common: {
     save: "保存",
     cancel: "取消",

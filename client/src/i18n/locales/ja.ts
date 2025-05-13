@@ -1,4 +1,7 @@
 const translations = {
+  app: {
+    name: "Wallet Save",
+  },
   common: {
     save: "保存",
     cancel: "キャンセル",
@@ -102,12 +105,14 @@ const translations = {
     food: "食費",
     utilities: "光熱費",
     healthcare: "医療",
+    health: "健康",
     personal: "個人",
     entertainment: "娯楽",
     education: "教育",
     debt: "借金",
     savings: "貯金",
     gifts: "贈り物",
+    shopping: "ショッピング",
     other: "その他",
     unknown: "不明",
   },
