@@ -292,3 +292,59 @@ export async function resendVerificationCode(
 ) {
   return sendVerificationEmail(email, verificationCode, userName);
 }
+
+// Função para enviar email de recuperação de senha
+export async function sendPasswordResetEmail(
+  email: string,
+  resetToken: string,
+  userName: string
+) {
+  try {
+    await initializeEmailService();
+
+    // Configuração do email
+    const emailUser = process.env.EMAIL_USER || (transporter as any)?.options?.auth?.user || 'noreply@walletsave.com';
+    const fromName = "Wallet Save";
+    
+    // Cria uma URL de recuperação
+    const resetUrl = `${process.env.APP_URL || 'http://localhost:5000'}/reset-password?token=${resetToken}`;
+    
+    const mailOptions = {
+      from: `"${fromName}" <${emailUser}>`,
+      to: email,
+      subject: 'Recuperação de Senha - Wallet Save',
+      text: `Olá ${userName},\n\nRecebemos uma solicitação para recuperar sua senha. Clique no link abaixo ou copie-o para seu navegador para criar uma nova senha:\n\n${resetUrl}\n\nEste link expirará em 1 hora.\n\nSe você não solicitou uma redefinição de senha, ignore este email.\n\nObrigado,\nEquipe Wallet Save`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+          <h2 style="color: #4a5568;">Recuperação de Senha</h2>
+          <p>Olá <strong>${userName}</strong>,</p>
+          <p>Recebemos uma solicitação para recuperar sua senha.</p>
+          <div style="text-align: center; margin: 25px 0;">
+            <a href="${resetUrl}" style="background-color: #4a5568; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Redefinir Senha</a>
+          </div>
+          <p>Ou copie o link abaixo para seu navegador:</p>
+          <p style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; word-break: break-all;">
+            ${resetUrl}
+          </p>
+          <p style="color: #718096; font-size: 0.9em;">Este link expirará em 1 hora.</p>
+          <p>Se você não solicitou uma redefinição de senha, ignore este email.</p>
+          <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+            <p style="color: #718096; font-size: 0.8em;">
+              Atenciosamente,<br>
+              Equipe Wallet Save
+            </p>
+          </div>
+        </div>
+      `
+    };
+
+    // Envia o email
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`Email de recuperação de senha enviado para: ${email}`);
+    console.log(`ID da mensagem: ${info.messageId}`);
+    return info;
+  } catch (error) {
+    console.error('Erro ao enviar email de recuperação de senha:', error);
+    throw new Error(`Não foi possível enviar o email de recuperação: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
