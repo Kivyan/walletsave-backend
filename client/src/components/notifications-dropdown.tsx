@@ -109,10 +109,15 @@ export function NotificationsDropdown() {
   useEffect(() => {
     if (!savings || savings.length === 0) return;
     
+    console.log("Verificando metas de economia:", savings);
+    
     // Para cada meta de economia, verificar se atingiu o objetivo
     savings.forEach(saving => {
       const currentAmount = Number(saving.currentAmount);
       const targetAmount = Number(saving.targetAmount);
+      
+      console.log(`Meta ${saving.name}: ${currentAmount}/${targetAmount}`);
+      console.log(`Notificações atuais:`, savingNotifications);
       
       // Verificar se já temos uma notificação para esta meta atingida
       const existingCompletedNotification = savingNotifications.find(
@@ -124,8 +129,23 @@ export function NotificationsDropdown() {
         n => n.savingId === saving.id && !n.isCompleted && n.currentAmount >= targetAmount * 0.9
       );
       
-      // Se a meta foi atingida e não temos uma notificação
+      console.log(`Meta ${saving.name} já tem notificação completa:`, !!existingCompletedNotification);
+      console.log(`Meta ${saving.name} já tem notificação próxima:`, !!existingNearNotification);
+      
+      // Meta atingida (sem notificação anterior)
       if (currentAmount >= targetAmount && !existingCompletedNotification) {
+        console.log(`Adicionando notificação para meta atingida: ${saving.name}`);
+        
+        // Mostrar um toast também para feedback imediato
+        toast({
+          title: t('notifications.saving_goal_reached_title'),
+          description: t('notifications.saving_goal_reached_body', { 
+            name: saving.name,
+            amount: targetAmount.toFixed(2)
+          }),
+          variant: "default"
+        });
+        
         // Adicionar notificação de meta atingida
         const newNotification: SavingGoalNotification = {
           id: `saving-completed-${saving.id}-${Date.now()}`,
@@ -140,8 +160,21 @@ export function NotificationsDropdown() {
         
         setSavingNotifications(prev => [newNotification, ...prev]);
       }
-      // Se está próximo de atingir a meta (90%) e não temos uma notificação
-      else if (currentAmount >= targetAmount * 0.9 && currentAmount < targetAmount && !existingNearNotification && !existingCompletedNotification) {
+      // Próximo de atingir a meta (90%), sem notificações anteriores
+      else if (currentAmount >= targetAmount * 0.9 && currentAmount < targetAmount && 
+               !existingNearNotification && !existingCompletedNotification) {
+        console.log(`Adicionando notificação para meta próxima: ${saving.name}`);
+        
+        // Mostrar um toast também para feedback imediato
+        toast({
+          title: t('notifications.saving_goal_near_title'),
+          description: t('notifications.saving_goal_near_body', { 
+            name: saving.name,
+            percent: Math.round((currentAmount / targetAmount) * 100)
+          }),
+          variant: "default"
+        });
+        
         // Adicionar notificação de próximo de meta
         const newNotification: SavingGoalNotification = {
           id: `saving-near-${saving.id}-${Date.now()}`,
@@ -157,7 +190,7 @@ export function NotificationsDropdown() {
         setSavingNotifications(prev => [newNotification, ...prev]);
       }
     });
-  }, [savings, savingNotifications]);
+  }, [savings, savingNotifications, t, toast]);
   
   // Quando o dropdown é aberto, marcar todas as notificações como visualizadas
   useEffect(() => {
