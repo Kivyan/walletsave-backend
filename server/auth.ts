@@ -387,4 +387,150 @@ export function setupAuth(app: Express) {
       next(error);
     }
   });
+
+  // Rota para solicitar redefinição de senha
+  app.post("/api/reset-password-request", async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({
+          message: "Email inválido"
+        });
+      }
+      
+      // Buscar usuário pelo email
+      const user = await storage.getUserByUsername(email);
+      
+      // Por segurança, não informamos se o email existe ou não
+      if (!user) {
+        // Mesmo respondendo com sucesso, não enviamos email pois o usuário não existe
+        return res.status(200).json({
+          message: "Se este email estiver cadastrado, enviaremos um link de recuperação."
+        });
+      }
+      
+      // Gerar token de recuperação de senha
+      const { token, expiry } = generatePasswordResetToken(user.id);
+      
+      // Atualizar o usuário com o token
+      await storage.updateUser(user.id, {
+        resetPasswordToken: token,
+        resetPasswordExpires: new Date(expiry)
+      });
+      
+      // Enviar email com o link de recuperação
+      try {
+        // Importando dinamicamente para evitar problemas de importação circular
+        const { sendPasswordResetEmail } = await import("./emailService");
+        
+        await sendPasswordResetEmail(
+          user.username,
+          token,
+          user.fullName
+        );
+        
+        log(`Email de recuperação de senha enviado com sucesso para ${user.username}`);
+      } catch (error) {
+        log(`Erro ao enviar email de recuperação: ${error instanceof Error ? error.message : String(error)}`);
+        return res.status(500).json({
+          message: "Erro ao enviar email de recuperação. Tente novamente mais tarde."
+        });
+      }
+      
+      res.status(200).json({
+        message: "Se este email estiver cadastrado, enviaremos um link de recuperação."
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Rota para verificar token de recuperação de senha
+  app.get("/api/reset-password/:token", async (req, res, next) => {
+    try {
+      const { token } = req.params;
+      
+      if (!token) {
+        return res.status(400).json({
+          message: "Token inválido"
+        });
+      }
+      
+      // Buscar todos os usuários (ineficiente, mas necessário para nosso modelo de dados atual)
+      const allUsers = await storage.getAllUsers();
+      
+      // Encontrar usuário com o token correspondente
+      const user = allUsers.find(u => u.resetPasswordToken === token);
+      
+      if (!user) {
+        return res.status(404).json({
+          message: "Token inválido ou expirado"
+        });
+      }
+      
+      // Verificar se o token está expirado
+      if (user.resetPasswordExpires && new Date(user.resetPasswordExpires).getTime() < Date.now()) {
+        return res.status(400).json({
+          message: "Token expirado. Solicite um novo link de redefinição."
+        });
+      }
+      
+      // Token válido, retornar que é possível redefinir
+      res.status(200).json({
+        message: "Token válido",
+        userId: user.id
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Rota para redefinir a senha
+  app.post("/api/reset-password", async (req, res, next) => {
+    try {
+      const { token, password } = req.body;
+      
+      if (!token || !password) {
+        return res.status(400).json({
+          message: "Token ou senha inválidos"
+        });
+      }
+      
+      // Buscar todos os usuários (ineficiente, mas necessário para nosso modelo de dados atual)
+      const allUsers = await storage.getAllUsers();
+      
+      // Encontrar usuário com o token correspondente
+      const user = allUsers.find(u => u.resetPasswordToken === token);
+      
+      if (!user) {
+        return res.status(404).json({
+          message: "Token inválido ou expirado"
+        });
+      }
+      
+      // Verificar se o token está expirado
+      if (user.resetPasswordExpires && new Date(user.resetPasswordExpires).getTime() < Date.now()) {
+        return res.status(400).json({
+          message: "Token expirado. Solicite um novo link de redefinição."
+        });
+      }
+      
+      // Gerar hash da nova senha
+      const hashedPassword = await hashPassword(password);
+      
+      // Atualizar senha e limpar token
+      await storage.updateUser(user.id, {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null
+      });
+      
+      res.status(200).json({
+        message: "Senha redefinida com sucesso."
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
 }
