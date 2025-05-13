@@ -264,6 +264,8 @@ const translations = {
     error: "Erro",
     success: "Sucesso",
     loginFailed: "Falha no login",
+    password_reset_error: "Erro ao redefinir senha",
+    password_reset_request_error: "Erro ao solicitar redefinição de senha",
     registrationFailed: "Falha no cadastro",
     logoutFailed: "Falha ao sair",
     expense_added: "Despesa adicionada",
