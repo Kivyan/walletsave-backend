@@ -213,6 +213,7 @@ const translations = {
     title: "Notifications",
     due_today: "{{description}} is due today!",
     upcoming_expense: "{{description}} due on {{date}}",
+    upcoming_expenses: "Upcoming Expenses",
     view_all: "View all",
     no_notifications: "No notifications",
     enable: "Enable Notifications",

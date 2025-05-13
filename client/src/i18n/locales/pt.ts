@@ -202,6 +202,7 @@ const translations = {
     title: "Notificações",
     due_today: "{{description}} vence hoje!",
     upcoming_expense: "{{description}} vence em {{date}}",
+    upcoming_expenses: "Despesas Próximas",
     view_all: "Ver todas",
     no_notifications: "Nenhuma notificação",
     enable: "Ativar Notificações",

@@ -265,7 +265,7 @@ export function NotificationsDropdown() {
         {/* Seção de despesas próximas */}
         <div className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
           <h4 className="text-sm font-medium text-neutral-800 dark:text-white">
-            Despesas Próximas
+            {t("notifications.upcoming_expenses")}
           </h4>
         </div>
         
