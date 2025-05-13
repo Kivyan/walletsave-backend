@@ -47,10 +47,6 @@ export function TranslatedText({
   
   if (i18nKey.includes("app.name")) {
     content = "Wallet Save";
-  } else if (i18nKey === "shopping") {
-    content = "Shopping";
-  } else if (i18nKey === "health") {
-    content = "Health";
   } else {
     // Para todas as outras chaves, usamos a tradução normal
     content = t(i18nKey, values) || children;

@@ -197,6 +197,11 @@ const translations = {
     savings_body: "Gute Arbeit! Du machst Fortschritte bei deinen Sparzielen in diesem Monat.",
     insufficient_funds_title: "Warnung vor unzureichenden Mitteln",
     insufficient_funds_body: "Du hast {{pending}} an ausstehenden Ausgaben, aber nur {{available}} verfügbar. Plane entsprechend.",
+    saving_goals: "Sparziele",
+    saving_goal_reached_title: "Sparziel erreicht!",
+    saving_goal_reached_body: "Glückwunsch! Du hast dein Ziel von {{amount}} für {{name}} erreicht.",
+    saving_goal_near_title: "Sparziel in Reichweite!",
+    saving_goal_near_body: "Du bist bei {{percent}}% deines Ziels für {{name}}. Mach weiter so!",
   },
   validation: {
     username_required: "E-Mail ist erforderlich",
