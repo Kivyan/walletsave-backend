@@ -43,6 +43,17 @@ function generateVerificationToken(email: string, code: string) {
   return createHash('sha256').update(data).digest('hex');
 }
 
+function generatePasswordResetToken(userId: number) {
+  // Cria um token único para recuperação de senha
+  const timestamp = Date.now().toString();
+  const randomString = randomBytes(16).toString('hex');
+  const data = `reset-${userId}-${timestamp}-${randomString}`;
+  // Cria um token que inclui o timestamp de expiração (1 hora)
+  const expiry = Date.now() + 3600000; // 1 hora em milissegundos
+  const token = createHash('sha256').update(data).digest('hex');
+  return { token, expiry };
+}
+
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "expense-tracker-session-secret-key",
