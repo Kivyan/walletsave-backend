@@ -141,6 +141,9 @@ export default function ResetPasswordPage() {
     );
   }
 
+  // Verificação de ambiente de desenvolvimento (Replit)
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname.includes('replit.dev');
+  
   // Renderizar erro de token inválido
   if (isValidToken === false) {
     return (
@@ -157,6 +160,29 @@ export default function ResetPasswordPage() {
                 Este link de recuperação de senha é inválido ou expirou.
               </TranslatedText>
             </CardDescription>
+            
+            {isDevelopment && (
+              <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-md text-sm">
+                <h3 className="font-semibold text-yellow-800 dark:text-yellow-400 mb-2">Modo de Desenvolvimento</h3>
+                <p className="text-yellow-700 dark:text-yellow-300 mb-2">
+                  Links de redefinição de senha nos emails não funcionam diretamente no ambiente de desenvolvimento.
+                </p>
+                <p className="text-yellow-700 dark:text-yellow-300">
+                  <strong>Como testar:</strong> Copie apenas o token do email (após "token=" na URL) e cole-o manualmente abaixo:
+                </p>
+                <div className="mt-2">
+                  <Input 
+                    placeholder="Cole o token aqui" 
+                    className="mt-1"
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        window.location.href = `/reset-password?token=${e.target.value}`;
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </CardHeader>
           <CardFooter>
             <Button 
