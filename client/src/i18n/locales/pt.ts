@@ -224,6 +224,12 @@ const translations = {
     new_password: "Nova Senha",
     confirm_password: "Confirmar Senha",
     leave_blank_password: "Deixe em branco para manter a senha atual",
+    danger_zone: "Zona de Perigo",
+    delete_account: "Excluir Conta",
+    delete_account_warning: "Depois de excluir sua conta, não há como voltar atrás. Por favor, tenha certeza.",
+    confirm_deletion: "Confirmar Exclusão da Conta",
+    deletion_warning: "Esta ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá todos os seus dados de nossos servidores.",
+    confirm_delete: "Sim, excluir minha conta",
   },
   notifications: {
     saving_goals: "Metas de Economia",
@@ -307,6 +313,8 @@ const translations = {
     saving_deleted_description: "Sua meta de economia foi excluída com sucesso",
     profile_updated: "Perfil atualizado",
     profile_updated_description: "Seu perfil foi atualizado com sucesso",
+    account_deleted: "Conta excluída",
+    account_deleted_description: "Sua conta foi excluída com sucesso. Todos os seus dados foram removidos.",
   },
   months: {
     january: "Janeiro",

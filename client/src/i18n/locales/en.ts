@@ -220,6 +220,12 @@ const translations = {
     new_password: "New Password",
     confirm_password: "Confirm Password",
     leave_blank_password: "Leave blank to keep current password",
+    danger_zone: "Danger Zone",
+    delete_account: "Delete Account",
+    delete_account_warning: "Once you delete your account, there is no going back. Please be certain.",
+    confirm_deletion: "Confirm Account Deletion",
+    deletion_warning: "This action cannot be undone. This will permanently delete your account and remove all your data from our servers.",
+    confirm_delete: "Yes, delete my account",
   },
   notifications: {
     saving_goals: "Saving Goals",
@@ -299,6 +305,8 @@ const translations = {
     saving_deleted_description: "Your saving goal has been deleted successfully",
     profile_updated: "Profile updated",
     profile_updated_description: "Your profile has been updated successfully",
+    account_deleted: "Account deleted",
+    account_deleted_description: "Your account has been successfully deleted. All your data has been removed.",
   },
   months: {
     january: "January",
