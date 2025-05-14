@@ -189,6 +189,12 @@ const translations = {
     new_password: "Nueva contraseña",
     confirm_password: "Confirmar contraseña",
     leave_blank_password: "Dejar en blanco para mantener la contraseña actual",
+    danger_zone: "Zona de Peligro",
+    delete_account: "Eliminar Cuenta",
+    delete_account_warning: "Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, asegúrate de estar seguro.",
+    confirm_deletion: "Confirmar Eliminación de Cuenta",
+    deletion_warning: "Esta acción no se puede deshacer. Esto eliminará permanentemente tu cuenta y eliminará todos tus datos de nuestros servidores.",
+    confirm_delete: "Sí, eliminar mi cuenta",
   },
   notifications: {
     title: "Notificaciones",
@@ -269,6 +275,8 @@ const translations = {
     saving_deleted_description: "Tu objetivo de ahorro ha sido eliminado con éxito",
     profile_updated: "Perfil actualizado",
     profile_updated_description: "Tu perfil ha sido actualizado con éxito",
+    account_deleted: "Cuenta eliminada",
+    account_deleted_description: "Tu cuenta ha sido eliminada con éxito. Todos tus datos han sido eliminados.",
   },
   months: {
     january: "Enero",
