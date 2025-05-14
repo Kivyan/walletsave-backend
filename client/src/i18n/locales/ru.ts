@@ -155,6 +155,8 @@ const translations = {
     savings: "Сбережения",
     investments: "Инвестиции",
     income: "Доход",
+    gifts: "Подарки",
+    unknown: "Неизвестно",
     other: "Другое",
     add_category: "Добавить категорию",
     edit_category: "Редактировать категорию",

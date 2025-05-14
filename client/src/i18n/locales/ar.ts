@@ -155,6 +155,8 @@ const translations = {
     savings: "المدخرات",
     investments: "الاستثمارات",
     income: "الدخل",
+    gifts: "الهدايا",
+    unknown: "غير معروف",
     other: "أخرى",
     add_category: "إضافة فئة",
     edit_category: "تعديل الفئة",

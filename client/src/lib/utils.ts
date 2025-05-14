@@ -128,3 +128,28 @@ export const DEFAULT_CATEGORIES = [
   { name: "Utilities", color: "#06B6D4", icon: "zap" },
   { name: "Other", color: "#6B7280", icon: "more-horizontal" },
 ];
+
+/**
+ * Mapa padrão de categorias para chaves de tradução
+ * Usado para garantir consistência em todas as traduções
+ */
+export const CATEGORY_TRANSLATION_MAP: Record<string, string> = {
+  "health": "categories.health",
+  "healthcare": "categories.healthcare",
+  "shopping": "categories.shopping",
+  "housing": "categories.housing",
+  "food": "categories.food",
+  "transportation": "categories.transportation",
+  "utilities": "categories.utilities",
+  "entertainment": "categories.entertainment",
+  "education": "categories.education",
+  "debt": "categories.debt",
+  "savings": "categories.savings",
+  "gifts": "categories.gifts",
+  "personal": "categories.personal",
+  "travel": "categories.travel",
+  "investments": "categories.investments",
+  "income": "categories.income",
+  "other": "categories.other",
+  "unknown": "categories.unknown"
+};

@@ -81,44 +81,23 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
   }, [expenses, categories, t]);
 
   // Função para obter o nome traduzido da categoria
-  // Usando useCallback para que a função seja recriada apenas quando t mudar
+  // Utiliza o mapeamento centralizado de categorias do arquivo utils.ts
   const getTranslatedCategoryName = (categoryName: string): string => {
     // Normaliza o nome da categoria para comparação
     const normalizedName = categoryName.toLowerCase().trim();
     
-    // Mapeamento explícito para garantir que todas as categorias sejam traduzidas corretamente
-    if (normalizedName === "health") {
-      return t("categories.health", "Health");
-    } else if (normalizedName === "shopping") {
-      return t("categories.shopping", "Shopping");
-    } else if (normalizedName === "housing") {
-      return t("categories.housing", "Housing");
-    } else if (normalizedName === "food") {
-      return t("categories.food", "Food");
-    } else if (normalizedName === "transportation") {
-      return t("categories.transportation", "Transportation");
-    } else if (normalizedName === "utilities") {
-      return t("categories.utilities", "Utilities");
-    } else if (normalizedName === "entertainment") {
-      return t("categories.entertainment", "Entertainment");
-    } else if (normalizedName === "education") {
-      return t("categories.education", "Education");
-    } else if (normalizedName === "debt") {
-      return t("categories.debt", "Debt");
-    } else if (normalizedName === "savings") {
-      return t("categories.savings", "Savings");
-    } else if (normalizedName === "gifts") {
-      return t("categories.gifts", "Gifts");
-    } else if (normalizedName === "personal") {
-      return t("categories.personal", "Personal");
-    } else if (normalizedName === "other") {
-      return t("categories.other", "Other");
-    } else if (normalizedName === "unknown") {
-      return t("categories.unknown", "Unknown");
+    // Usa o mapa centralizado de categorias importado de utils.ts
+    // Isso garante que todas as categorias sejam traduzidas de forma consistente em toda a aplicação
+    const translationKey = CATEGORY_TRANSLATION_MAP[normalizedName];
+    
+    if (translationKey) {
+      // Usa a chave de tradução encontrada
+      return t(translationKey, categoryName);
     }
     
-    // Se não for uma categoria conhecida, tenta usar a chave de tradução ou o nome original
-    return t(`categories.${normalizedName.replace(/\s+/g, '_')}`, categoryName);
+    // Se não for uma categoria conhecida, tenta construir uma chave de tradução ou usa o nome original
+    const generatedKey = `categories.${normalizedName.replace(/\s+/g, '_')}`;
+    return t(generatedKey, categoryName);
   };
 
   const CustomTooltip = ({ active, payload }: any) => {
