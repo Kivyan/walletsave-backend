@@ -211,6 +211,12 @@ const translations = {
     new_password: "新しいパスワード",
     confirm_password: "パスワードを確認",
     leave_blank_password: "現在のパスワードを維持するには空白のままにしてください",
+    danger_zone: "危険ゾーン",
+    delete_account: "アカウントを削除",
+    delete_account_warning: "アカウントを削除すると、元に戻すことはできません。確認してください。",
+    confirm_deletion: "アカウント削除の確認",
+    deletion_warning: "この操作は元に戻せません。アカウントとすべてのデータが完全に削除されます。",
+    confirm_delete: "はい、アカウントを削除します",
   },
   notifications: {
     title: "通知",
@@ -286,6 +292,8 @@ const translations = {
     saving_deleted_description: "貯金目標が正常に削除されました",
     profile_updated: "プロフィールが更新されました",
     profile_updated_description: "プロフィールが正常に更新されました",
+    account_deleted: "アカウントが削除されました",
+    account_deleted_description: "アカウントが正常に削除されました。すべてのデータが削除されました。",
   },
   months: {
     january: "1月",

@@ -239,6 +239,13 @@ const translations = {
     account_settings: "Настройки аккаунта",
     preferences: "Предпочтения",
     leave_blank_password: "Оставьте пустым, чтобы сохранить текущий пароль",
+    danger_zone: "Опасная зона",
+    delete_account: "Удалить аккаунт",
+    delete_account_warning: "После удаления вашего аккаунта, возврат невозможен. Пожалуйста, убедитесь в своем решении.",
+    confirm_deletion: "Подтвердите удаление аккаунта",
+    deletion_warning: "Это действие невозможно отменить. Это навсегда удалит ваш аккаунт и все ваши данные с наших серверов.",
+    confirm_delete: "Да, удалить мой аккаунт",
+    password: "Пароль",
   },
   notifications: {
     all_notifications: "Все уведомления",

@@ -297,6 +297,8 @@ const translations = {
     saving_deleted_description: "Il tuo obiettivo di risparmio è stato eliminato con successo",
     profile_updated: "Profilo aggiornato",
     profile_updated_description: "Il tuo profilo è stato aggiornato con successo",
+    account_deleted: "Account eliminato",
+    account_deleted_description: "Il tuo account è stato eliminato con successo. Tutti i tuoi dati sono stati rimossi.",
   },
   months: {
     january: "Gennaio",

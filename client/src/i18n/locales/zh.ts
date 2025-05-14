@@ -238,6 +238,13 @@ const translations = {
     account_settings: "账户设置",
     preferences: "偏好设置",
     leave_blank_password: "留空以保持当前密码",
+    danger_zone: "危险区域",
+    delete_account: "删除账户",
+    delete_account_warning: "一旦删除您的账户，将无法恢复。请确认您的决定。",
+    confirm_deletion: "确认删除账户",
+    deletion_warning: "此操作无法撤销。这将永久删除您的账户和所有数据。",
+    confirm_delete: "是的，删除我的账户",
+    password: "密码",
   },
   notifications: {
     all_notifications: "所有通知",
@@ -293,6 +300,8 @@ const translations = {
     saving_deleted: "储蓄已删除",
     something_went_wrong: "出现错误，请重试",
     session_expired: "您的会话已过期，请重新登录",
+    account_deleted: "账户已删除",
+    account_deleted_description: "您的账户已成功删除。所有数据已被移除。",
   },
   months: {
     january: "一月",
