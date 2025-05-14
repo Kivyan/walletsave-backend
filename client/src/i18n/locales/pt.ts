@@ -164,6 +164,17 @@ const translations = {
     no_budget: "Nenhum orçamento para este mês",
     monthly_budget: "Orçamento Mensal",
   },
+  reports: {
+    monthly: "Mensal",
+    daily: "Diário",
+    trends: "Tendências",
+    expense_trends: "Histórico de Gastos",
+    expense_trends_description: "Visualize seus padrões de gastos nos últimos 6 meses",
+    daily_expenses: "Gastos Diários",
+    daily_expenses_description: "Visualize seus gastos diários para este mês",
+    category_distribution_description: "Veja como seu dinheiro é distribuído entre categorias",
+    recent_expenses: "Despesas Recentes",
+  },
   wallet: {
     wallet: "Carteira",
     wallets: "Carteiras",
