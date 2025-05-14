@@ -140,9 +140,7 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
                   onClick={() => handleOpenChange(false)}
                   disabled={resetMutation.isPending}
                 >
-                  <TranslatedText i18nKey="common.cancel">
-                    Cancelar
-                  </TranslatedText>
+                  Cancelar
                 </Button>
                 <Button 
                   type="submit" 
@@ -151,14 +149,10 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
                   {resetMutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      <TranslatedText i18nKey="auth.sending">
-                        Enviando...
-                      </TranslatedText>
+                      Enviando...
                     </>
                   ) : (
-                    <TranslatedText i18nKey="auth.send_reset_link">
-                      Enviar Link
-                    </TranslatedText>
+                    "Enviar Link"
                   )}
                 </Button>
               </DialogFooter>
