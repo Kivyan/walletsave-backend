@@ -49,7 +49,16 @@ export function TranslatedText({
     content = "Wallet Save";
   } else {
     // Para todas as outras chaves, usamos a tradução normal
-    content = t(i18nKey, values) || children;
+    const translation = t(i18nKey, values);
+    
+    // Verifique se a tradução é igual à chave (caso em que a tradução não foi encontrada)
+    // ou se contém um ponto (indicando que a chave foi retornada em vez da tradução)
+    if (translation === i18nKey || translation.includes('.')) {
+      // Se não há tradução adequada, use o texto filho como fallback
+      content = children;
+    } else {
+      content = translation;
+    }
   }
   
   return (

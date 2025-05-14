@@ -92,31 +92,23 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            <TranslatedText i18nKey="auth.reset_password">
-              Recuperar Senha
-            </TranslatedText>
+            Recuperar Senha
           </DialogTitle>
           <DialogDescription>
-            <TranslatedText i18nKey="auth.reset_password_description">
-              Digite seu email para receber um link de recuperação de senha.
-            </TranslatedText>
+            Digite seu email para receber um link de recuperação de senha.
           </DialogDescription>
         </DialogHeader>
         
         {resetSent ? (
           <div className="flex flex-col items-center justify-center py-4">
             <div className="mb-4 text-center text-secondary-foreground">
-              <TranslatedText i18nKey="auth.check_email_for_reset">
-                Verifique seu email para redefinir sua senha.
-              </TranslatedText>
+              Verifique seu email para redefinir sua senha.
             </div>
             <Button 
               onClick={() => handleOpenChange(false)}
               className="w-full"
             >
-              <TranslatedText i18nKey="common.close">
-                Fechar
-              </TranslatedText>
+              Fechar
             </Button>
           </div>
         ) : (
