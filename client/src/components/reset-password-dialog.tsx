@@ -40,7 +40,7 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
 
   // Schema de validação para o formulário
   const resetSchema = z.object({
-    email: z.string().email(t("validation.invalid_email"))
+    email: z.string().email(t("validation.invalid_email") || "Email inválido")
   });
 
   // Inicializar o formulário
@@ -60,14 +60,14 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
     onSuccess: () => {
       setResetSent(true);
       toast({
-        title: t("auth.reset_link_sent_title"),
-        description: t("auth.reset_link_sent_description"),
+        title: t("auth.reset_link_sent_title") || "Email enviado!",
+        description: t("auth.reset_link_sent_description") || "Enviamos um link para redefinir sua senha para o email informado.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: t("toast.error"),
-        description: error.message,
+        title: t("toast.error") || "Erro",
+        description: error.message || t("auth.reset_request_error") || "Não foi possível enviar o email de recuperação. Verifique se o email está correto.",
         variant: "destructive",
       });
     }

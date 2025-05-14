@@ -37,10 +37,10 @@ export default function ResetPasswordPage() {
 
   // Schema de validação para o formulário
   const resetSchema = z.object({
-    password: z.string().min(6, t("validation.password_length")),
-    confirmPassword: z.string().min(6, t("validation.password_length")),
+    password: z.string().min(6, t("validation.password_length") || "A senha deve ter pelo menos 6 caracteres"),
+    confirmPassword: z.string().min(6, t("validation.password_length") || "A senha deve ter pelo menos 6 caracteres"),
   }).refine(data => data.password === data.confirmPassword, {
-    message: t("validation.passwords_must_match"),
+    message: t("validation.passwords_must_match") || "As senhas não coincidem",
     path: ["confirmPassword"],
   });
 
@@ -115,8 +115,8 @@ export default function ResetPasswordPage() {
     },
     onError: (error: Error) => {
       toast({
-        title: t("toast.error"),
-        description: error.message,
+        title: t("toast.error") || "Erro",
+        description: error.message || t("auth.reset_password_error") || "Não foi possível redefinir a senha. Tente novamente.",
         variant: "destructive",
       });
     }
