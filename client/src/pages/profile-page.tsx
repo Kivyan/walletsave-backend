@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -36,15 +36,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import { ReactElement } from "react";
 
 export default function ProfilePage(): ReactElement {
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, logoutMutation } = useAuth();
   const { theme, setTheme } = useTheme();
   const [, navigate] = useLocation();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   // Form validation schema
   const formSchema = z.object({
@@ -147,6 +159,42 @@ export default function ProfilePage(): ReactElement {
   // Handle theme toggle
   const handleThemeToggle = (value: boolean) => {
     setTheme(value ? "dark" : "light");
+  };
+  
+  // Mutation para excluir conta
+  const deleteAccountMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("DELETE", "/api/user");
+    },
+    onSuccess: () => {
+      // Limpar dados de autenticação locais
+      localStorage.removeItem("theme");
+      localStorage.removeItem("userCurrency");
+      localStorage.removeItem("i18nextLng");
+      
+      toast({
+        title: t("toast.account_deleted"),
+        description: t("toast.account_deleted_description"),
+      });
+      
+      // Redirecionar para a página de autenticação
+      setTimeout(() => {
+        navigate("/auth");
+      }, 1500);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: t("toast.error"),
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+  
+  // Função para lidar com a exclusão da conta
+  const handleDeleteAccount = () => {
+    deleteAccountMutation.mutate();
+    setDeleteDialogOpen(false);
   };
 
   // Redirect if user is not logged in
@@ -332,6 +380,46 @@ export default function ProfilePage(): ReactElement {
               </form>
             </Form>
           </CardContent>
+          <CardFooter className="flex flex-col items-stretch border-t pt-6">
+            <Separator className="mb-6" />
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-red-500 dark:text-red-400">
+                {t("profile.danger_zone")}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t("profile.delete_account_warning")}
+              </p>
+              
+              <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <AlertDialogTrigger asChild>
+                  <Button 
+                    variant="destructive" 
+                    className="w-full"
+                    disabled={deleteAccountMutation.isPending}
+                  >
+                    {t("profile.delete_account")}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t("profile.confirm_deletion")}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t("profile.deletion_warning")}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteAccount}
+                      className="bg-red-500 hover:bg-red-600 text-white"
+                    >
+                      {t("profile.confirm_delete")}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </CardFooter>
         </Card>
       </main>
 

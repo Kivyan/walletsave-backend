@@ -245,6 +245,37 @@ export function setupAuth(app: Express) {
     const { password, ...userWithoutPassword } = req.user as SelectUser;
     res.json(userWithoutPassword);
   });
+  
+  // Rota para deletar a conta do usuário
+  app.delete("/api/user", async (req, res, next) => {
+    try {
+      if (!req.isAuthenticated()) return res.sendStatus(401);
+      
+      const userId = (req.user as SelectUser).id;
+      
+      // Efetua logout do usuário antes da exclusão
+      req.logout((err: Error | null) => {
+        if (err) return next(err);
+        
+        // Deleta o usuário e todos os seus dados
+        storage.deleteUser(userId)
+          .then(success => {
+            if (success) {
+              return res.status(200).json({ message: "Conta excluída com sucesso" });
+            } else {
+              return res.status(404).json({ message: "Usuário não encontrado" });
+            }
+          })
+          .catch(error => {
+            log(`Erro ao excluir usuário: ${error instanceof Error ? error.message : String(error)}`);
+            next(error);
+          });
+      });
+    } catch (error) {
+      log(`Erro na rota de exclusão de conta: ${error instanceof Error ? error.message : String(error)}`);
+      next(error);
+    }
+  });
 
   app.put("/api/user", (req, res, next) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
