@@ -54,9 +54,7 @@ export function TranslatedText({
   
   return (
     <Tag 
-      className={`i18n-text ${className}`}
-      data-i18n-key={i18nKey}
-      data-i18n-direction={dir}
+      className={`i18n-text ${className || ''}`}
       style={style}
     >
       {content}
