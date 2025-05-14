@@ -64,7 +64,6 @@ const translations = {
     reset_link_dev_warning: "Links zum Zurücksetzen des Passworts funktionieren in der Entwicklungsumgebung nicht direkt.",
     how_to_test: "Wie testen",
     copy_token_instruction: "Kopiere nur den Token aus der E-Mail (nach \"token=\" in der URL) und füge ihn unten ein:",
-    paste_token_here: "Token hier einfügen",
     password_reset_success_title: "Passwort erfolgreich aktualisiert!",
     password_reset_success_description: "Dein Passwort wurde zurückgesetzt. Du kannst dich jetzt mit deinem neuen Passwort anmelden.",
     reset_password_error: "Das Passwort konnte nicht zurückgesetzt werden. Bitte versuche es erneut.",

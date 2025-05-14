@@ -86,7 +86,7 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={t("auth.verification_code_placeholder") || "000000"}
+                        placeholder=""
                         maxLength={6}
                         className="text-center text-lg tracking-widest"
                       />
