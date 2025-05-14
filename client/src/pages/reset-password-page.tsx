@@ -105,8 +105,8 @@ export default function ResetPasswordPage() {
     },
     onSuccess: () => {
       toast({
-        title: t("auth.password_reset_success_title"),
-        description: t("auth.password_reset_success_description"),
+        title: t("auth.password_reset_success_title") || "Senha atualizada com sucesso!",
+        description: t("auth.password_reset_success_description") || "Sua senha foi redefinida. Você já pode fazer login com sua nova senha.",
       });
       // Redirecionar para página de login após um breve intervalo
       setTimeout(() => {
@@ -159,16 +159,18 @@ export default function ResetPasswordPage() {
             
             {isDevelopment && (
               <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-md text-sm">
-                <h3 className="font-semibold text-yellow-800 dark:text-yellow-400 mb-2">Modo de Desenvolvimento</h3>
+                <h3 className="font-semibold text-yellow-800 dark:text-yellow-400 mb-2">
+                  {t("auth.dev_mode") || "Modo de Desenvolvimento"}
+                </h3>
                 <p className="text-yellow-700 dark:text-yellow-300 mb-2">
-                  Links de redefinição de senha nos emails não funcionam diretamente no ambiente de desenvolvimento.
+                  {t("auth.reset_link_dev_warning") || "Links de redefinição de senha nos emails não funcionam diretamente no ambiente de desenvolvimento."}
                 </p>
                 <p className="text-yellow-700 dark:text-yellow-300">
-                  <strong>Como testar:</strong> Copie apenas o token do email (após "token=" na URL) e cole-o manualmente abaixo:
+                  <strong>{t("auth.how_to_test") || "Como testar"}:</strong> {t("auth.copy_token_instruction") || "Copie apenas o token do email (após \"token=\" na URL) e cole-o manualmente abaixo:"}
                 </p>
                 <div className="mt-2">
                   <Input 
-                    placeholder="Cole o token aqui" 
+                    placeholder={t("auth.paste_token_here") || "Cole o token aqui"} 
                     className="mt-1"
                     onChange={(e) => {
                       if (e.target.value) {
@@ -292,9 +294,7 @@ export default function ResetPasswordPage() {
             variant="link"
             onClick={() => navigate("/auth")}
           >
-            <TranslatedText i18nKey="auth.back_to_login">
-              Voltar para o Login
-            </TranslatedText>
+            {t("auth.back_to_login") || "Voltar para o Login"}
           </Button>
         </CardFooter>
       </Card>
