@@ -19,6 +19,7 @@ export interface IStorage {
   getAllUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<User>): Promise<User | undefined>;
+  deleteUser(id: number): Promise<boolean>;
   
   // Category operations
   getCategories(userId: number): Promise<Category[]>;
@@ -130,6 +131,47 @@ export class MemStorage implements IStorage {
     const updatedUser = { ...user, ...userData };
     this.users.set(id, updatedUser);
     return updatedUser;
+  }
+  
+  async deleteUser(id: number): Promise<boolean> {
+    const user = await this.getUser(id);
+    if (!user) return false;
+    
+    // Remove o usuário
+    this.users.delete(id);
+    
+    // Remove todos os dados associados ao usuário
+    // 1. Remover categorias do usuário
+    const userCategories = await this.getCategories(id);
+    for (const category of userCategories) {
+      await this.deleteCategory(category.id);
+    }
+    
+    // 2. Remover despesas do usuário
+    const userExpenses = await this.getExpenses(id);
+    for (const expense of userExpenses) {
+      await this.deleteExpense(expense.id);
+    }
+    
+    // 3. Remover carteiras do usuário
+    const userWallets = await this.getWallets(id);
+    for (const wallet of userWallets) {
+      await this.deleteWallet(wallet.id);
+    }
+    
+    // 4. Remover orçamentos do usuário
+    const userBudgets = await this.getBudgets(id);
+    for (const budget of userBudgets) {
+      await this.deleteBudget(budget.id);
+    }
+    
+    // 5. Remover metas de poupança do usuário
+    const userSavings = await this.getSavings(id);
+    for (const saving of userSavings) {
+      await this.deleteSaving(saving.id);
+    }
+    
+    return true;
   }
 
   // Category operations
