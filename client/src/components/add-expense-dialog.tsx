@@ -58,6 +58,24 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
   const { user } = useAuth();
   const [showRecurringOptions, setShowRecurringOptions] = useState(false);
   
+  // Função de utilidade para traduzir nomes de categorias de forma centralizada
+  const getTranslatedCategoryName = (categoryName: string): string => {
+    // Normaliza o nome da categoria para comparação
+    const normalizedName = categoryName.toLowerCase().trim();
+    
+    // Usa o mapa centralizado de categorias
+    const translationKey = CATEGORY_TRANSLATION_MAP[normalizedName];
+    
+    if (translationKey) {
+      // Usa a chave de tradução encontrada
+      return t(translationKey, categoryName);
+    }
+    
+    // Se não for uma categoria conhecida, tenta construir uma chave ou usa o nome original
+    const generatedKey = `categories.${normalizedName.replace(/\s+/g, '_')}`;
+    return t(generatedKey, categoryName);
+  };
+  
   // Fetch categories
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
@@ -290,7 +308,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               style={{ backgroundColor: category.color }}
                             />
                             <span>
-                              {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, category.name)}
+                              {getTranslatedCategoryName(category.name)}
                             </span>
                           </div>
                         </SelectItem>

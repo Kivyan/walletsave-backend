@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Filter } from "lucide-react";
 import { Category } from "@shared/schema";
+import { CATEGORY_TRANSLATION_MAP } from "@/lib/utils";
 
 import {
   Popover,
@@ -27,6 +28,24 @@ export function CategoryFilter({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [tempSelected, setTempSelected] = useState<number[]>(selectedCategories);
+  
+  // Função de utilidade para traduzir nomes de categorias de forma centralizada
+  const getTranslatedCategoryName = (categoryName: string): string => {
+    // Normaliza o nome da categoria para comparação
+    const normalizedName = categoryName.toLowerCase().trim();
+    
+    // Usa o mapa centralizado de categorias
+    const translationKey = CATEGORY_TRANSLATION_MAP[normalizedName];
+    
+    if (translationKey) {
+      // Usa a chave de tradução encontrada
+      return t(translationKey, categoryName);
+    }
+    
+    // Se não for uma categoria conhecida, tenta construir uma chave ou usa o nome original
+    const generatedKey = `categories.${normalizedName.replace(/\s+/g, '_')}`;
+    return t(generatedKey, categoryName);
+  };
 
   const handleCheckboxChange = (categoryId: number, checked: boolean) => {
     if (checked) {
@@ -105,7 +124,7 @@ export function CategoryFilter({
                     className="w-3 h-3 rounded-full mr-2"
                     style={{ backgroundColor: category.color }}
                   />
-                  {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, category.name)}
+                  {getTranslatedCategoryName(category.name)}
                 </Label>
               </div>
             ))}
