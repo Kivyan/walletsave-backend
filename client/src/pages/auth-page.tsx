@@ -55,18 +55,18 @@ export default function AuthPage() {
 
   // Login form schema
   const loginSchema = z.object({
-    username: z.string().min(1, t("validation.username_required")),
-    password: z.string().min(1, t("validation.password_required")),
+    username: z.string().min(1, t("validation.username_required") || "Email é obrigatório"),
+    password: z.string().min(1, t("validation.password_required") || "Senha é obrigatória"),
   });
 
   // Register form schema
   const registerSchema = z.object({
-    username: z.string().min(1, t("validation.username_required")),
-    password: z.string().min(6, t("validation.password_min_length")),
-    fullName: z.string().min(1, t("validation.full_name_required")),
-    confirmPassword: z.string().min(1, t("validation.confirm_password_required")),
+    username: z.string().min(1, t("validation.username_required") || "Email é obrigatório"),
+    password: z.string().min(6, t("validation.password_min_length") || "A senha deve ter pelo menos 6 caracteres"),
+    fullName: z.string().min(1, t("validation.full_name_required") || "Nome completo é obrigatório"),
+    confirmPassword: z.string().min(1, t("validation.confirm_password_required") || "Confirmação de senha é obrigatória"),
   }).refine(data => data.password === data.confirmPassword, {
-    message: t("validation.passwords_must_match"),
+    message: t("validation.passwords_must_match") || "As senhas não coincidem",
     path: ["confirmPassword"],
   });
 
@@ -278,10 +278,10 @@ export default function AuthPage() {
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-2 mb-2 md:mb-4 p-1">
               <TabsTrigger value="login" className="py-1 md:py-2 text-xs md:text-sm">
-                <TranslatedText i18nKey="auth.login">Entrar</TranslatedText>
+                {t("auth.login") || "Entrar"}
               </TabsTrigger>
               <TabsTrigger value="register" className="py-1 md:py-2 text-xs md:text-sm">
-                <TranslatedText i18nKey="auth.register">Cadastrar</TranslatedText>
+                {t("auth.register") || "Cadastrar"}
               </TabsTrigger>
             </TabsList>
 
