@@ -307,6 +307,8 @@ const translations = {
     saving_deleted: "Сбережение удалено",
     something_went_wrong: "Что-то пошло не так, попробуйте снова",
     session_expired: "Ваша сессия истекла, пожалуйста, войдите снова",
+    account_deleted: "Аккаунт удален",
+    account_deleted_description: "Ваш аккаунт был успешно удален. Все ваши данные были удалены.",
   },
   months: {
     january: "Январь",
