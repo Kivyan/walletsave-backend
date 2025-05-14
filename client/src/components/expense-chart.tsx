@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { formatMoney } from "@/lib/utils";
+import { formatMoney, CATEGORY_TRANSLATION_MAP } from "@/lib/utils";
 import { Expense, Category } from "@shared/schema";
 
 interface ExpenseChartProps {

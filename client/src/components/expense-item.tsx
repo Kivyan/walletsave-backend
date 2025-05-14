@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { formatMoney, formatDate } from "@/lib/utils";
+import { formatMoney, formatDate, CATEGORY_TRANSLATION_MAP } from "@/lib/utils";
 import { Expense, Category } from "@shared/schema";
 import { Edit, Copy, Check, Trash, MoreHorizontal } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
@@ -34,6 +34,24 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Função de utilidade para traduzir nomes de categorias de forma centralizada
+  const getTranslatedCategoryName = (categoryName: string): string => {
+    // Normaliza o nome da categoria para comparação
+    const normalizedName = categoryName.toLowerCase().trim();
+    
+    // Usa o mapa centralizado de categorias
+    const translationKey = CATEGORY_TRANSLATION_MAP[normalizedName];
+    
+    if (translationKey) {
+      // Usa a chave de tradução encontrada
+      return t(translationKey, categoryName);
+    }
+    
+    // Se não for uma categoria conhecida, tenta construir uma chave ou usa o nome original
+    const generatedKey = `categories.${normalizedName.replace(/\s+/g, '_')}`;
+    return t(generatedKey, categoryName);
+  };
 
   const deleteExpenseMutation = useMutation({
     mutationFn: async () => {
@@ -169,7 +187,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                 className={`text-xs px-2 py-0.5 rounded ${colorClasses.tagBg} ${colorClasses.tagText}`}
                 style={{ backgroundColor: `${category.color}20`, color: category.color }}
               >
-                {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '_')}`, category.name)}
+                {getTranslatedCategoryName(category.name)}
               </span>
             </div>
 

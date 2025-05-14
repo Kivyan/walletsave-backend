@@ -9,7 +9,7 @@ import { z } from "zod";
 import { insertExpenseSchema, Expense, Category } from "@shared/schema";
 import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
-import { getLocaleFromLanguage, formatDate } from "@/lib/utils";
+import { getLocaleFromLanguage, formatDate, CATEGORY_TRANSLATION_MAP } from "@/lib/utils";
 import { TranslatedText } from "@/components/translated-text";
 
 import {
