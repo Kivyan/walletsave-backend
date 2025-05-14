@@ -92,23 +92,23 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            Recuperar Senha
+            {t("auth.reset_password") || "Recuperar Senha"}
           </DialogTitle>
           <DialogDescription>
-            Digite seu email para receber um link de recuperação de senha.
+            {t("auth.reset_password_description") || "Digite seu email para receber um link de recuperação de senha."}
           </DialogDescription>
         </DialogHeader>
         
         {resetSent ? (
           <div className="flex flex-col items-center justify-center py-4">
             <div className="mb-4 text-center text-secondary-foreground">
-              Verifique seu email para redefinir sua senha.
+              {t("auth.check_email_for_reset") || "Verifique seu email para redefinir sua senha."}
             </div>
             <Button 
               onClick={() => handleOpenChange(false)}
               className="w-full"
             >
-              Fechar
+              {t("common.close") || "Fechar"}
             </Button>
           </div>
         ) : (
@@ -119,10 +119,10 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("auth.username")}</FormLabel>
+                    <FormLabel>{t("auth.username") || "Email"}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder={t("auth.username_placeholder")} 
+                        placeholder={t("auth.username_placeholder") || "seu@email.com"} 
                         type="email"
                         autoComplete="email"
                         {...field} 
@@ -140,7 +140,7 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
                   onClick={() => handleOpenChange(false)}
                   disabled={resetMutation.isPending}
                 >
-                  Cancelar
+                  {t("common.cancel") || "Cancelar"}
                 </Button>
                 <Button 
                   type="submit" 
@@ -149,10 +149,10 @@ export function ResetPasswordDialog({ open, onOpenChange }: ResetPasswordDialogP
                   {resetMutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Enviando...
+                      {t("auth.sending") || "Enviando..."}
                     </>
                   ) : (
-                    "Enviar Link"
+                    t("auth.send_reset_link") || "Enviar Link"
                   )}
                 </Button>
               </DialogFooter>

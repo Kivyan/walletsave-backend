@@ -151,14 +151,10 @@ export default function ResetPasswordPage() {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>
-              <TranslatedText i18nKey="auth.invalid_token_title">
-                Link Inválido
-              </TranslatedText>
+              {t("auth.invalid_token_title") || "Link Inválido"}
             </CardTitle>
             <CardDescription>
-              <TranslatedText i18nKey="auth.invalid_token_description">
-                Este link de recuperação de senha é inválido ou expirou.
-              </TranslatedText>
+              {t("auth.invalid_token_description") || "Este link de recuperação de senha é inválido ou expirou."}
             </CardDescription>
             
             {isDevelopment && (
@@ -189,9 +185,7 @@ export default function ResetPasswordPage() {
               className="w-full" 
               onClick={() => navigate("/auth")}
             >
-              <TranslatedText i18nKey="auth.back_to_login">
-                Voltar para o Login
-              </TranslatedText>
+              {t("auth.back_to_login") || "Voltar para o Login"}
             </Button>
           </CardFooter>
         </Card>
@@ -205,14 +199,10 @@ export default function ResetPasswordPage() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>
-            <TranslatedText i18nKey="auth.reset_password">
-              Criar Nova Senha
-            </TranslatedText>
+            {t("auth.reset_password") || "Criar Nova Senha"}
           </CardTitle>
           <CardDescription>
-            <TranslatedText i18nKey="auth.reset_password_page_description">
-              Digite e confirme sua nova senha.
-            </TranslatedText>
+            {t("auth.reset_password_page_description") || "Digite e confirme sua nova senha."}
           </CardDescription>
         </CardHeader>
         <CardContent>
