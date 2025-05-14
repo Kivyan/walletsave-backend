@@ -211,6 +211,12 @@ const translations = {
     new_password: "Nuova password",
     confirm_password: "Conferma password",
     leave_blank_password: "Lascia vuoto per mantenere la password attuale",
+    danger_zone: "Zona Pericolosa",
+    delete_account: "Elimina Account",
+    delete_account_warning: "Una volta eliminato il tuo account, non sarà possibile tornare indietro. Assicurati di essere sicuro.",
+    confirm_deletion: "Conferma Eliminazione Account",
+    deletion_warning: "Questa azione non può essere annullata. Eliminerà permanentemente il tuo account e tutti i tuoi dati dai nostri server.",
+    confirm_delete: "Sì, elimina il mio account",
   },
   notifications: {
     title: "Notifiche",

@@ -189,6 +189,12 @@ const translations = {
     new_password: "Nouveau mot de passe",
     confirm_password: "Confirmer le mot de passe",
     leave_blank_password: "Laisser vide pour conserver le mot de passe actuel",
+    danger_zone: "Zone Dangereuse",
+    delete_account: "Supprimer le Compte",
+    delete_account_warning: "Une fois que vous supprimez votre compte, il n'y a pas de retour en arrière possible. Veuillez être certain.",
+    confirm_deletion: "Confirmer la Suppression du Compte",
+    deletion_warning: "Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte et toutes vos données de nos serveurs.",
+    confirm_delete: "Oui, supprimer mon compte",
   },
   notifications: {
     title: "Notifications",
@@ -269,6 +275,8 @@ const translations = {
     saving_deleted_description: "Votre objectif d'épargne a été supprimé avec succès",
     profile_updated: "Profil mis à jour",
     profile_updated_description: "Votre profil a été mis à jour avec succès",
+    account_deleted: "Compte supprimé",
+    account_deleted_description: "Votre compte a été supprimé avec succès. Toutes vos données ont été supprimées.",
   },
   months: {
     january: "Janvier",

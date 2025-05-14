@@ -210,6 +210,12 @@ const translations = {
     new_password: "Neues Passwort",
     confirm_password: "Passwort bestätigen",
     leave_blank_password: "Leer lassen, um das aktuelle Passwort beizubehalten",
+    danger_zone: "Gefahrenbereich",
+    delete_account: "Konto löschen",
+    delete_account_warning: "Sobald du dein Konto löschst, gibt es kein Zurück mehr. Bitte sei dir sicher.",
+    confirm_deletion: "Kontolöschung bestätigen",
+    deletion_warning: "Diese Aktion kann nicht rückgängig gemacht werden. Dies wird dein Konto dauerhaft löschen und alle deine Daten von unseren Servern entfernen.",
+    confirm_delete: "Ja, mein Konto löschen",
   },
   notifications: {
     title: "Benachrichtigungen",
@@ -290,6 +296,8 @@ const translations = {
     saving_deleted_description: "Dein Sparziel wurde erfolgreich gelöscht",
     profile_updated: "Profil aktualisiert",
     profile_updated_description: "Dein Profil wurde erfolgreich aktualisiert",
+    account_deleted: "Konto gelöscht",
+    account_deleted_description: "Dein Konto wurde erfolgreich gelöscht. Alle deine Daten wurden entfernt.",
   },
   months: {
     january: "Januar",
