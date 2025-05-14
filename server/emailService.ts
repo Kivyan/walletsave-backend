@@ -309,11 +309,27 @@ export async function sendPasswordResetEmail(
     // Cria uma URL de recuperação
     const resetUrl = `${process.env.APP_URL || 'http://localhost:5000'}/reset-password?token=${resetToken}`;
     
+    // Determina se estamos em ambiente de desenvolvimento
+    const isDevelopment = !process.env.APP_URL || process.env.APP_URL.includes('localhost') || process.env.APP_URL.includes('replit');
+    
+    // Texto adicional para ambiente de desenvolvimento
+    const devNote = isDevelopment ? 
+      `\n\nNOTA: Como você está em ambiente de desenvolvimento, o link completo pode não funcionar diretamente.\nSeu token de recuperação é: ${resetToken}\nVocê pode usar este token na página de recuperação de senha.` : '';
+    
+    const devHtmlNote = isDevelopment ? 
+      `<div style="margin-top: 20px; padding: 15px; background-color: #fffbea; border-left: 4px solid #f59e0b; border-radius: 4px;">
+        <p style="margin: 0; font-weight: bold; color: #92400e;">Ambiente de Desenvolvimento</p>
+        <p style="margin-top: 8px; color: #92400e;">Como você está em ambiente de desenvolvimento, o link completo pode não funcionar diretamente.</p>
+        <p style="margin-top: 8px; color: #92400e;">Seu token de recuperação é:</p>
+        <code style="display: block; background-color: #fff8e6; padding: 8px; border-radius: 3px; margin-top: 8px; color: #92400e; word-break: break-all;">${resetToken}</code>
+        <p style="margin-top: 8px; color: #92400e;">Você pode copiar este token e usá-lo na página de recuperação de senha.</p>
+      </div>` : '';
+    
     const mailOptions = {
       from: `"${fromName}" <${emailUser}>`,
       to: email,
       subject: 'Recuperação de Senha - Wallet Save',
-      text: `Olá ${userName},\n\nRecebemos uma solicitação para recuperar sua senha. Clique no link abaixo ou copie-o para seu navegador para criar uma nova senha:\n\n${resetUrl}\n\nEste link expirará em 1 hora.\n\nSe você não solicitou uma redefinição de senha, ignore este email.\n\nObrigado,\nEquipe Wallet Save`,
+      text: `Olá ${userName},\n\nRecebemos uma solicitação para recuperar sua senha. Clique no link abaixo ou copie-o para seu navegador para criar uma nova senha:\n\n${resetUrl}\n\nEste link expirará em 1 hora.${devNote}\n\nSe você não solicitou uma redefinição de senha, ignore este email.\n\nObrigado,\nEquipe Wallet Save`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
           <h2 style="color: #4a5568;">Recuperação de Senha</h2>
@@ -327,6 +343,7 @@ export async function sendPasswordResetEmail(
             ${resetUrl}
           </p>
           <p style="color: #718096; font-size: 0.9em;">Este link expirará em 1 hora.</p>
+          ${devHtmlNote}
           <p>Se você não solicitou uma redefinição de senha, ignore este email.</p>
           <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
             <p style="color: #718096; font-size: 0.8em;">
