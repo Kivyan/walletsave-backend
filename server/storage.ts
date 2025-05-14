@@ -13,6 +13,9 @@ import session from "express-session";
 const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
+  // Session store
+  sessionStore: any;
+  
   // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
@@ -58,7 +61,7 @@ export interface IStorage {
   deleteSaving(id: number): Promise<boolean>;
   
   // Session store
-  sessionStore: session.SessionStore;
+  sessionStore: ReturnType<typeof createMemoryStore>;
 }
 
 export class MemStorage implements IStorage {
@@ -77,7 +80,7 @@ export class MemStorage implements IStorage {
     savings: number;
   };
   
-  sessionStore: session.SessionStore;
+  sessionStore: any; // Required for session management
 
   constructor() {
     this.users = new Map();
