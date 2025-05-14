@@ -55,6 +55,17 @@ const translations = {
     savings: "Épargnes",
     notifications: "Notifications",
   },
+  reports: {
+    monthly: "Mensuel",
+    daily: "Quotidien",
+    trends: "Tendances",
+    expense_trends: "Historique des dépenses",
+    expense_trends_description: "Visualisez vos habitudes de dépenses sur les 6 derniers mois",
+    daily_expenses: "Dépenses quotidiennes",
+    daily_expenses_description: "Visualisez vos dépenses quotidiennes pour ce mois",
+    category_distribution_description: "Voyez comment votre argent est réparti entre les catégories",
+    recent_expenses: "Dépenses récentes",
+  },
   expense: {
     expenses: "Dépenses",
     add_expense: "Ajouter une dépense",

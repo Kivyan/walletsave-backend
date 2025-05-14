@@ -77,6 +77,17 @@ const translations = {
     savings: "貯金",
     notifications: "通知",
   },
+  reports: {
+    monthly: "月次",
+    daily: "日次",
+    trends: "傾向",
+    expense_trends: "支出の履歴",
+    expense_trends_description: "過去6ヶ月間の支出パターンを確認",
+    daily_expenses: "日々の支出",
+    daily_expenses_description: "今月の日々の支出を確認",
+    category_distribution_description: "あなたのお金がカテゴリー別にどのように分配されているかを確認",
+    recent_expenses: "最近の支出",
+  },
   expense: {
     expenses: "支出",
     add_expense: "支出を追加",
