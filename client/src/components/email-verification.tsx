@@ -27,9 +27,9 @@ function getVerificationSchema(t: (key: string) => string) {
   return z.object({
     code: z
       .string()
-      .min(6, t("validation.code_six_digits"))
-      .max(6, t("validation.code_six_digits"))
-      .regex(/^\d+$/, t("validation.code_numbers_only"))
+      .min(6, t("validation.code_six_digits") || "O código deve ter 6 dígitos")
+      .max(6, t("validation.code_six_digits") || "O código deve ter 6 dígitos")
+      .regex(/^\d+$/, t("validation.code_numbers_only") || "O código deve conter apenas números")
   });
 }
 
@@ -67,11 +67,11 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
         <DialogHeader>
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl">
-              {t("auth.confirm_email")}
+              {t("auth.confirm_email") || "Confirmar Email"}
             </DialogTitle>
           </div>
           <DialogDescription>
-            {t("auth.code_sent_to")} {verificationData.email}
+            {t("auth.code_sent_to") || "Enviamos um código de verificação para"} {verificationData.email}
           </DialogDescription>
         </DialogHeader>
         
@@ -86,7 +86,7 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="000000"
+                        placeholder={t("auth.verification_code_placeholder") || "000000"}
                         maxLength={6}
                         className="text-center text-lg tracking-widest"
                       />
@@ -101,15 +101,15 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
                 disabled={verifyEmailMutation.isPending}
               >
                 {verifyEmailMutation.isPending 
-                  ? t("auth.checking")
-                  : t("auth.confirm")}
+                  ? (t("auth.checking") || "Verificando...")
+                  : (t("auth.confirm") || "Confirmar")}
               </Button>
             </form>
           </Form>
 
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-muted-foreground">
-              {t("auth.no_code")}
+              {t("auth.no_code") || "Não recebeu o código?"}
             </p>
             <Button
               variant="ghost"
@@ -118,8 +118,8 @@ export function EmailVerification({ verificationData, onBack }: EmailVerificatio
               className="text-sm"
             >
               {resendVerificationMutation.isPending
-                ? t("auth.sending")
-                : t("auth.send_again")}
+                ? (t("auth.sending") || "Enviando...")
+                : (t("auth.send_again") || "Enviar novamente")}
             </Button>
           </div>
         </div>
