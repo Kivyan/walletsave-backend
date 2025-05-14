@@ -214,9 +214,7 @@ export default function ResetPasswordPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <TranslatedText i18nKey="auth.new_password">
-                        Nova Senha
-                      </TranslatedText>
+                      {t("auth.new_password") || "Nova Senha"}
                     </FormLabel>
                     <div className="relative">
                       <FormControl>
@@ -247,9 +245,7 @@ export default function ResetPasswordPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <TranslatedText i18nKey="auth.confirm_password">
-                        Confirmar Senha
-                      </TranslatedText>
+                      {t("auth.confirm_password") || "Confirmar Senha"}
                     </FormLabel>
                     <div className="relative">
                       <FormControl>
@@ -282,14 +278,10 @@ export default function ResetPasswordPage() {
                 {resetMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    <TranslatedText i18nKey="auth.updating">
-                      Atualizando...
-                    </TranslatedText>
+                    {t("auth.updating") || "Atualizando..."}
                   </>
                 ) : (
-                  <TranslatedText i18nKey="auth.update_password">
-                    Atualizar Senha
-                  </TranslatedText>
+                  <>{t("auth.update_password") || "Atualizar Senha"}</>
                 )}
               </Button>
             </form>
