@@ -147,7 +147,7 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-16 md:pb-0 overflow-y-auto custom-scrollbar">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-24 md:pb-0 overflow-y-auto custom-scrollbar">
       <Header title={t("navigation.reports")} />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

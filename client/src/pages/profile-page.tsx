@@ -204,7 +204,7 @@ export default function ProfilePage(): ReactElement {
   }
 
   return (
-    <div className="bg-neutral-100 dark:bg-neutral-900 min-h-full pb-32">
+    <div className="bg-neutral-100 dark:bg-neutral-900 min-h-full pb-24">
       <Header title={t("profile.my_profile")} />
 
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-visible">
