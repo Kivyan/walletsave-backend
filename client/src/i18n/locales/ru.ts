@@ -104,6 +104,7 @@ const translations = {
     my_expenses: "Мои расходы",
     add_expense: "Добавить расход",
     edit_expense: "Редактировать расход",
+    dialog_description: "Форма для добавления или редактирования расходов",
     expense_title: "Название расхода",
     amount: "Сумма",
     date: "Дата",

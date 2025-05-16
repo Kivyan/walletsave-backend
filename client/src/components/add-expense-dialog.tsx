@@ -199,13 +199,18 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md" aria-describedby="expense-dialog-description">
         <DialogHeader>
           <DialogTitle>
-            <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
+            <TranslatedText i18nKey={editExpense ? "expenses.edit_expense" : "expenses.add_expense"}>
               {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
             </TranslatedText>
           </DialogTitle>
+          <div id="expense-dialog-description" className="sr-only">
+            <TranslatedText i18nKey="expenses.dialog_description">
+              Formulário para adicionar ou editar despesas
+            </TranslatedText>
+          </div>
         </DialogHeader>
         
         <Form {...form}>
@@ -216,10 +221,10 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <TranslatedText i18nKey="expense.description">Descrição</TranslatedText>
+                    <TranslatedText i18nKey="expenses.description">Descrição</TranslatedText>
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder={t("expense.description_placeholder")} {...field} />
+                    <Input placeholder={t("expenses.description_placeholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -232,7 +237,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <TranslatedText i18nKey="expense.amount">Valor</TranslatedText>
+                    <TranslatedText i18nKey="expenses.amount">Valor</TranslatedText>
                   </FormLabel>
                   <FormControl>
                     <Input 
@@ -253,7 +258,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>
-                    <TranslatedText i18nKey="expense.date">Data</TranslatedText>
+                    <TranslatedText i18nKey="expenses.date">Data</TranslatedText>
                   </FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -266,7 +271,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           {field.value ? (
                             formatDate(field.value, i18n.language)
                           ) : (
-                            <span>{t("expense.select_date")}</span>
+                            <span>{t("expenses.select_date")}</span>
                           )}
                         </Button>
                       </FormControl>
