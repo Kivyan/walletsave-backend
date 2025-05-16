@@ -462,7 +462,7 @@ export default function FinancePage() {
               {monthlyExpenses.length > 0 ? (
                 <Card>
                   <CardHeader>
-                    <CardTitle>{t("expense.distribution")}</CardTitle>
+                    <CardTitle>{t("expenses.distribution")}</CardTitle>
                   </CardHeader>
                   <CardContent className="h-64">
                     <ExpenseChart expenses={monthlyExpenses} categories={categories} />
@@ -471,10 +471,10 @@ export default function FinancePage() {
               ) : (
                 <Card>
                   <CardHeader>
-                    <CardTitle>{t("expense.distribution")}</CardTitle>
+                    <CardTitle>{t("expenses.distribution")}</CardTitle>
                   </CardHeader>
                   <CardContent className="py-10 text-center">
-                    <p className="text-neutral-500 dark:text-neutral-400">{t("expense.no_expenses_for_chart")}</p>
+                    <p className="text-neutral-500 dark:text-neutral-400">{t("expenses.no_expenses_for_chart")}</p>
                   </CardContent>
                 </Card>
               )}
@@ -487,7 +487,7 @@ export default function FinancePage() {
                 <CardContent>
                   {monthlyExpenses.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-neutral-500 dark:text-neutral-400">{t("expense.no_expenses")}</p>
+                      <p className="text-neutral-500 dark:text-neutral-400">{t("expenses.no_expenses")}</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
