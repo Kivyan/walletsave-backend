@@ -44,6 +44,7 @@ const translations = {
     no_code: "Не получили код?",
     sending: "Отправка...",
     send_again: "Отправить повторно",
+    slogan: "Умное отслеживание расходов",
   },
   navigation: {
     home: "Главная",
