@@ -303,7 +303,7 @@ export default function ReportsPage() {
           <CardContent>
             {monthlyExpenses.length === 0 ? (
               <p className="text-neutral-500 dark:text-neutral-400">
-                {t("expense.no_expenses")}
+                {t("expenses.no_expenses")}
               </p>
             ) : (
               <div className="space-y-4">

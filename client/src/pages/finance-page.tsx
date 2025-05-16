@@ -343,7 +343,7 @@ export default function FinancePage() {
           <TabsList className="grid grid-cols-3 w-full">
             <TabsTrigger value="overview">{t("finance.overview")}</TabsTrigger>
             <TabsTrigger value="wallets">{t("wallet.wallets")}</TabsTrigger>
-            <TabsTrigger value="expenses">{t("expense.expenses")}</TabsTrigger>
+            <TabsTrigger value="expenses">{t("expenses.expenses")}</TabsTrigger>
           </TabsList>
           
           {/* Overview Tab - Combined Dashboard */}
@@ -374,7 +374,7 @@ export default function FinancePage() {
                 className="flex flex-col items-center justify-center h-20 p-2"
               >
                 <LineChart className="h-6 w-6 mb-2" />
-                <span className="text-xs text-center">{t("expense.add_expense")}</span>
+                <span className="text-xs text-center">{t("expenses.add_expense")}</span>
               </Button>
             </div>
             
