@@ -366,7 +366,7 @@ export default function FinancePage() {
               <Card className="bg-secondary dark:bg-secondary">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-white text-lg">
-                    <TranslatedText i18nKey="wallet.total">Saldo Total</TranslatedText>
+                    <TranslatedText i18nKey="finance.total_balance">Saldo Total</TranslatedText>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
