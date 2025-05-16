@@ -116,6 +116,7 @@ const translations = {
     expense_deleted: "Расход успешно удален",
     no_expenses: "Нет расходов. Добавьте расход, чтобы начать отслеживать свои финансы.",
     total_expenses: "Общие расходы",
+    total: "Итого",
     monthly_overview: "Месячный обзор",
     by_category: "По категориям",
     daily: "Ежедневно",
@@ -315,6 +316,7 @@ const translations = {
     update_profile: "Обновить профиль",
   },
   notifications: {
+    title: "Уведомления",
     all_notifications: "Все уведомления",
     mark_as_read: "Отметить как прочитанное",
     mark_all_as_read: "Отметить все как прочитанные",
