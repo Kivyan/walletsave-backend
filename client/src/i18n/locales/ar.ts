@@ -26,7 +26,7 @@ const translations = {
     register: "التسجيل",
     logout: "تسجيل الخروج",
     username: "البريد الإلكتروني",
-    username_placeholder: "your@email.com",
+    username_placeholder: "بريدك@مثال.com",
     password: "كلمة المرور",
     forgot_password: "نسيت كلمة المرور؟",
     reset_password: "إعادة تعيين كلمة المرور",
