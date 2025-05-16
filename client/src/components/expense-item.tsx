@@ -220,7 +220,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                     className="text-red-600 focus:text-red-600"
                   >
                     <Trash className="mr-2 h-4 w-4" />
-                    {t("expense.delete")}
+                    {t("expenses.delete")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -250,7 +250,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
           className="text-red-600 focus:text-red-600"
         >
           <Trash className="mr-2 h-4 w-4" />
-          {t("expense.delete")}
+          {t("expenses.delete")}
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
