@@ -409,7 +409,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                             <TranslatedText i18nKey="expenses.monthly">Mensal</TranslatedText>
                           </SelectItem>
                           <SelectItem value="yearly">
-                            <TranslatedText i18nKey="expense.yearly">Anual</TranslatedText>
+                            <TranslatedText i18nKey="expenses.yearly">Anual</TranslatedText>
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -424,7 +424,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>
-                        <TranslatedText i18nKey="expense.end_date">Data Final</TranslatedText>
+                        <TranslatedText i18nKey="expenses.end_date">Data Final</TranslatedText>
                       </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
@@ -437,7 +437,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               {field.value ? (
                                 formatDate(field.value, i18n.language)
                               ) : (
-                                <span>{t("expense.select_end_date")}</span>
+                                <span>{t("expenses.select_end_date")}</span>
                               )}
                             </Button>
                           </FormControl>
