@@ -12,17 +12,13 @@
   }
   
   /* Configurações globais para suporte a diferentes idiomas */
-  html[dir="rtl"] body {
-    text-align: right;
+  /* Mantendo todos os idiomas com direção LTR */
+  html body {
+    text-align: left;
   }
   
   /* Ajustes globais para internacionalização */
-  [data-i18n-direction="rtl"] {
-    direction: rtl;
-    text-align: right;
-  }
-  
-  [data-i18n-direction="ltr"] {
+  [data-i18n-direction] {
     direction: ltr;
     text-align: left;
   }
