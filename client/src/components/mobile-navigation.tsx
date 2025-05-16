@@ -103,9 +103,9 @@ export function MobileNavigation() {
             
             {/* Seção de verificação de metas de economia */}
             <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
-              <h3 className="text-sm font-medium mb-3">Verificar Metas de Economia</h3>
+              <h3 className="text-sm font-medium mb-3">{t("notifications.check_saving_goals")}</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                Atualize valores e clique no botão abaixo para verificar se você atingiu alguma meta
+                {t("notifications.check_saving_goals_description")}
               </p>
               
               <NotificationService 
