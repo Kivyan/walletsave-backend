@@ -324,7 +324,7 @@ const translations = {
     budget_alert: "Оповещение о бюджете",
     expense_reminder: "Напоминание о расходе",
     saving_goal_reached: "Цель сбережения достигнута",
-    saving_goals: "Цели сбережений",
+    notification_saving_goals: "Цели сбережений",
     saving_goal_reached_title: "Цель сбережения достигнута!",
     saving_goal_reached_body: "Поздравляем! Вы достигли своей цели в размере {{amount}} для {{name}}.",
     saving_goal_near_title: "Цель сбережения почти достигнута!",
@@ -349,8 +349,6 @@ const translations = {
     permission_description: "Пожалуйста, разрешите уведомления в настройках вашего браузера, чтобы получать важные обновления.",
     check_saving_goals: "Проверить цели сбережений",
     check_saving_goals_description: "Обновите значения и нажмите кнопку ниже, чтобы проверить, достигли ли вы какой-либо цели",
-    saving_goals: "Цели сбережений",
-    no_notifications: "Нет уведомлений",
   },
   validation: {
     required_field: "Это поле обязательно",
