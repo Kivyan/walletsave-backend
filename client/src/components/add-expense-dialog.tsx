@@ -199,7 +199,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md" aria-describedby="expense-dialog-description">
+      <DialogContent className="max-w-[90%] sm:max-w-md max-h-[90vh] overflow-y-auto" aria-describedby="expense-dialog-description">
         <DialogHeader>
           <DialogTitle>
             <TranslatedText i18nKey={editExpense ? "expenses.edit_expense" : "expenses.add_expense"}>
