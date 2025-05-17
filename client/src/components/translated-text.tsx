@@ -55,7 +55,7 @@ export function TranslatedText({
     if (translation === i18nKey) {
       // Se não há tradução adequada, use o texto filho como fallback
       content = children;
-    } else if (translation.includes('.') && !translation.includes(' ')) {
+    } else if (typeof translation === 'string' && translation.includes('.') && !translation.includes(' ')) {
       // Se contém um ponto e não tem espaços, provavelmente é uma chave de tradução não traduzida
       // Tenta extrair a última parte da chave (após o último ponto) e apresentar de forma mais amigável
       const parts = translation.split('.');
@@ -69,10 +69,8 @@ export function TranslatedText({
         .trim()
         .replace(/^\w/, c => c.toUpperCase()); // Primeira letra maiúscula
       
-      content = readable;
-      
-      // Log para debug - ajuda a identificar traduções faltantes
-      console.log(`Translation missing or incomplete: ${i18nKey} → ${readable}`);
+      // Em vez de mostrar a chave formatada, tentamos usar o valor children como fallback
+      content = children || readable;
     } else {
       content = translation;
     }
