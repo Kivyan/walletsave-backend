@@ -63,6 +63,17 @@ const formatKeyAsReadableText = (key: string): string => {
     .replace(/^\w/, c => c.toUpperCase()); // Primeira letra maiúscula
 };
 
+// Função para verificar se uma tradução está completa
+export const isTranslationComplete = (key: string, translation: string): boolean => {
+  // Verifica se a tradução existe e não é apenas a chave
+  if (!translation || translation === key) return false;
+  
+  // Verifica se a tradução contém pontos (possível indicativo de chave não traduzida)
+  if (translation.includes('.') && !translation.includes(' ')) return false;
+  
+  return true;
+};
+
 // Initialize i18next
 i18n
   .use(initReactI18next)
