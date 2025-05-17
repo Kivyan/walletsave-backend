@@ -59,9 +59,14 @@ export function MobileNavigation() {
     },
   ];
 
+  // Mostrar apenas na página principal
+  if (location !== '/') {
+    return null;
+  }
+
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-neutral-800 shadow-lg md:hidden z-50 border-t border-neutral-200 dark:border-neutral-700">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-neutral-800 shadow-lg md:hidden z-[9999] border-t border-neutral-200 dark:border-neutral-700">
         <div className="flex justify-around">
           {navItems.map((item) => {
             const isActive = location === item.href;
