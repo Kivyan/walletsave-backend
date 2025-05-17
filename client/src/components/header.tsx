@@ -4,7 +4,7 @@ import { NotificationsDropdown } from "@/components/notifications-dropdown-new";
 import { Moon, Sun, ChevronLeft } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 
 interface HeaderProps {
   title: string;
@@ -51,11 +51,17 @@ export function Header({ title }: HeaderProps) {
             </div>
           </div>
 
-          {/* Page title */}
-          <h1 className={`text-xl font-heading font-semibold ${title === "Home" ? "text-secondary dark:text-accent font-bold" : "text-neutral-800 dark:text-white"}`}>
-            {title === "Home" ? "Wallet Save" : title}
-            {title === "Home" && <span className="text-xs ml-1 text-neutral-500 dark:text-neutral-400 align-top">v1.0</span>}
-          </h1>
+          {/* Page title with app name as home button */}
+          <Button 
+            variant="ghost" 
+            className="px-0 hover:bg-transparent"
+            onClick={() => window.location.href = '/'}
+          >
+            <h1 className={`text-xl font-heading font-semibold ${title === "Home" ? "text-secondary dark:text-accent font-bold" : "text-neutral-800 dark:text-white"}`}>
+              Wallet Save
+              {title !== "Home" && <span className="text-sm ml-2 text-neutral-500 dark:text-neutral-400">| {title}</span>}
+            </h1>
+          </Button>
 
           {/* Right actions */}
           <div className="flex items-center space-x-4">
