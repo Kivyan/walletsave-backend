@@ -1,6 +1,8 @@
 const translations = {
   app: {
     name: "Wallet Save",
+    slogan: "Gestione finanziaria intelligente",
+    tagline: "Gestisci le tue finanze con sicurezza",
   },
   common: {
     save: "Salva",
