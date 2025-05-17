@@ -48,6 +48,21 @@ const getBrowserLanguage = () => {
 // Determine the initial language to use
 const initialLanguage = getStoredLanguage() || getBrowserLanguage() || "en";
 
+// Função para formatar textos com pontos quando não encontrar tradução
+const formatKeyAsReadableText = (key: string): string => {
+  // Extrai apenas a última parte da chave (após o último ponto)
+  const parts = key.split('.');
+  const lastPart = parts[parts.length - 1];
+  
+  // Converte de camelCase ou snake_case para formato legível
+  return lastPart
+    .replace(/([A-Z])/g, ' $1') // camelCase para espaços
+    .replace(/_/g, ' ')         // snake_case para espaços
+    .toLowerCase()
+    .trim()
+    .replace(/^\w/, c => c.toUpperCase()); // Primeira letra maiúscula
+};
+
 // Initialize i18next
 i18n
   .use(initReactI18next)
@@ -104,6 +119,22 @@ i18n
   // Ensure keys/translations are loaded before rendering
   partialBundledLanguages: false,
   preload: Object.keys(languages), // Preload all languages
+  
+  // Personaliza o comportamento quando uma chave não é encontrada
+  saveMissing: false,
+  missingKeyHandler: (lngs, ns, key) => {
+    console.log(`Tradução faltando: ${key}`);
+  },
+  
+  // Esta função é chamada quando a tradução não é encontrada
+  // Aqui modificamos para converter chaves em texto legível em vez de mostrar a chave original
+  parseMissingKeyHandler: (key) => {
+    // Se a chave contém pontos, formata para exibição
+    if (key.includes('.')) {
+      return formatKeyAsReadableText(key);
+    }
+    return key;
+  }
 });
 
 // Make sure the language is saved in localStorage when changed
