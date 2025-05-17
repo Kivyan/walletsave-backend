@@ -28,15 +28,14 @@ export function Header({ title }: HeaderProps) {
   return (
     <header className="bg-white dark:bg-neutral-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Nome centralizado do app */}
+        {/* Nome centralizado do app - sempre só Wallet Save */}
         <div className="absolute left-0 right-0 top-0 flex justify-center pt-4 z-10">
           <div 
-            className="cursor-pointer" 
+            className="cursor-pointer mx-auto px-10" 
             onClick={() => window.location.href = '/'}
           >
-            <h1 className="text-lg font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
+            <h1 className="text-lg font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
               Wallet Save
-              {title !== "Home" && <span className="text-sm ml-2 text-gray-500 dark:text-gray-500 font-normal">| {title}</span>}
             </h1>
           </div>
         </div>
