@@ -22,6 +22,11 @@ const translations = {
     view_all: "すべて表示",
     total: "合計",
     no_data: "データがありません",
+    select_all: "すべて選択",
+    language_demo: "言語デモ",
+    select_language: "希望する言語を選択してください",
+    change_language: "言語を変更",
+    items: "アイテム",
   },
   auth: {
     login: "ログイン",

@@ -22,6 +22,11 @@ const translations = {
     view_all: "Voir tout",
     total: "Total",
     no_data: "Aucune donnée disponible",
+    select_all: "Tout sélectionner",
+    language_demo: "Démonstration des langues",
+    select_language: "Sélectionnez votre langue préférée",
+    change_language: "Changer de langue",
+    items: "Éléments",
   },
   auth: {
     login: "Connexion",
