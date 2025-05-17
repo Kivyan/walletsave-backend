@@ -22,6 +22,11 @@ const translations = {
     view_all: "查看全部",
     total: "总计",
     no_data: "无可用数据",
+    select_all: "全选",
+    language_demo: "语言演示",
+    select_language: "选择您的首选语言",
+    change_language: "更改语言",
+    items: "项目",
   },
   auth: {
     login: "登录",
