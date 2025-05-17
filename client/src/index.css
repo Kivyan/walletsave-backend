@@ -32,7 +32,7 @@
   
   @media (max-width: 767px) {
     body {
-      @apply overflow-hidden;
+      @apply overflow-auto;
     }
   }
 
@@ -236,7 +236,17 @@
   .fixed.bottom-0 {
     position: fixed !important;
     bottom: 0 !important;
-    z-index: 50 !important;
+    z-index: 999 !important; /* Aumentando o z-index para garantir que fique sobre tudo */
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  
+  /* Adicionando padding extra para o conteúdo não ficar atrás da barra de navegação */
+  @media (max-width: 767px) {
+    main, .content-wrapper {
+      padding-bottom: 80px !important;
+    }
   }
   
   /* Ajustes para a tela de login */
