@@ -276,8 +276,7 @@ export default function HomePage(): ReactElement {
         )}
       </main>
 
-      {/* Mobile Navigation */}
-      <MobileNavigation />
+      {/* Barra de navegação móvel removida */}
       
       {/* Add Expense Dialog */}
       <AddExpenseDialog
