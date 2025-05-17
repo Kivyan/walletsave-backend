@@ -131,7 +131,7 @@ export function CategoryFilter({
                     className="w-3 h-3 rounded-full mr-2"
                     style={{ backgroundColor: category.color }}
                   />
-                  {getTranslatedCategoryName(category.name)}
+                  {t(`categories.${category.name.toLowerCase()}`, getTranslatedCategoryName(category.name))}
                 </Label>
               </div>
             ))}

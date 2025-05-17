@@ -22,6 +22,7 @@ const translations = {
     view_all: "View All",
     total: "Total",
     no_data: "No data available",
+    select_all: "Select All",
   },
   auth: {
     login: "Login",
