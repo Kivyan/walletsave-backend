@@ -236,11 +236,11 @@ export default function AuthPage() {
             Wallet Save
           </TranslatedText>
           <TranslatedText 
-            i18nKey="auth.slogan"
+            i18nKey="app.slogan"
             tag="p"
             className="text-sm text-neutral-600 dark:text-neutral-400"
           >
-            Controle inteligente de gastos
+            Smart finance management
           </TranslatedText>
         </div>
 

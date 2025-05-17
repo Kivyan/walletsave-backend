@@ -45,7 +45,7 @@ export function TranslatedText({
   // Tratamento especial para categorias e outros textos
   let content = children;
   
-  if (i18nKey.includes("app.name")) {
+  if (i18nKey === "app.name") {
     content = "Wallet Save";
   } else {
     // Para todas as outras chaves, usamos a tradução normal
