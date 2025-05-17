@@ -51,11 +51,25 @@ export function TranslatedText({
     // Para todas as outras chaves, usamos a tradução normal
     const translation = t(i18nKey, values);
     
-    // Verifique se a tradução é igual à chave (caso em que a tradução não foi encontrada)
-    // ou se contém um ponto (indicando que a chave foi retornada em vez da tradução)
-    if (translation === i18nKey || translation.includes('.')) {
+    // Verificações para evitar exibição de chaves de tradução ou textos com formato ruim
+    if (translation === i18nKey) {
       // Se não há tradução adequada, use o texto filho como fallback
       content = children;
+    } else if (translation.includes('.')) {
+      // Se contém um ponto, provavelmente é uma chave de tradução
+      // Tenta extrair a última parte da chave (após o último ponto) e apresentar de forma mais amigável
+      const parts = translation.split('.');
+      const lastPart = parts[parts.length - 1];
+      
+      // Converte de camelCase ou snake_case para formato normal
+      const readable = lastPart
+        .replace(/([A-Z])/g, ' $1') // camelCase para espaços
+        .replace(/_/g, ' ')         // snake_case para espaços
+        .toLowerCase()
+        .trim()
+        .replace(/^\w/, c => c.toUpperCase()); // Primeira letra maiúscula
+      
+      content = readable;
     } else {
       content = translation;
     }

@@ -87,17 +87,23 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
     const normalizedName = categoryName.toLowerCase().trim();
     
     // Usa o mapa centralizado de categorias importado de utils.ts
-    // Isso garante que todas as categorias sejam traduzidas de forma consistente em toda a aplicação
     const translationKey = CATEGORY_TRANSLATION_MAP[normalizedName];
     
     if (translationKey) {
       // Usa a chave de tradução encontrada
-      return t(translationKey, categoryName);
+      const translation = t(translationKey, categoryName);
+      
+      // Verifica se a tradução é a própria chave (caso não exista tradução)
+      if (translation === translationKey || translation.includes('.')) {
+        // Formata o nome original da categoria para exibição
+        return categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+      }
+      
+      return translation;
     }
     
-    // Se não for uma categoria conhecida, tenta construir uma chave de tradução ou usa o nome original
-    const generatedKey = `categories.${normalizedName.replace(/\s+/g, '_')}`;
-    return t(generatedKey, categoryName);
+    // Se não for uma categoria conhecida, retorna o nome formatado diretamente
+    return categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
   };
 
   const CustomTooltip = ({ active, payload }: any) => {
