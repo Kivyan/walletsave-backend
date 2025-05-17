@@ -45,8 +45,28 @@ export function TranslatedText({
   // Tratamento especial para categorias e outros textos
   let content = children;
   
+  // Sempre mostra Wallet Save como nome do app, independente do idioma
   if (i18nKey === "app.name") {
     content = "Wallet Save";
+  } else if (i18nKey.startsWith("categories.")) {
+    // Tratamento especial para categorias - alta prioridade de tradução
+    const categoryKey = i18nKey;
+    const translation = t(categoryKey, values);
+    
+    // Se a tradução retornar a própria chave, extrai o nome da categoria
+    if (translation === categoryKey || (typeof translation === 'string' && translation.includes('.'))) {
+      const category = i18nKey.split('.')[1];
+      const readable = category
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/_/g, ' ')
+        .toLowerCase()
+        .trim()
+        .replace(/^\w/, c => c.toUpperCase());
+      
+      content = children || readable;
+    } else {
+      content = translation;
+    }
   } else {
     // Para todas as outras chaves, usamos a tradução normal
     const translation = t(i18nKey, values);
