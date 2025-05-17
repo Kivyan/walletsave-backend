@@ -56,9 +56,9 @@ export function Header({ title }: HeaderProps) {
             className="cursor-pointer" 
             onClick={() => window.location.href = '/'}
           >
-            <h1 className="text-2xl font-heading font-bold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <h1 className="text-lg font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
               Wallet Save
-              {title !== "Home" && <span className="text-sm ml-2 text-gray-600 dark:text-gray-400 font-normal">| {title}</span>}
+              {title !== "Home" && <span className="text-sm ml-2 text-gray-500 dark:text-gray-500 font-normal">| {title}</span>}
             </h1>
           </div>
 
