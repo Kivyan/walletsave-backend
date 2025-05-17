@@ -53,13 +53,13 @@ export function Header({ title }: HeaderProps) {
 
           {/* Page title with app name as home button */}
           <Button 
-            variant="ghost" 
-            className="px-0 hover:bg-transparent"
+            variant="outline" 
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 border-gray-400 dark:border-gray-500"
             onClick={() => window.location.href = '/'}
           >
-            <h1 className={`text-xl font-heading font-semibold ${title === "Home" ? "text-secondary dark:text-accent font-bold" : "text-neutral-800 dark:text-white"}`}>
+            <h1 className="text-xl font-heading font-bold text-gray-700 dark:text-gray-300">
               Wallet Save
-              {title !== "Home" && <span className="text-sm ml-2 text-neutral-500 dark:text-neutral-400">| {title}</span>}
+              {title !== "Home" && <span className="text-sm ml-2 text-gray-600 dark:text-gray-400 font-normal">| {title}</span>}
             </h1>
           </Button>
 
