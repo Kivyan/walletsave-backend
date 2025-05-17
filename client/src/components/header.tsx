@@ -51,17 +51,16 @@ export function Header({ title }: HeaderProps) {
             </div>
           </div>
 
-          {/* Page title with app name as home button */}
-          <Button 
-            variant="outline" 
-            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 border-gray-400 dark:border-gray-500"
+          {/* Page title with app name as home button - just text */}
+          <div 
+            className="cursor-pointer" 
             onClick={() => window.location.href = '/'}
           >
-            <h1 className="text-xl font-heading font-bold text-gray-700 dark:text-gray-300">
+            <h1 className="text-2xl font-heading font-bold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
               Wallet Save
               {title !== "Home" && <span className="text-sm ml-2 text-gray-600 dark:text-gray-400 font-normal">| {title}</span>}
             </h1>
-          </Button>
+          </div>
 
           {/* Right actions */}
           <div className="flex items-center space-x-4">
