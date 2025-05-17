@@ -57,13 +57,22 @@ export function I18nProvider({ children }: I18nProviderProps) {
     };
   }, [i18n]);
   
-  const setLanguage = (lang: string) => {
+  const setLanguage = async (lang: string) => {
     // Primeiro salvamos no localStorage para garantir persistência
     localStorage.setItem("i18nextLng", lang);
     console.log("I18nProvider.setLanguage: Idioma salvo no localStorage:", lang);
     
-    // Depois mudamos o idioma no i18next
-    i18n.changeLanguage(lang);
+    // Mudamos o idioma no i18next e esperamos a conclusão
+    await i18n.changeLanguage(lang);
+    
+    // Recarregar os recursos do idioma selecionado
+    await i18n.reloadResources(lang);
+    
+    // Forçar atualização em todo o app
+    setCurrentLanguage(lang);
+    
+    // Disparar evento global
+    window.dispatchEvent(new Event('languageChanged'));
   };
   
   return (

@@ -22,21 +22,28 @@ export function LanguageSelector() {
   const handleLanguageChange = async (languageCode: string) => {
     setIsOpen(false);
     
-    console.log(`Alterando idioma para: ${languageCode}, usuário logado: ${!!user}`);
+    console.log(`Definindo idioma no registro:`, languageCode);
     
     // Salvar no localStorage primeiro para garantir persistência
     localStorage.setItem("i18nextLng", languageCode);
     
-    // Usar o novo contexto para mudar o idioma
+    // Mudar o idioma diretamente via i18n para garantir que seja aplicado imediatamente
+    await i18n.changeLanguage(languageCode);
+    
+    // Usar o novo contexto para manter estado consistente
     setLanguage(languageCode);
     
-    // Executar um timer curto para garantir que todas as mudanças sejam aplicadas
-    setTimeout(() => {
-      // Também recarregar o i18n para garantir que todas as traduções sejam carregadas
-      i18n.reloadResources(languageCode).then(() => {
-        console.log(`Recursos de idioma ${languageCode} recarregados`);
-      });
-    }, 50);
+    // Forçar recarga de recursos
+    try {
+      await i18n.reloadResources();
+      
+      // Disparar evento manual para garantir que componentes reajam à mudança
+      window.dispatchEvent(new Event('languageChanged'));
+      
+      console.log(`Idioma alterado com sucesso para: ${languageCode}`);
+    } catch (error) {
+      console.error("Erro ao recarregar recursos de idioma:", error);
+    }
     
     // Salvar a preferência de idioma no perfil do usuário se ele estiver autenticado
     if (user) {
