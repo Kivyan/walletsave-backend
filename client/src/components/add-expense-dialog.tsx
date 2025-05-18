@@ -271,7 +271,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           {field.value ? (
                             formatDate(field.value, i18n.language)
                           ) : (
-                            <span>{t("expenses.select_date")}</span>
+                            <span>{t("expense.select_date")}</span>
                           )}
                         </Button>
                       </FormControl>
@@ -301,7 +301,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t("expenses.select_category")} />
+                        <SelectValue placeholder={t("expense.select_category")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -331,7 +331,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem className="space-y-2">
                   <FormLabel>
-                    <TranslatedText i18nKey="expenses.type">Tipo</TranslatedText>
+                    <TranslatedText i18nKey="expense.type">Tipo</TranslatedText>
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -344,7 +344,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           <RadioGroupItem value="fixed" id="expense-type-fixed" />
                         </FormControl>
                         <FormLabel className="font-normal" htmlFor="expense-type-fixed">
-                          <TranslatedText i18nKey="expenses.fixed">Fixo</TranslatedText>
+                          <TranslatedText i18nKey="expense.fixed">Fixo</TranslatedText>
                         </FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-2 space-y-0">
@@ -352,7 +352,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           <RadioGroupItem value="variable" id="expense-type-variable" />
                         </FormControl>
                         <FormLabel className="font-normal" htmlFor="expense-type-variable">
-                          <TranslatedText i18nKey="expenses.variable">Variável</TranslatedText>
+                          <TranslatedText i18nKey="expense.variable">Variável</TranslatedText>
                         </FormLabel>
                       </FormItem>
                     </RadioGroup>
@@ -369,7 +369,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                 <FormItem className="flex flex-row items-center justify-between space-y-0 rounded-md border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>
-                      <TranslatedText i18nKey="expenses.recurring">Recorrente</TranslatedText>
+                      <TranslatedText i18nKey="expense.recurring">Recorrente</TranslatedText>
                     </FormLabel>
                   </div>
                   <FormControl>
@@ -393,12 +393,12 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        <TranslatedText i18nKey="expenses.frequency">Frequência</TranslatedText>
+                        <TranslatedText i18nKey="expense.frequency">Frequência</TranslatedText>
                       </FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder={t("expenses.select_frequency")} />
+                            <SelectValue placeholder={t("expense.select_frequency")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
