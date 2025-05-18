@@ -282,6 +282,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         selected={field.value}
                         onSelect={field.onChange}
                         initialFocus
+                        locale={getLocaleFromLanguage(i18n.language)}
                       />
                     </PopoverContent>
                   </Popover>
@@ -449,6 +450,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                             onSelect={field.onChange}
                             initialFocus
                             disabled={(date) => date < new Date()}
+                            locale={getLocaleFromLanguage(i18n.language)}
                           />
                         </PopoverContent>
                       </Popover>
