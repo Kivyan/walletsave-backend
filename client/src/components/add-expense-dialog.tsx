@@ -403,13 +403,13 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="weekly">
-                            <TranslatedText i18nKey="expenses.weekly">Semanal</TranslatedText>
+                            <TranslatedText i18nKey="expense.weekly">Semanal</TranslatedText>
                           </SelectItem>
                           <SelectItem value="monthly">
-                            <TranslatedText i18nKey="expenses.monthly">Mensal</TranslatedText>
+                            <TranslatedText i18nKey="expense.monthly">Mensal</TranslatedText>
                           </SelectItem>
                           <SelectItem value="yearly">
-                            <TranslatedText i18nKey="expenses.yearly">Anual</TranslatedText>
+                            <TranslatedText i18nKey="expense.yearly">Anual</TranslatedText>
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -424,7 +424,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>
-                        <TranslatedText i18nKey="expenses.end_date">Data Final</TranslatedText>
+                        <TranslatedText i18nKey="expense.end_date">Data Final</TranslatedText>
                       </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
@@ -437,7 +437,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               {field.value ? (
                                 formatDate(field.value, i18n.language)
                               ) : (
-                                <span>{t("expenses.select_end_date")}</span>
+                                <span>{t("expense.select_end_date")}</span>
                               )}
                             </Button>
                           </FormControl>
