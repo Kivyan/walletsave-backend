@@ -132,6 +132,11 @@ const translations = {
     month_expenses: "Despesas do Mês",
     filter_by_category: "Filtrar por Categoria",
     expense_details: "Detalhes da Despesa",
+    my_expenses: "Minhas Despesas",
+    today: "Hoje",
+    yesterday: "Ontem",
+    distribution_by_category: "Distribuição por Categoria",
+    recent_expenses: "Despesas Recentes",
   },
   category: {
     add_category: "Adicionar Categoria",
@@ -203,6 +208,7 @@ const translations = {
     setup_budget: "Configure seu orçamento mensal",
     no_budget: "Nenhum orçamento para este mês",
     monthly_budget: "Orçamento Mensal",
+    my_budget: "Meu Orçamento",
   },
   reports: {
     monthly: "Mensal",
