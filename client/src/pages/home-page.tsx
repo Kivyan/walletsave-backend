@@ -235,7 +235,7 @@ export default function HomePage(): ReactElement {
                     <Icons.Receipt className="h-4 w-4 text-red-600 dark:text-red-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("expenses.my_expenses")}</div>
+                    <div className="text-sm font-medium">{t("expense.my_expenses")}</div>
                     <div className="text-lg font-bold">{formatMoney(totalExpenses)}</div>
                   </div>
                 </div>
@@ -264,7 +264,7 @@ export default function HomePage(): ReactElement {
             {/* Expense Chart */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-4 sm:p-6">
               <h2 className="text-lg font-heading font-semibold text-neutral-800 dark:text-white mb-4">
-                {t("expenses.distribution")}
+                {t("expense.distribution")}
               </h2>
               
               <ExpenseChart 
