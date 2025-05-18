@@ -487,7 +487,7 @@ export default function FinancePage() {
                 <CardContent>
                   {monthlyExpenses.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-neutral-500 dark:text-neutral-400">{t("expenses.no_expenses")}</p>
+                      <p className="text-neutral-500 dark:text-neutral-400">{t("expense.no_expenses")}</p>
                     </div>
                   ) : (
                     <div className="space-y-3">

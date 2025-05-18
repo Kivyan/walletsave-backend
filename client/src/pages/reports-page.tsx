@@ -177,7 +177,7 @@ export default function ReportsPage() {
           <TabsContent value="monthly">
             <Card>
               <CardHeader>
-                <CardTitle>{t("expenses.distribution")}</CardTitle>
+                <CardTitle>{t("expense.distribution")}</CardTitle>
                 <CardDescription>
                   {t("reports.category_distribution_description")}
                 </CardDescription>
@@ -303,7 +303,7 @@ export default function ReportsPage() {
           <CardContent>
             {monthlyExpenses.length === 0 ? (
               <p className="text-neutral-500 dark:text-neutral-400">
-                {t("expenses.no_expenses")}
+                {t("expense.no_expenses")}
               </p>
             ) : (
               <div className="space-y-4">

@@ -267,7 +267,7 @@ export default function HomePage(): ReactElement {
             {/* Expense Chart */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-4 sm:p-6">
               <h2 className="text-lg font-heading font-semibold text-neutral-800 dark:text-white mb-4">
-                {t("expenses.distribution")}
+                {t("expense.distribution")}
               </h2>
               
               <ExpenseChart 
