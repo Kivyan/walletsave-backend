@@ -106,6 +106,13 @@ const translations = {
     distribution: "Répartition des dépenses",
     paid: "Payé",
     unpaid: "Non payé",
+    my_expenses: "Mes Dépenses",
+    today: "Aujourd'hui",
+    yesterday: "Hier",
+    distribution_by_category: "Répartition par Catégorie",
+    recent_expenses: "Dépenses Récentes",
+    add_new_expense: "Ajouter Nouvelle Dépense",
+    expense_details: "Détails de la Dépense",
   },
   category: {
     add_category: "Ajouter une catégorie",
