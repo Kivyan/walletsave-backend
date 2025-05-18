@@ -131,6 +131,13 @@ const translations = {
     distribution: "Expense Distribution",
     paid: "Paid",
     unpaid: "Unpaid",
+    my_expenses: "My Expenses",
+    today: "Today",
+    yesterday: "Yesterday",
+    distribution_by_category: "Distribution by Category",
+    recent_expenses: "Recent Expenses",
+    add_new_expense: "Add New Expense",
+    expense_details: "Expense Details",
   },
   category: {
     add_category: "Add Category",
