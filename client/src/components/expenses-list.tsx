@@ -61,7 +61,7 @@ export function ExpensesList({ expenses, categories }: ExpensesListProps) {
     <div className="mb-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-heading font-semibold text-neutral-800 dark:text-white">
-          {t("expenses.my_expenses")}
+          {t("expense.my_expenses")}
         </h2>
         
         <div className="flex items-center space-x-2">
@@ -86,7 +86,7 @@ export function ExpensesList({ expenses, categories }: ExpensesListProps) {
         {filteredExpenses.length === 0 ? (
           <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-8 text-center">
             <p className="text-neutral-500 dark:text-neutral-400">
-              {t("expenses.no_expenses")}
+              {t("expense.no_expenses")}
             </p>
           </div>
         ) : (
