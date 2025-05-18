@@ -227,7 +227,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                     className="text-red-600 focus:text-red-600"
                   >
                     <Trash className="mr-2 h-4 w-4" />
-                    {t("expenses.delete")}
+                    {t("expense.delete")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -240,15 +240,15 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
       <ContextMenuContent className="w-48">
         <ContextMenuItem onClick={handleEdit} disabled={isPending}>
           <Edit className="mr-2 h-4 w-4" />
-          {t("expenses.edit")}
+          {t("expense.edit")}
         </ContextMenuItem>
         <ContextMenuItem onClick={handleDuplicate} disabled={isPending}>
           <Copy className="mr-2 h-4 w-4" />
-          {t("expenses.duplicate")}
+          {t("expense.duplicate")}
         </ContextMenuItem>
         <ContextMenuItem onClick={handleMarkAsPaid} disabled={isPending}>
           <Check className="mr-2 h-4 w-4" />
-          {expense.isPaid ? t("expenses.mark_unpaid") : t("expenses.mark_paid")}
+          {expense.isPaid ? t("expense.mark_unpaid") : t("expense.mark_paid")}
         </ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem
@@ -257,7 +257,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
           className="text-red-600 focus:text-red-600"
         >
           <Trash className="mr-2 h-4 w-4" />
-          {t("expenses.delete")}
+          {t("expense.delete")}
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
