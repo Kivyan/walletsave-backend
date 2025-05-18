@@ -158,7 +158,7 @@ export function ExpenseChart({ expenses, categories }: ExpenseChartProps) {
       <div className="w-full sm:w-1/2">
         <div className="text-center sm:text-left mb-4">
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            {t("expenses.total")}
+            {t("expense.total")}
           </p>
           <p className="text-xl font-semibold">
             {total <= categories.length ? "-" : formatMoney(total)}

@@ -182,7 +182,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                   <Edit className="ml-2 h-3 w-3 text-neutral-400" />
                 </h3>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                  {formatDate(expense.date)} • {expense.isFixed ? t("expenses.fixed") : t("expenses.variable")}
+                  {formatDate(expense.date)} • {expense.isFixed ? t("expense.fixed") : t("expense.variable")}
                 </p>
               </div>
             </div>
@@ -210,15 +210,15 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem onClick={handleEdit} disabled={isPending}>
                     <Edit className="mr-2 h-4 w-4" />
-                    {t("expenses.edit")}
+                    {t("expense.edit")}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleDuplicate} disabled={isPending}>
                     <Copy className="mr-2 h-4 w-4" />
-                    {t("expenses.duplicate")}
+                    {t("expense.duplicate")}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleMarkAsPaid} disabled={isPending}>
                     <Check className="mr-2 h-4 w-4" />
-                    {expense.isPaid ? t("expenses.mark_unpaid") : t("expenses.mark_paid")}
+                    {expense.isPaid ? t("expense.mark_unpaid") : t("expense.mark_paid")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
