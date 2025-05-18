@@ -128,6 +128,13 @@ const translations = {
     distribution: "支出の分布",
     paid: "支払い済み",
     unpaid: "未払い",
+    my_expenses: "私の支出",
+    today: "今日",
+    yesterday: "昨日",
+    distribution_by_category: "カテゴリー別分布",
+    recent_expenses: "最近の支出",
+    add_new_expense: "新しい支出を追加",
+    expense_details: "支出の詳細",
   },
   category: {
     add_category: "カテゴリーを追加",
