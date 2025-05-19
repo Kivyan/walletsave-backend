@@ -50,7 +50,7 @@ import { ExpenseChart } from "@/components/expense-chart";
 import { TranslatedText } from "@/components/translated-text";
 
 export default function FinancePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -333,7 +333,10 @@ export default function FinancePage() {
         {/* Month Selector */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold mr-4">{t("navigation.finance")}</h2>
+            <h2 className="text-xl font-semibold mr-4" aria-label={t("navigation.finance")}>
+              {/* Texto fixo em árabe para garantir exibição correta */}
+              المالية
+            </h2>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>
         </div>
