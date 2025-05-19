@@ -333,10 +333,13 @@ export default function FinancePage() {
         {/* Month Selector */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold mr-4" aria-label={t("navigation.finance")}>
-              {/* Texto fixo em árabe para garantir exibição correta */}
+            <TranslatedText 
+              i18nKey="navigation.finance" 
+              className="text-xl font-semibold mr-4"
+              tag="h2"
+            >
               المالية
-            </h2>
+            </TranslatedText>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>
         </div>
