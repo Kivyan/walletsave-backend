@@ -52,6 +52,15 @@ export function TranslatedText({
   // Sempre mostra Wallet Save como nome do app, independente do idioma
   if (i18nKey === "app.name") {
     content = "Wallet Save";
+  } else if (i18nKey === "wallet.wallets" && i18n.language === "ar") {
+    // Correção específica para a palavra "wallets" em árabe
+    content = "المحافظ";
+  } else if (i18nKey === "navigation.wallet" && i18n.language === "ar") {
+    // Correção específica para a palavra "wallet" no menu de navegação em árabe
+    content = "المحفظة";
+  } else if (i18nKey === "wallet.my_wallets" && i18n.language === "ar") {
+    // Correção específica para "my wallets" em árabe
+    content = "محافظي";
   } else if (i18nKey.startsWith("categories.")) {
     // Tratamento especial para categorias - alta prioridade de tradução
     const categoryKey = i18nKey;
