@@ -101,7 +101,11 @@ export function TranslatedText({
   return (
     <Tag 
       className={`i18n-text ${className || ''}`}
-      style={style}
+      style={{
+        ...style,
+        direction: dir
+      }}
+      dir={dir}
     >
       {content}
     </Tag>
