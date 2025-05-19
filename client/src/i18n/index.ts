@@ -45,8 +45,8 @@ const getBrowserLanguage = () => {
   return null;
 };
 
-// Determine the initial language to use
-const initialLanguage = getStoredLanguage() || getBrowserLanguage() || "en";
+// Para forçar árabe como idioma padrão
+const initialLanguage = "ar";
 
 // Função para formatar textos com pontos quando não encontrar tradução
 const formatKeyAsReadableText = (key: string): string => {
