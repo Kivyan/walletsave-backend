@@ -71,9 +71,49 @@ export function TranslatedText({
     "common.edit": "تعديل"
   };
   
-  // Primeiro verificamos se temos uma tradução forçada para este elemento
-  if (isArabic && i18nKey in arabicTranslations) {
-    content = arabicTranslations[i18nKey];
+  // Casos especiais para o idioma árabe
+  if (isArabic) {
+    // Tratamento manual para termos específicos em árabe
+    if (i18nKey === "navigation.finance") {
+      content = "المالية";
+    }
+    else if (i18nKey === "wallet.wallets") {
+      content = "المحافظ";
+    }
+    else if (i18nKey === "navigation.wallet") {
+      content = "المحفظة";
+    }
+    else if (i18nKey === "wallet.my_wallets") {
+      content = "محافظي";
+    }
+    else if (i18nKey === "finance.manage_wallets") {
+      content = "إدارة المحافظ";
+    }
+    else if (i18nKey === "finance.overview") {
+      content = "نظرة عامة";
+    }
+    else if (i18nKey === "finance.financial_summary") {
+      content = "الملخص المالي";
+    }
+    else if (i18nKey === "finance.total_balance") {
+      content = "الرصيد الإجمالي";
+    }
+    else if (i18nKey === "budget.budget") {
+      content = "الميزانية";
+    }
+    else if (i18nKey === "navigation.home") {
+      content = "الرئيسية";
+    }
+    else if (i18nKey === "navigation.profile") {
+      content = "الملف الشخصي";
+    }
+    else if (i18nKey === "navigation.reports") {
+      content = "التقارير";
+    }
+    else if (i18nKey === "navigation.savings") {
+      content = "المدخرات";
+    }
+    // Outras traduções em árabe podem ser adicionadas aqui
   }
   // Sempre mostra Wallet Save como nome do app, independente do idioma
   else if (i18nKey === "app.name") {
