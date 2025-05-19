@@ -333,13 +333,9 @@ export default function FinancePage() {
         {/* Month Selector */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <TranslatedText 
-              i18nKey="navigation.finance" 
-              className="text-xl font-semibold mr-4"
-              tag="h2"
-            >
+            <h2 className="text-xl font-semibold mr-4 arabic-font">
               المالية
-            </TranslatedText>
+            </h2>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>
         </div>
@@ -353,7 +349,7 @@ export default function FinancePage() {
                 className="flex flex-col items-center justify-center h-20 p-2"
               >
                 <PlusCircle className="h-6 w-6 mb-2" />
-                <span className="text-xs text-center">{t("wallet.add_wallet")}</span>
+                <span className="text-xs text-center arabic-font">إضافة محفظة</span>
               </Button>
               
               <Button 

@@ -41,7 +41,7 @@ export function Header({ title }: HeaderProps) {
                 aria-label={t("common.back")}
               >
                 <ChevronLeft className="h-4 w-4 mr-0 sm:mr-1" />
-                <span className="hidden sm:inline text-sm">{t("common.back")}</span>
+                <span className="hidden sm:inline text-sm">رجوع</span>
               </Button>
             )}
             
@@ -58,7 +58,7 @@ export function Header({ title }: HeaderProps) {
             onClick={() => window.location.href = '/'}
           >
             <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
-              Wallet Save
+              حفظ المحفظة
             </h1>
           </div>
 
