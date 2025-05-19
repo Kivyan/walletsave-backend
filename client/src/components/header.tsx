@@ -28,18 +28,6 @@ export function Header({ title }: HeaderProps) {
   return (
     <header className="bg-white dark:bg-neutral-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        {/* Nome centralizado do app - sempre só Wallet Save - responsivo para todas as telas */}
-        <div className="absolute left-0 right-0 top-0 flex justify-center pt-3 sm:pt-4 z-10 px-2 sm:px-4 md:px-0">
-          <div 
-            className="cursor-pointer mx-auto px-4 sm:px-6 md:px-10" 
-            onClick={() => window.location.href = '/'}
-          >
-            <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
-              Wallet Save
-            </h1>
-          </div>
-        </div>
-        
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Left section with back button and user profile */}
           <div className="flex items-center space-x-2 z-20">
@@ -63,9 +51,15 @@ export function Header({ title }: HeaderProps) {
             </div>
           </div>
 
-          {/* Espaço vazio para manter layout com nome centralizado acima */}
-          <div className="invisible">
-            <h1 className="text-base sm:text-lg">Placeholder</h1>
+          {/* Nome centralizado do app - sempre "Wallet Save" em todas as páginas */}
+          <div 
+            className="cursor-pointer absolute left-0 right-0 mx-auto flex justify-center"
+            style={{ width: 'fit-content' }}
+            onClick={() => window.location.href = '/'}
+          >
+            <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
+              Wallet Save
+            </h1>
           </div>
 
           {/* Right actions */}
