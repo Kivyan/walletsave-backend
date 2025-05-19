@@ -199,26 +199,17 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[90%] sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent 
+        className="max-w-[90%] sm:max-w-md max-h-[90vh] overflow-y-auto" 
+        aria-describedby="expense-dialog-description"
+      >
         <DialogHeader>
           <DialogTitle>
             <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
               {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
             </TranslatedText>
           </DialogTitle>
-          <p className="text-sm text-muted-foreground">
-            <TranslatedText i18nKey="expense.dialog_description">
-              Formulário para adicionar ou editar despesas
-            </TranslatedText>
-          </p>
-        </DialogHeader>
-        <DialogHeader>
-          <DialogTitle>
-            <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
-              {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
-            </TranslatedText>
-          </DialogTitle>
-          <div id="expense-dialog-description" className="sr-only">
+          <div id="expense-dialog-description" className="text-sm text-muted-foreground">
             <TranslatedText i18nKey="expense.dialog_description">
               Formulário para adicionar ou editar despesas
             </TranslatedText>
