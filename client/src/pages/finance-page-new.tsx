@@ -373,7 +373,9 @@ export default function FinancePage() {
                   <p className="text-3xl font-bold text-white mb-2">
                     {formatMoney(totalBalance)}
                   </p>
-                  <p className="text-white/80 text-sm">{wallets.length} {t("wallet.wallets").toLowerCase()}</p>
+                  <p className="text-white/80 text-sm">
+                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span">محافظ</TranslatedText>
+                  </p>
                 </CardContent>
                 <CardFooter className="pt-0">
                   <Button 
