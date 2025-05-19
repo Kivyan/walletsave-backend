@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useTranslation } from 'react-i18next';
+import { TranslatedText } from '@/components/translated-text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@/components/ui/button';
@@ -380,7 +381,7 @@ export default function NotificationService({
             onClick={enableNotifications}
           >
             <FontAwesomeIcon icon={faBell} className="h-4 w-4" />
-            <span>{t('notifications.enable')}</span>
+            <TranslatedText i18nKey="notifications.enable">Ativar notificações</TranslatedText>
           </Button>
         )}
         
@@ -391,7 +392,7 @@ export default function NotificationService({
             className="flex items-center gap-2 text-green-600"
           >
             <FontAwesomeIcon icon={faBell} className="h-4 w-4" />
-            <span>{t('notifications.enabled')}</span>
+            <TranslatedText i18nKey="notifications.enabled">Notificações ativadas</TranslatedText>
           </Button>
         )}
       </div>
@@ -399,14 +400,20 @@ export default function NotificationService({
       <Dialog open={showPermissionDialog} onOpenChange={setShowPermissionDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('notifications.permission_title')}</DialogTitle>
+            <DialogTitle>
+              <TranslatedText i18nKey="notifications.permission_title">
+                Permissão de Notificações
+              </TranslatedText>
+            </DialogTitle>
           </DialogHeader>
           <p className="py-4">
-            {t('notifications.permission_description')}
+            <TranslatedText i18nKey="notifications.permission_description">
+              Para receber notificações sobre suas finanças, você precisa permitir notificações no seu navegador.
+            </TranslatedText>
           </p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowPermissionDialog(false)}>
-              {t('common.close')}
+              <TranslatedText i18nKey="common.close">Fechar</TranslatedText>
             </Button>
           </DialogFooter>
         </DialogContent>
