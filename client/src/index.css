@@ -23,6 +23,12 @@
     text-align: left;
   }
   
+  /* Classe específica para textos em árabe */
+  .arabic-font {
+    font-family: 'Noto Sans Arabic', 'Amiri', 'Scheherazade New', sans-serif;
+    font-weight: normal;
+  }
+  
   /* Comportamento diferente para desktop vs mobile */
   @media (min-width: 768px) {
     body {

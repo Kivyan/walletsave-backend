@@ -30,6 +30,8 @@ export function TranslatedText({
   useEffect(() => {
     const handleLanguageChanged = () => {
       setLang(i18n.language);
+      // Força re-renderização com nova chave quando idioma muda
+      setComponentKey(Date.now());
     };
     
     i18n.on('languageChanged', handleLanguageChanged);
@@ -41,28 +43,45 @@ export function TranslatedText({
     };
   }, [i18n]);
   
-  // Define a direção do texto com base no idioma
-  const dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
-  // Registra o idioma atual para depuração
-  console.log(`Idioma atual: ${i18n.language}`);
+  // Ajustes especiais para o idioma árabe
+  const isArabic = i18n.language === 'ar';
   
   // Tratamento especial para categorias e outros textos
   let content = children;
   
+  // Traduções forçadas para certos elementos em Árabe
+  const arabicTranslations: Record<string, string> = {
+    "app.name": "Wallet Save",
+    "wallet.wallets": "المحافظ",
+    "navigation.wallet": "المحفظة",
+    "wallet.my_wallets": "محافظي",
+    "finance.manage_wallets": "إدارة المحافظ",
+    "finance.financial_summary": "الملخص المالي",
+    "finance.overview": "نظرة عامة",
+    "finance.total_balance": "الرصيد الإجمالي",
+    "budget.budget": "الميزانية",
+    "navigation.finance": "المالية",
+    "navigation.home": "الرئيسية",
+    "navigation.profile": "الملف الشخصي",
+    "navigation.reports": "التقارير",
+    "navigation.savings": "المدخرات",
+    "common.save": "حفظ",
+    "common.cancel": "إلغاء",
+    "common.delete": "حذف",
+    "common.edit": "تعديل"
+  };
+  
+  // Primeiro verificamos se temos uma tradução forçada para este elemento
+  if (isArabic && i18nKey in arabicTranslations) {
+    content = arabicTranslations[i18nKey];
+  }
   // Sempre mostra Wallet Save como nome do app, independente do idioma
-  if (i18nKey === "app.name") {
+  else if (i18nKey === "app.name") {
     content = "Wallet Save";
-  } else if (i18nKey === "wallet.wallets" && i18n.language === "ar") {
-    // Correção específica para a palavra "wallets" em árabe
-    content = "المحافظ";
-  } else if (i18nKey === "navigation.wallet" && i18n.language === "ar") {
-    // Correção específica para a palavra "wallet" no menu de navegação em árabe
-    content = "المحفظة";
-  } else if (i18nKey === "wallet.my_wallets" && i18n.language === "ar") {
-    // Correção específica para "my wallets" em árabe
-    content = "محافظي";
-  } else if (i18nKey.startsWith("categories.")) {
-    // Tratamento especial para categorias - alta prioridade de tradução
+  } 
+  // Tratamento especial para categorias
+  else if (i18nKey.startsWith("categories.")) {
+    // Alta prioridade de tradução para categorias
     const categoryKey = i18nKey;
     const translation = t(categoryKey, values);
     
@@ -80,37 +99,40 @@ export function TranslatedText({
     } else {
       content = translation;
     }
-  } else {
-    // Para todas as outras chaves, usamos a tradução normal
+  } 
+  // Para todas as outras chaves, usamos a tradução normal
+  else {
     const translation = t(i18nKey, values);
     
-    // Verificações para evitar exibição de chaves de tradução ou textos com formato ruim
+    // Verificações para evitar exibição de chaves de tradução
     if (translation === i18nKey) {
       // Se não há tradução adequada, use o texto filho como fallback
       content = children;
     } else if (typeof translation === 'string' && translation.includes('.') && !translation.includes(' ')) {
-      // Se contém um ponto e não tem espaços, provavelmente é uma chave de tradução não traduzida
-      // Tenta extrair a última parte da chave (após o último ponto) e apresentar de forma mais amigável
+      // Se parece uma chave não traduzida, tenta transformar em texto legível
       const parts = translation.split('.');
       const lastPart = parts[parts.length - 1];
       
-      // Converte de camelCase ou snake_case para formato normal
+      // Formata o texto
       const readable = lastPart
-        .replace(/([A-Z])/g, ' $1') // camelCase para espaços
-        .replace(/_/g, ' ')         // snake_case para espaços
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/_/g, ' ')
         .toLowerCase()
         .trim()
-        .replace(/^\w/, c => c.toUpperCase()); // Primeira letra maiúscula
+        .replace(/^\w/, c => c.toUpperCase());
       
-      // Em vez de mostrar a chave formatada, tentamos usar o valor children como fallback
       content = children || readable;
     } else {
       content = translation;
     }
   }
   
+  // CSS condicional para idioma árabe
+  const arabicClass = isArabic ? 'arabic-font ' : '';
+  
+  // Força re-renderização quando o idioma mudar (usando a chave)
   return (
-    <Tag className={`i18n-text ${className || ''}`} style={style}>
+    <Tag key={componentKey} className={`i18n-text ${arabicClass}${className || ''}`} style={style}>
       {content}
     </Tag>
   );
