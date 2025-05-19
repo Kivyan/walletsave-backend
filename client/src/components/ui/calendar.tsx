@@ -9,11 +9,17 @@ import {
   enUS, ptBR, es, fr, de, it, ja, ru, ar, zhCN 
 } from "date-fns/locale"
 import { useTranslation } from "react-i18next"
+import { ptBR as ptBRLocalized } from "date-fns/locale/pt-BR"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  labels?: {
+    months?: string[];
+    weekdays?: string[];
+  }
+}
 
 function Calendar({
   className,
@@ -38,7 +44,41 @@ function Calendar({
   };
   
   // Set the appropriate locale based on the current language
-  const locale = localeMap[i18n.language] || enUS;
+  const locale = props.locale || localeMap[i18n.language] || enUS;
+
+  // Traduzimos os meses e dias da semana manualmente se o idioma for pt
+  const translatedLabels = React.useMemo(() => {
+    if (i18n.language === 'pt') {
+      return {
+        months: [
+          'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ],
+        weekdays: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+        weekdaysLong: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']
+      };
+    } else if (i18n.language === 'fr') {
+      return {
+        months: [
+          'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
+          'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+        ],
+        weekdays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+        weekdaysLong: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
+      };
+    } else if (i18n.language === 'es') {
+      return {
+        months: [
+          'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ],
+        weekdays: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        weekdaysLong: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+      };
+    }
+    
+    return undefined;
+  }, [i18n.language]);
 
   return (
     <DayPicker
@@ -83,6 +123,23 @@ function Calendar({
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
       locale={locale}
+      formatters={{
+        // Forçamos a tradução dos meses e dias da semana
+        formatCaption: (date, options) => {
+          if (translatedLabels) {
+            const month = translatedLabels.months[date.getMonth()];
+            const year = date.getFullYear();
+            return `${month} ${year}`;
+          }
+          return format(date, 'LLLL yyyy', { locale });
+        },
+        formatWeekdayName: (weekday, options) => {
+          if (translatedLabels) {
+            return translatedLabels.weekdays[weekday.getDay() === 0 ? 6 : weekday.getDay() - 1];
+          }
+          return format(weekday, 'EEEEEE', { locale });
+        },
+      }}
       {...props}
     />
   )

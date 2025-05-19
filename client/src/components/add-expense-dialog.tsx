@@ -199,7 +199,19 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[90%] sm:max-w-md max-h-[90vh] overflow-y-auto" aria-describedby="expense-dialog-description">
+      <DialogContent className="max-w-[90%] sm:max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>
+            <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
+              {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
+            </TranslatedText>
+          </DialogTitle>
+          <p className="text-sm text-muted-foreground">
+            <TranslatedText i18nKey="expense.dialog_description">
+              Formulário para adicionar ou editar despesas
+            </TranslatedText>
+          </p>
+        </DialogHeader>
         <DialogHeader>
           <DialogTitle>
             <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
@@ -297,7 +309,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <TranslatedText i18nKey="expenses.category">Categoria</TranslatedText>
+                    <TranslatedText i18nKey="expense.category">Categoria</TranslatedText>
                   </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
