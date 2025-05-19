@@ -41,6 +41,8 @@ export function TranslatedText({
   
   // Define a direção do texto com base no idioma
   const dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+  // Registra o idioma atual para depuração
+  console.log(`Idioma atual: ${i18n.language}`);
   
   // Tratamento especial para categorias e outros textos
   let content = children;
