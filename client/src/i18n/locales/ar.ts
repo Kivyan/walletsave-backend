@@ -392,6 +392,7 @@ const translations = {
     update_profile: "تحديث الملف الشخصي",
   },
   notifications: {
+    title: "الإشعارات",
     all_notifications: "جميع الإشعارات",
     mark_as_read: "تحديد كمقروء",
     mark_all_as_read: "تحديد الكل كمقروء",

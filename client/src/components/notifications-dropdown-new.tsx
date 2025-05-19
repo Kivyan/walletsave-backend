@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Bell, AlertTriangle, Calendar, Clock } from "lucide-react";
+import { TranslatedText } from "@/components/translated-text";
 import { useQuery } from "@tanstack/react-query";
 import { Expense, Category } from "@shared/schema";
 import { formatDate } from "@/lib/utils";
@@ -97,7 +98,7 @@ export function NotificationsDropdown() {
       <DropdownMenuContent align="end" className="w-80">
         <div className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
           <h3 className="font-medium text-neutral-800 dark:text-white">
-            {t("notifications.title")}
+            <TranslatedText i18nKey="notifications.title">الإشعارات</TranslatedText>
           </h3>
         </div>
         
