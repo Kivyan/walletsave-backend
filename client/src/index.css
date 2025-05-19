@@ -25,8 +25,11 @@
   
   /* Classe específica para textos em árabe */
   .arabic-font {
-    font-family: 'Noto Sans Arabic', 'Amiri', 'Scheherazade New', sans-serif;
-    font-weight: normal;
+    font-family: 'Noto Sans Arabic', 'Amiri', 'Scheherazade New', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #000000;
+    text-shadow: 0px 0px 1px rgba(0,0,0,0.1);
   }
   
   /* Comportamento diferente para desktop vs mobile */
