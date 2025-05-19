@@ -12,29 +12,15 @@
   }
   
   /* Configurações globais para suporte a diferentes idiomas */
-  /* Configuração padrão para idiomas LTR */
+  /* Mantendo todos os idiomas com direção LTR */
   html body {
     text-align: left;
   }
   
-  /* Configuração específica para suporte a idiomas RTL como árabe */
-  html[lang="ar"] body {
-    text-align: right;
-    direction: rtl;
-  }
-  
-  /* Suporte específico para textos em árabe */
-  .i18n-text[dir="rtl"] {
-    text-align: right;
-    direction: rtl;
-    unicode-bidi: embed;
-  }
-  
-  /* Classe para forçar direção RTL em elementos específicos */
-  .rtl-text {
-    text-align: right;
-    direction: rtl;
-    unicode-bidi: embed;
+  /* Ajustes globais para internacionalização */
+  [data-i18n-direction] {
+    direction: ltr;
+    text-align: left;
   }
   
   /* Comportamento diferente para desktop vs mobile */

@@ -30,15 +30,10 @@ export function TranslatedText({
   useEffect(() => {
     const handleLanguageChanged = () => {
       setLang(i18n.language);
-      // Força re-renderização com nova chave quando idioma muda
-      setComponentKey(Date.now());
     };
     
     i18n.on('languageChanged', handleLanguageChanged);
     window.addEventListener('languageChanged', handleLanguageChanged);
-    
-    // Defina o atributo lang no HTML para ajudar no suporte a RTL
-    document.documentElement.setAttribute('lang', i18n.language);
     
     return () => {
       i18n.off('languageChanged', handleLanguageChanged);
@@ -105,20 +100,8 @@ export function TranslatedText({
     }
   }
   
-  // Use a chave para forçar re-renderização quando o idioma mudar
   return (
-    <Tag 
-      key={componentKey}
-      className={`i18n-text ${dir === 'rtl' ? 'rtl-text' : ''} ${className || ''}`}
-      style={{
-        ...style,
-        direction: dir,
-        textAlign: dir === 'rtl' ? 'right' : 'left',
-        display: 'inline-block',
-        unicodeBidi: 'embed'
-      }}
-      dir={dir}
-    >
+    <Tag className={`i18n-text ${className || ''}`} style={style}>
       {content}
     </Tag>
   );
