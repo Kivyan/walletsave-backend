@@ -347,7 +347,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         <FormControl>
                           <RadioGroupItem value="fixed" id="expense-type-fixed" />
                         </FormControl>
-                        <FormLabel className="font-normal" htmlFor="expense-type-fixed">
+                        <FormLabel className="font-normal dark:text-gray-300 text-gray-800" htmlFor="expense-type-fixed">
                           <TranslatedText i18nKey="expense.fixed">Fixo</TranslatedText>
                         </FormLabel>
                       </FormItem>
@@ -355,7 +355,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         <FormControl>
                           <RadioGroupItem value="variable" id="expense-type-variable" />
                         </FormControl>
-                        <FormLabel className="font-normal" htmlFor="expense-type-variable">
+                        <FormLabel className="font-normal dark:text-gray-300 text-gray-800" htmlFor="expense-type-variable">
                           <TranslatedText i18nKey="expense.variable">Variável</TranslatedText>
                         </FormLabel>
                       </FormItem>
@@ -407,13 +407,19 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="weekly">
-                            <TranslatedText i18nKey="expense.weekly">Semanal</TranslatedText>
+                            <span className="dark:text-gray-300 text-gray-800">
+                              <TranslatedText i18nKey="expense.weekly">Semanal</TranslatedText>
+                            </span>
                           </SelectItem>
                           <SelectItem value="monthly">
-                            <TranslatedText i18nKey="expense.monthly">Mensal</TranslatedText>
+                            <span className="dark:text-gray-300 text-gray-800">
+                              <TranslatedText i18nKey="expense.monthly">Mensal</TranslatedText>
+                            </span>
                           </SelectItem>
                           <SelectItem value="yearly">
-                            <TranslatedText i18nKey="expense.yearly">Anual</TranslatedText>
+                            <span className="dark:text-gray-300 text-gray-800">
+                              <TranslatedText i18nKey="expense.yearly">Anual</TranslatedText>
+                            </span>
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -471,12 +477,14 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                 onClick={() => onOpenChange(false)}
                 disabled={expenseMutation.isPending}
               >
-                <TranslatedText i18nKey="common.cancel">Cancelar</TranslatedText>
+                <span className="dark:text-gray-300">
+                  <TranslatedText i18nKey="common.cancel">Cancelar</TranslatedText>
+                </span>
               </Button>
               <Button type="submit" disabled={expenseMutation.isPending}>
                 {expenseMutation.isPending 
-                  ? <TranslatedText i18nKey="common.saving">Salvando...</TranslatedText> 
-                  : <TranslatedText i18nKey="common.save">Salvar</TranslatedText>
+                  ? <span className="dark:text-gray-300"><TranslatedText i18nKey="common.saving">Salvando...</TranslatedText></span> 
+                  : <span className="dark:text-gray-300"><TranslatedText i18nKey="common.save">Salvar</TranslatedText></span>
                 }
               </Button>
             </DialogFooter>
