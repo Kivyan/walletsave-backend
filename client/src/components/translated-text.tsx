@@ -97,56 +97,44 @@ export function TranslatedText({
 
 // Função auxiliar para transformar chaves em texto legível
 function makeReadable(key: string, language?: string): string {
-  // Definir linguagem padrão como inglês se não for fornecida
-  const currentLanguage = language || 'en';
   const parts = key.split('.');
   const lastPart = parts[parts.length - 1];
   
-  // Dicionário de palavras comuns para tradução direta
-  const commonWords: Record<string, Record<string, string>> = {
-    'wallet': {
-      'ar': 'محفظة',   // árabe
-      'pt': 'Carteira', // português
-      'es': 'Cartera',  // espanhol
-      'fr': 'Portefeuille', // francês
-      'de': 'Brieftasche', // alemão
-      'it': 'Portafoglio', // italiano
-      'ru': 'Кошелек',   // russo
-      'zh': '钱包',      // chinês
-      'ja': 'ウォレット'  // japonês
-    },
-    'expense': {
-      'ar': 'نفقة',     // árabe
-      'pt': 'Despesa',  // português
-      'es': 'Gasto',    // espanhol
-      'fr': 'Dépense',  // francês
-      'de': 'Ausgabe',  // alemão
-      'it': 'Spesa',    // italiano
-      'ru': 'Расход',   // russo
-      'zh': '支出',     // chinês
-      'ja': '経費'      // japonês
-    },
-    'budget': {
-      'ar': 'ميزانية',  // árabe
-      'pt': 'Orçamento', // português
-      'es': 'Presupuesto', // espanhol
-      'fr': 'Budget',   // francês
-      'de': 'Budget',   // alemão
-      'it': 'Bilancio', // italiano
-      'ru': 'Бюджет',   // russo
-      'zh': '预算',     // chinês
-      'ja': '予算'      // japonês
-    }
-  };
-  
-  // Verifica se a palavra existe no dicionário
-  if (lastPart.toLowerCase() in commonWords) {
-    const word = lastPart.toLowerCase();
-    const translations = commonWords[word];
+  // Verifica se a parte final é "wallet" e traduz para o idioma solicitado
+  if (lastPart.toLowerCase() === 'wallet') {
+    const lang = language || 'en';
     
-    // Retorna a tradução específica para o idioma, se disponível
-    if (translations[language]) {
-      return translations[language];
+    // Tradução direta para palavra "wallet"
+    switch (lang) {
+      case 'ar': return 'محفظة';   // árabe
+      case 'pt': return 'Carteira'; // português
+      case 'es': return 'Cartera';  // espanhol
+      case 'fr': return 'Portefeuille'; // francês
+      case 'de': return 'Brieftasche'; // alemão
+      case 'it': return 'Portafoglio'; // italiano
+      case 'ru': return 'Кошелек';   // russo
+      case 'zh': return '钱包';      // chinês
+      case 'ja': return 'ウォレット'; // japonês
+      default: return 'Wallet';    // padrão inglês
+    }
+  }
+  
+  // Verifica se a parte final é "expense" e traduz para o idioma solicitado
+  if (lastPart.toLowerCase() === 'expense') {
+    const lang = language || 'en';
+    
+    // Tradução direta para palavra "expense"
+    switch (lang) {
+      case 'ar': return 'نفقة';    // árabe
+      case 'pt': return 'Despesa';  // português
+      case 'es': return 'Gasto';    // espanhol
+      case 'fr': return 'Dépense';  // francês
+      case 'de': return 'Ausgabe';  // alemão
+      case 'it': return 'Spesa';    // italiano
+      case 'ru': return 'Расход';   // russo
+      case 'zh': return '支出';     // chinês
+      case 'ja': return '経費';     // japonês
+      default: return 'Expense';   // padrão inglês
     }
   }
   
