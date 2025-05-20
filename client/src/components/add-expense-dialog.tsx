@@ -272,7 +272,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {field.value ? (
-                            formatDate(field.value, i18n.language)
+                            <span className="dark:text-gray-300 text-gray-800">{formatDate(field.value, i18n.language)}</span>
                           ) : (
                             <span className="dark:text-gray-300 text-gray-800">{t("expense.select_date")}</span>
                           )}
@@ -316,7 +316,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               className="w-3 h-3 rounded-full mr-2"
                               style={{ backgroundColor: category.color }}
                             />
-                            <span>
+                            <span className="dark:text-gray-300 text-gray-800">
                               {getTranslatedCategoryName(category.name)}
                             </span>
                           </div>
@@ -445,7 +445,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {field.value ? (
-                                formatDate(field.value, i18n.language)
+                                <span className="dark:text-gray-300 text-gray-800">{formatDate(field.value, i18n.language)}</span>
                               ) : (
                                 <span className="dark:text-gray-300 text-gray-800">{t("expense.select_end_date")}</span>
                               )}
