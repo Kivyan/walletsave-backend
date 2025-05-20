@@ -100,6 +100,11 @@ function makeReadable(key: string, language?: string): string {
   const parts = key.split('.');
   const lastPart = parts[parts.length - 1];
   
+  // Correção: substituir apenas se o idioma for árabe
+  if (lastPart.toLowerCase() === 'wallet' && document.documentElement.lang === 'ar') {
+    return 'محفظة'; // Tradução de "wallet" para árabe
+  }
+  
   // Formatação padrão para palavras não traduzidas diretamente
   return lastPart
     .replace(/([A-Z])/g, ' $1')
