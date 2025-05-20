@@ -336,8 +336,8 @@ export default function FinancePage() {
         {/* Month Selector */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold mr-4 arabic-font">
-              {pageTitle}
+            <h2 className="text-xl font-semibold mr-4">
+              المالية
             </h2>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>
