@@ -53,9 +53,24 @@ export function TranslatedText({
   if (isArabic && i18nKey === "navigation.finance") {
     content = "المالية";
   }
-  // O nome do app é sempre Wallet Save em qualquer idioma
+  // Traduções do nome do aplicativo conforme o idioma
   else if (i18nKey === "app.name") {
-    content = "Wallet Save";
+    // Traduções específicas para cada idioma
+    const appNameTranslations: Record<string, string> = {
+      'en': 'Wallet Save',
+      'pt': 'Salvar Carteira',
+      'es': 'Ahorro de Cartera', 
+      'fr': 'Économie de Portefeuille',
+      'de': 'Brieftasche Sparen',
+      'it': 'Risparmio Portafoglio',
+      'ru': 'Экономия Кошелька',
+      'zh': '钱包储蓄',
+      'ja': 'ウォレット節約', 
+      'ar': 'توفير المحفظة'
+    };
+    
+    // Usa a tradução específica ou volta para "Wallet Save" se não houver
+    content = appNameTranslations[i18n.language] || "Wallet Save";
   }
   // Para todas as outras chaves, tenta usar o sistema i18n normal
   else {
