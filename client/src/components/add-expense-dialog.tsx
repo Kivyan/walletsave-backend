@@ -396,7 +396,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   name="recurringFrequency"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
+                      <FormLabel className="font-normal text-foreground">
                         <TranslatedText i18nKey="expense.frequency">Frequência</TranslatedText>
                       </FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -427,7 +427,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   name="recurringEndDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>
+                      <FormLabel className="font-normal text-foreground">
                         <TranslatedText i18nKey="expense.end_date">Data Final</TranslatedText>
                       </FormLabel>
                       <Popover>
