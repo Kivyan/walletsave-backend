@@ -53,24 +53,10 @@ export function TranslatedText({
   if (isArabic && i18nKey === "navigation.finance") {
     content = "المالية";
   }
-  // Traduções do nome do aplicativo conforme o idioma
+  // Cabeçalho sempre em inglês, conforme solicitado
   else if (i18nKey === "app.name") {
-    // Traduções específicas para cada idioma
-    const appNameTranslations: Record<string, string> = {
-      'en': 'WS',
-      'pt': 'WS',
-      'es': 'WS', 
-      'fr': 'WS',
-      'de': 'WS',
-      'it': 'WS',
-      'ru': 'WS',
-      'zh': 'WS',
-      'ja': 'WS', 
-      'ar': 'WS'
-    };
-    
-    // Usa a tradução específica ou volta para "WS" se não houver
-    content = appNameTranslations[i18n.language] || "WS";
+    // Nome do aplicativo sempre em inglês, independente do idioma
+    content = "Wallet Save";
   }
   // Para todas as outras chaves, tenta usar o sistema i18n normal
   else {
