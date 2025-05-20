@@ -100,10 +100,32 @@ function makeReadable(key: string): string {
   const parts = key.split('.');
   const lastPart = parts[parts.length - 1];
   
-  return lastPart
+  // Mapeamento de palavras em inglês para tradução
+  const wordTranslations: Record<string, string> = {
+    'wallet': 'carteira',
+    'save': 'salvar',
+    'expense': 'despesa',
+    'income': 'receita',
+    'budget': 'orçamento',
+    'category': 'categoria',
+    'report': 'relatório',
+    'user': 'usuário',
+    'password': 'senha'
+  };
+  
+  // Primeiro fazemos a formatação padrão
+  let readableText = lastPart
     .replace(/([A-Z])/g, ' $1')
     .replace(/_/g, ' ')
     .toLowerCase()
-    .trim()
-    .replace(/^\w/, c => c.toUpperCase());
+    .trim();
+  
+  // Depois substituímos palavras em inglês por traduções
+  Object.keys(wordTranslations).forEach(englishWord => {
+    const regex = new RegExp(`\\b${englishWord}\\b`, 'gi');
+    readableText = readableText.replace(regex, wordTranslations[englishWord]);
+  });
+  
+  // Finalmente capitalizamos a primeira letra
+  return readableText.replace(/^\w/, c => c.toUpperCase());
 }
