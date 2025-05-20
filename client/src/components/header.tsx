@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 export function Header({ title }: HeaderProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const [location] = useLocation();
 
