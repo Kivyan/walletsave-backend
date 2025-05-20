@@ -60,16 +60,7 @@ export function Header({ title }: HeaderProps) {
           >
             <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
               <span className="dark:text-gray-300">
-                {i18n.language === 'ar' && "حفظ المحفظة"}
-                {i18n.language === 'pt' && "Salvar Carteira"}
-                {i18n.language === 'es' && "Ahorro de Cartera"}
-                {i18n.language === 'fr' && "Économie de Portefeuille"}
-                {i18n.language === 'de' && "Brieftasche Sparen"}
-                {i18n.language === 'it' && "Risparmio Portafoglio"}
-                {i18n.language === 'ru' && "Экономия Кошелька"}
-                {i18n.language === 'zh' && "钱包储蓄"}
-                {i18n.language === 'ja' && "ウォレット節約"}
-                {(i18n.language === 'en' || !['ar', 'pt', 'es', 'fr', 'de', 'it', 'ru', 'zh', 'ja'].includes(i18n.language)) && "Wallet Save"}
+                Wallet Save
               </span>
             </h1>
           </div>
