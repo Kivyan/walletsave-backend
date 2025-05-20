@@ -223,7 +223,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="font-normal text-foreground">
                     <TranslatedText i18nKey="expense.description">Descrição</TranslatedText>
                   </FormLabel>
                   <FormControl>
@@ -239,7 +239,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="font-normal text-foreground">
                     <TranslatedText i18nKey="expense.amount">Valor</TranslatedText>
                   </FormLabel>
                   <FormControl>
@@ -260,7 +260,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>
+                  <FormLabel className="font-normal text-foreground">
                     <TranslatedText i18nKey="expense.date">Data</TranslatedText>
                   </FormLabel>
                   <Popover>
@@ -299,7 +299,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="font-normal text-foreground">
                     <TranslatedText i18nKey="expense.category">Categoria</TranslatedText>
                   </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -334,7 +334,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               name="isFixed"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel>
+                  <FormLabel className="font-normal text-foreground">
                     <TranslatedText i18nKey="expense.type">Tipo</TranslatedText>
                   </FormLabel>
                   <FormControl>
@@ -372,7 +372,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between space-y-0 rounded-md border p-3">
                   <div className="space-y-0.5">
-                    <FormLabel>
+                    <FormLabel className="font-normal text-foreground">
                       <TranslatedText i18nKey="expense.recurring">Recorrente</TranslatedText>
                     </FormLabel>
                   </div>
