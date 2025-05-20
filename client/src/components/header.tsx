@@ -59,7 +59,27 @@ export function Header({ title }: HeaderProps) {
             onClick={() => window.location.href = '/'}
           >
             <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
-              <span className="dark:text-gray-300">{t("app.name")}</span>
+              {i18n.language === 'ar' ? (
+                <span className="dark:text-gray-300">توفير المحفظة</span>
+              ) : i18n.language === 'pt' ? (
+                <span className="dark:text-gray-300">Salvar Carteira</span>
+              ) : i18n.language === 'es' ? (
+                <span className="dark:text-gray-300">Ahorro de Cartera</span>
+              ) : i18n.language === 'fr' ? (
+                <span className="dark:text-gray-300">Économie de Portefeuille</span>
+              ) : i18n.language === 'de' ? (
+                <span className="dark:text-gray-300">Brieftasche Sparen</span>
+              ) : i18n.language === 'it' ? (
+                <span className="dark:text-gray-300">Risparmio Portafoglio</span>
+              ) : i18n.language === 'ru' ? (
+                <span className="dark:text-gray-300">Экономия Кошелька</span>
+              ) : i18n.language === 'zh' ? (
+                <span className="dark:text-gray-300">钱包储蓄</span>
+              ) : i18n.language === 'ja' ? (
+                <span className="dark:text-gray-300">ウォレット節約</span>
+              ) : (
+                <span className="dark:text-gray-300">Wallet Save</span>
+              )}
             </h1>
           </div>
 
