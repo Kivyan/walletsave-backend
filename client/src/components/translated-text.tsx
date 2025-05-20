@@ -78,7 +78,7 @@ export function TranslatedText({
     
     // Se a tradução retornar a própria chave (não traduzido), use o texto filho como fallback
     if (translation === i18nKey) {
-      content = children || makeReadable(i18nKey);
+      content = children || makeReadable(i18nKey, i18n.language);
     } else {
       content = translation;
     }
@@ -96,36 +96,65 @@ export function TranslatedText({
 }
 
 // Função auxiliar para transformar chaves em texto legível
-function makeReadable(key: string): string {
+function makeReadable(key: string, language?: string): string {
+  // Definir linguagem padrão como inglês se não for fornecida
+  const currentLanguage = language || 'en';
   const parts = key.split('.');
   const lastPart = parts[parts.length - 1];
   
-  // Mapeamento de palavras em inglês para tradução
-  const wordTranslations: Record<string, string> = {
-    'wallet': 'carteira',
-    'save': 'salvar',
-    'expense': 'despesa',
-    'income': 'receita',
-    'budget': 'orçamento',
-    'category': 'categoria',
-    'report': 'relatório',
-    'user': 'usuário',
-    'password': 'senha'
+  // Dicionário de palavras comuns para tradução direta
+  const commonWords: Record<string, Record<string, string>> = {
+    'wallet': {
+      'ar': 'محفظة',   // árabe
+      'pt': 'Carteira', // português
+      'es': 'Cartera',  // espanhol
+      'fr': 'Portefeuille', // francês
+      'de': 'Brieftasche', // alemão
+      'it': 'Portafoglio', // italiano
+      'ru': 'Кошелек',   // russo
+      'zh': '钱包',      // chinês
+      'ja': 'ウォレット'  // japonês
+    },
+    'expense': {
+      'ar': 'نفقة',     // árabe
+      'pt': 'Despesa',  // português
+      'es': 'Gasto',    // espanhol
+      'fr': 'Dépense',  // francês
+      'de': 'Ausgabe',  // alemão
+      'it': 'Spesa',    // italiano
+      'ru': 'Расход',   // russo
+      'zh': '支出',     // chinês
+      'ja': '経費'      // japonês
+    },
+    'budget': {
+      'ar': 'ميزانية',  // árabe
+      'pt': 'Orçamento', // português
+      'es': 'Presupuesto', // espanhol
+      'fr': 'Budget',   // francês
+      'de': 'Budget',   // alemão
+      'it': 'Bilancio', // italiano
+      'ru': 'Бюджет',   // russo
+      'zh': '预算',     // chinês
+      'ja': '予算'      // japonês
+    }
   };
   
-  // Primeiro fazemos a formatação padrão
-  let readableText = lastPart
+  // Verifica se a palavra existe no dicionário
+  if (lastPart.toLowerCase() in commonWords) {
+    const word = lastPart.toLowerCase();
+    const translations = commonWords[word];
+    
+    // Retorna a tradução específica para o idioma, se disponível
+    if (translations[language]) {
+      return translations[language];
+    }
+  }
+  
+  // Formatação padrão para palavras não traduzidas diretamente
+  return lastPart
     .replace(/([A-Z])/g, ' $1')
     .replace(/_/g, ' ')
     .toLowerCase()
-    .trim();
-  
-  // Depois substituímos palavras em inglês por traduções
-  Object.keys(wordTranslations).forEach(englishWord => {
-    const regex = new RegExp(`\\b${englishWord}\\b`, 'gi');
-    readableText = readableText.replace(regex, wordTranslations[englishWord]);
-  });
-  
-  // Finalmente capitalizamos a primeira letra
-  return readableText.replace(/^\w/, c => c.toUpperCase());
+    .trim()
+    .replace(/^\w/, c => c.toUpperCase());
 }
