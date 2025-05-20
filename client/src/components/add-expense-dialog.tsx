@@ -204,12 +204,12 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
         aria-describedby="expense-dialog-description"
       >
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="dark:text-gray-300 text-gray-800">
             <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
               {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
             </TranslatedText>
           </DialogTitle>
-          <div id="expense-dialog-description" className="text-sm text-muted-foreground">
+          <div id="expense-dialog-description" className="text-sm dark:text-gray-300 text-muted-foreground">
             <TranslatedText i18nKey="expense.dialog_description">
               Formulário para adicionar ou editar despesas
             </TranslatedText>
@@ -274,7 +274,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                           {field.value ? (
                             formatDate(field.value, i18n.language)
                           ) : (
-                            <span>{t("expense.select_date")}</span>
+                            <span className="dark:text-gray-300 text-gray-800">{t("expense.select_date")}</span>
                           )}
                         </Button>
                       </FormControl>
@@ -305,7 +305,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t("expense.select_category")} />
+                        <SelectValue className="dark:text-gray-300 text-gray-800" placeholder={t("expense.select_category")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -402,7 +402,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder={t("expense.select_frequency")} />
+                            <SelectValue className="dark:text-gray-300 text-gray-800" placeholder={t("expense.select_frequency")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -447,7 +447,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                               {field.value ? (
                                 formatDate(field.value, i18n.language)
                               ) : (
-                                <span>{t("expense.select_end_date")}</span>
+                                <span className="dark:text-gray-300 text-gray-800">{t("expense.select_end_date")}</span>
                               )}
                             </Button>
                           </FormControl>
