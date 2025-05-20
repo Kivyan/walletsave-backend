@@ -337,7 +337,7 @@ export default function FinancePage() {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <h2 className="text-xl font-semibold mr-4">
-              <TranslatedText i18nKey="navigation.finance" />
+              <TranslatedText i18nKey="navigation.finance">Finanças</TranslatedText>
             </h2>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>
@@ -379,7 +379,7 @@ export default function FinancePage() {
                     {formatMoney(totalBalance)}
                   </p>
                   <p className="text-white/80 text-sm">
-                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span"></TranslatedText>
+                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span">محافظ</TranslatedText>
                   </p>
                 </CardContent>
                 <CardFooter className="pt-0">

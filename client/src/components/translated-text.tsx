@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface TranslatedTextProps {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   i18nKey: string;
   values?: Record<string, any>;
