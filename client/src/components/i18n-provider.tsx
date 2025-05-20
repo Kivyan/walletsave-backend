@@ -39,9 +39,13 @@ export function I18nProvider({ children }: I18nProviderProps) {
     const handleLanguageChanged = () => {
       setCurrentLanguage(i18n.language);
       
-      // Sempre mantemos a direção como ltr, independentemente do idioma
-      document.documentElement.setAttribute('dir', 'ltr');
+      // Configurar direção com base no idioma
+      const direction = i18n.language === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.setAttribute('dir', direction);
       document.documentElement.setAttribute('lang', i18n.language);
+      
+      // Log para depuração
+      console.log(`Idioma alterado para: ${i18n.language}, direção: ${direction}`);
       
       // Disparar evento global para que outros componentes possam reagir
       window.dispatchEvent(new Event('languageChanged'));
