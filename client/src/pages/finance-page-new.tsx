@@ -325,16 +325,19 @@ export default function FinancePage() {
   const savedAmount = currentBudget ? (budgetAmount > totalMonthlyExpenses ? budgetAmount - totalMonthlyExpenses : 0) : 0;
   const usedPercentage = calculateBudgetPercentage(totalMonthlyExpenses, budgetAmount);
 
+  // Forçar texto árabe para a página de finanças
+  const pageTitle = i18n.language === 'ar' ? "المالية" : t("navigation.finance");
+
   return (
     <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-24 md:pb-0 overflow-y-auto custom-scrollbar">
-      <Header title={t("navigation.finance")} />
+      <Header title={pageTitle} />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Month Selector */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <h2 className="text-xl font-semibold mr-4 arabic-font">
-              المالية
+              {pageTitle}
             </h2>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>

@@ -45,7 +45,8 @@ const getBrowserLanguage = () => {
   return null;
 };
 
-// Para forçar árabe como idioma padrão
+// Forçar o idioma árabe como padrão explicitamente
+console.log("Definindo idioma árabe como padrão");
 const initialLanguage = "ar";
 
 // Função para formatar textos com pontos quando não encontrar tradução
