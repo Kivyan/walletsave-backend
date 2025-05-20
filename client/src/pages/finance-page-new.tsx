@@ -379,7 +379,7 @@ export default function FinancePage() {
                     {formatMoney(totalBalance)}
                   </p>
                   <p className="text-white/80 text-sm">
-                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span">محافظ</TranslatedText>
+                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span"></TranslatedText>
                   </p>
                 </CardContent>
                 <CardFooter className="pt-0">
