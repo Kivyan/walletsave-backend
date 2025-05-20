@@ -60,7 +60,7 @@ export function Header({ title }: HeaderProps) {
           >
             <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
               <span className="dark:text-gray-300">
-                {i18n.language === 'ar' && "توفير المحفظة"}
+                {i18n.language === 'ar' && "حفظ المحفظة"}
                 {i18n.language === 'pt' && "Salvar Carteira"}
                 {i18n.language === 'es' && "Ahorro de Cartera"}
                 {i18n.language === 'fr' && "Économie de Portefeuille"}

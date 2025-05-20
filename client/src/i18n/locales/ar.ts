@@ -1,6 +1,6 @@
 const translations = {
   app: {
-    name: "توفير المحفظة",
+    name: "حفظ المحفظة",
     slogan: "إدارة مالية ذكية",
     tagline: "أدر أموالك بثقة",
   },

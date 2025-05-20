@@ -66,7 +66,7 @@ export function TranslatedText({
       'ru': 'Экономия Кошелька',
       'zh': '钱包储蓄',
       'ja': 'ウォレット節約', 
-      'ar': 'توفير المحفظة'
+      'ar': 'حفظ المحفظة'
     };
     
     // Usa a tradução específica ou volta para "Wallet Save" se não houver
