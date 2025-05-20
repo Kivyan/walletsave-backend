@@ -89,7 +89,7 @@ export function TranslatedText({
   
   // Força re-renderização quando o idioma mudar (usando a chave)
   return (
-    <Tag key={componentKey} className={`i18n-text dark:text-gray-300 ${arabicClass}${className || ''}`} style={style}>
+    <Tag key={componentKey} className={`i18n-text dark:text-gray-100 ${arabicClass}${className || ''}`} style={style}>
       {content}
     </Tag>
   );
