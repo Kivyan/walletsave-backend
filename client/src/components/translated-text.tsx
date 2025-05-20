@@ -78,7 +78,12 @@ export function TranslatedText({
     
     // Se a tradução retornar a própria chave (não traduzido), use o texto filho como fallback
     if (translation === i18nKey) {
-      content = children || makeReadable(i18nKey, i18n.language);
+      // Substituição direta para a palavra "wallet" em árabe
+      if (i18n.language === 'ar' && i18nKey.toLowerCase().includes('wallet')) {
+        content = 'محفظة';
+      } else {
+        content = children || makeReadable(i18nKey);
+      }
     } else {
       content = translation;
     }
@@ -99,44 +104,6 @@ export function TranslatedText({
 function makeReadable(key: string, language?: string): string {
   const parts = key.split('.');
   const lastPart = parts[parts.length - 1];
-  
-  // Verifica se a parte final é "wallet" e traduz para o idioma solicitado
-  if (lastPart.toLowerCase() === 'wallet') {
-    const lang = language || 'en';
-    
-    // Tradução direta para palavra "wallet"
-    switch (lang) {
-      case 'ar': return 'محفظة';   // árabe
-      case 'pt': return 'Carteira'; // português
-      case 'es': return 'Cartera';  // espanhol
-      case 'fr': return 'Portefeuille'; // francês
-      case 'de': return 'Brieftasche'; // alemão
-      case 'it': return 'Portafoglio'; // italiano
-      case 'ru': return 'Кошелек';   // russo
-      case 'zh': return '钱包';      // chinês
-      case 'ja': return 'ウォレット'; // japonês
-      default: return 'Wallet';    // padrão inglês
-    }
-  }
-  
-  // Verifica se a parte final é "expense" e traduz para o idioma solicitado
-  if (lastPart.toLowerCase() === 'expense') {
-    const lang = language || 'en';
-    
-    // Tradução direta para palavra "expense"
-    switch (lang) {
-      case 'ar': return 'نفقة';    // árabe
-      case 'pt': return 'Despesa';  // português
-      case 'es': return 'Gasto';    // espanhol
-      case 'fr': return 'Dépense';  // francês
-      case 'de': return 'Ausgabe';  // alemão
-      case 'it': return 'Spesa';    // italiano
-      case 'ru': return 'Расход';   // russo
-      case 'zh': return '支出';     // chinês
-      case 'ja': return '経費';     // japonês
-      default: return 'Expense';   // padrão inglês
-    }
-  }
   
   // Formatação padrão para palavras não traduzidas diretamente
   return lastPart
