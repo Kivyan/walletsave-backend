@@ -57,20 +57,20 @@ export function TranslatedText({
   else if (i18nKey === "app.name") {
     // Traduções específicas para cada idioma
     const appNameTranslations: Record<string, string> = {
-      'en': 'Wallet Save',
-      'pt': 'Salvar Carteira',
-      'es': 'Ahorro de Cartera', 
-      'fr': 'Économie de Portefeuille',
-      'de': 'Brieftasche Sparen',
-      'it': 'Risparmio Portafoglio',
-      'ru': 'Экономия Кошелька',
-      'zh': '钱包储蓄',
-      'ja': 'ウォレット節約', 
-      'ar': 'حفظ المحفظة'
+      'en': 'WS',
+      'pt': 'WS',
+      'es': 'WS', 
+      'fr': 'WS',
+      'de': 'WS',
+      'it': 'WS',
+      'ru': 'WS',
+      'zh': 'WS',
+      'ja': 'WS', 
+      'ar': 'WS'
     };
     
-    // Usa a tradução específica ou volta para "Wallet Save" se não houver
-    content = appNameTranslations[i18n.language] || "Wallet Save";
+    // Usa a tradução específica ou volta para "WS" se não houver
+    content = appNameTranslations[i18n.language] || "WS";
   }
   // Para todas as outras chaves, tenta usar o sistema i18n normal
   else {
@@ -78,12 +78,7 @@ export function TranslatedText({
     
     // Se a tradução retornar a própria chave (não traduzido), use o texto filho como fallback
     if (translation === i18nKey) {
-      // Substituição direta para a palavra "wallet" em árabe
-      if (i18n.language === 'ar' && i18nKey.toLowerCase().includes('wallet')) {
-        content = 'محفظة';
-      } else {
-        content = children || makeReadable(i18nKey);
-      }
+      content = children || makeReadable(i18nKey);
     } else {
       content = translation;
     }
