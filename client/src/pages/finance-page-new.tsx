@@ -337,7 +337,7 @@ export default function FinancePage() {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <h2 className="text-xl font-semibold mr-4">
-              المالية
+              <TranslatedText i18nKey="navigation.finance" />
             </h2>
             <MonthSelector selected={selectedDate} onSelect={setSelectedDate} />
           </div>
