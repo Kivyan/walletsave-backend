@@ -263,6 +263,11 @@ const translations = {
     saving_goal_reached_body: "Congratulations! You've reached your goal of {{amount}} for {{name}}.",
     saving_goal_near_title: "Savings Goal Within Reach!",
     saving_goal_near_body: "You're at {{percent}}% of your target for {{name}}. Keep it up!",
+    checking_goals: "Checking Goals",
+    checking_goals_description: "Checking savings goals progress...",
+    checking_goal: "Checking goal",
+    check_saving_goals: "Check Saving Goals",
+    check_saving_goals_description: "Check the status of your saving goals",
   },
   validation: {
     username_required: "Email is required",

@@ -324,6 +324,11 @@ const translations = {
     saving_goal_reached_body: "Parabéns! Você atingiu sua meta de {{amount}} para {{name}}.",
     saving_goal_near_title: "Meta de Economia Próxima!",
     saving_goal_near_body: "Você está a {{percent}}% de atingir sua meta para {{name}}. Continue assim!",
+    checking_goals: "Verificando Metas",
+    checking_goals_description: "Verificando progresso das metas de economia...",
+    checking_goal: "Verificando meta",
+    check_saving_goals: "Verificar Metas de Economia",
+    check_saving_goals_description: "Verificar o status das suas metas de economia",
   },
   validation: {
     username_required: "Email é obrigatório",
