@@ -270,8 +270,8 @@ export default function NotificationService({
     
     // Notificação de teste
     toast({
-      title: "Verificação de Metas",
-      description: "Verificando metas de economia...",
+      title: t("notifications.checking_goals"),
+      description: t("notifications.checking_goals_description"),
       variant: "default"
     });
     
