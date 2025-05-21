@@ -73,6 +73,8 @@ const translations = {
     view_reports: "查看报告",
   },
   wallet: {
+    wallet: "钱包",
+    wallets: "钱包",
     my_wallets: "我的钱包",
     add_wallet: "添加钱包",
     edit_wallet: "编辑钱包",

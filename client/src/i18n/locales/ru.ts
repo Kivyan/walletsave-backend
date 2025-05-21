@@ -85,6 +85,8 @@ const translations = {
     view_reports: "Просмотреть отчеты",
   },
   wallet: {
+    wallet: "Кошелек",
+    wallets: "Кошельки",
     my_wallets: "Мои кошельки",
     add_wallet: "Добавить кошелек",
     edit_wallet: "Редактировать кошелек",
