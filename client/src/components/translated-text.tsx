@@ -49,17 +49,12 @@ export function TranslatedText({
   // Determinar o conteúdo a ser exibido
   let content: ReactNode;
   
-  // Traduções especiais para o árabe quando necessário
-  if (isArabic && i18nKey === "navigation.finance") {
-    content = "المالية";
-  }
   // Cabeçalho sempre em inglês, conforme solicitado
-  else if (i18nKey === "app.name") {
+  if (i18nKey === "app.name") {
     // Nome do aplicativo sempre em inglês, independente do idioma
     content = "Wallet Save";
-  }
-  // Para todas as outras chaves, tenta usar o sistema i18n normal
-  else {
+  } else {
+    // Para todas as outras chaves, tenta usar o sistema i18n normal
     const translation = t(i18nKey, values);
     
     // Se a tradução retornar a própria chave (não traduzido), use o texto filho como fallback

@@ -59,9 +59,9 @@ export function Header({ title }: HeaderProps) {
             onClick={() => window.location.href = '/'}
           >
             <h1 className="text-lg md:text-xl font-heading font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors whitespace-nowrap">
-              <span className="dark:text-gray-300">
+              <TranslatedText i18nKey="app.name" className="dark:text-gray-300">
                 Wallet Save
-              </span>
+              </TranslatedText>
             </h1>
           </div>
 
