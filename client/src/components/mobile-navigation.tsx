@@ -39,22 +39,22 @@ export function MobileNavigation() {
   const navItems = [
     {
       href: "/",
-      label: "الرئيسية",
+      label: t("navigation.home"),
       icon: Home,
     },
     {
       href: "/finance",
-      label: "المالية",
+      label: t("navigation.finance"),
       icon: DollarSign,
     },
     {
       href: "/reports",
-      label: "التقارير",
+      label: t("navigation.reports"),
       icon: PieChart,
     },
     {
       href: "/savings",
-      label: "المدخرات",
+      label: t("navigation.savings"),
       icon: PiggyBank,
     },
   ];
@@ -93,7 +93,7 @@ export function MobileNavigation() {
             onClick={() => setShowNotifications(true)}
           >
             <Bell className="h-5 w-5" />
-            <span className="text-xs mt-1">الإشعارات</span>
+            <span className="text-xs mt-1">{t("navigation.notifications")}</span>
           </button>
         </div>
       </nav>
