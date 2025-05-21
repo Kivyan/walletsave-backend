@@ -113,6 +113,7 @@ const translations = {
     view_reports: "عرض التقارير",
   },
   wallet: {
+    wallet: "محفظة",
     wallets: "محافظ",
     my_wallets: "محافظي",
     add_wallet: "إضافة محفظة",
