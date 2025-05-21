@@ -186,6 +186,7 @@ const translations = {
     bank_account: "Conta Bancária",
     credit_card: "Cartão de Crédito",
     investment: "Investimento",
+    wallet: "Carteira",
     wallets: "Carteiras",
     finance_overview: "Visão Geral Financeira",
     expenses_by_category: "Despesas por Categoria",
