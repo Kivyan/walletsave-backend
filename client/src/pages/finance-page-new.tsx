@@ -379,7 +379,7 @@ export default function FinancePage() {
                     {formatMoney(totalBalance)}
                   </p>
                   <p className="text-white/80 text-sm">
-                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span">محافظ</TranslatedText>
+                    {wallets.length} <TranslatedText i18nKey="wallet.wallets" tag="span">Wallets</TranslatedText>
                   </p>
                 </CardContent>
                 <CardFooter className="pt-0">
@@ -389,7 +389,7 @@ export default function FinancePage() {
                     className="text-white border-white/30 hover:bg-white/10"
                     onClick={handleAddWallet}
                   >
-                    <TranslatedText i18nKey="wallet.add_wallet">إضافة محفظة</TranslatedText>
+                    <TranslatedText i18nKey="wallet.add_wallet">Add Wallet</TranslatedText>
                   </Button>
                 </CardFooter>
               </Card>
@@ -399,7 +399,7 @@ export default function FinancePage() {
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-center">
                     <CardTitle className="text-lg">
-                      <TranslatedText i18nKey="budget.monthly_budget">الميزانية الشهرية</TranslatedText>
+                      <TranslatedText i18nKey="budget.monthly_budget">Monthly Budget</TranslatedText>
                     </CardTitle>
                     <Button
                       variant="ghost"
@@ -408,7 +408,7 @@ export default function FinancePage() {
                       className="text-secondary dark:text-accent h-8"
                     >
                       <Edit className="h-4 w-4 mr-1" />
-                      <TranslatedText i18nKey="common.edit">تعديل</TranslatedText>
+                      <TranslatedText i18nKey="common.edit">Edit</TranslatedText>
                     </Button>
                   </div>
                 </CardHeader>
