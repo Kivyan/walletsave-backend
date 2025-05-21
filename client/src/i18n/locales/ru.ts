@@ -358,6 +358,9 @@ const translations = {
     permission_description: "Пожалуйста, разрешите уведомления в настройках вашего браузера, чтобы получать важные обновления.",
     check_saving_goals: "Проверить цели сбережений",
     check_saving_goals_description: "Обновите значения и нажмите кнопку ниже, чтобы проверить, достигли ли вы какой-либо цели",
+    checking_goals: "Проверка целей",
+    checking_goals_description: "Проверка прогресса целей сбережений...",
+    checking_goal: "Проверка цели",
   },
   validation: {
     required_field: "Это поле обязательно",

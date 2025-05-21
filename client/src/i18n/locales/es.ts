@@ -236,6 +236,11 @@ const translations = {
     saving_goal_reached_body: "¡Felicidades! Has alcanzado tu objetivo de {{amount}} para {{name}}.",
     saving_goal_near_title: "¡Objetivo de ahorro cerca!",
     saving_goal_near_body: "Estás al {{percent}}% de alcanzar tu objetivo para {{name}}. ¡Sigue así!",
+    checking_goals: "Verificando Objetivos",
+    checking_goals_description: "Verificando progreso de objetivos de ahorro...",
+    checking_goal: "Verificando objetivo",
+    check_saving_goals: "Verificar Objetivos de Ahorro",
+    check_saving_goals_description: "Verificar el estado de tus objetivos de ahorro",
   },
   validation: {
     username_required: "El correo electrónico es obligatorio",
