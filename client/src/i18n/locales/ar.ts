@@ -430,6 +430,11 @@ const translations = {
     savings_body: "لديك اهداف ادخار نشطة هذا الشهر",
     insufficient_funds_title: "الأموال غير كافية",
     insufficient_funds_body: "لديك {{pending}} في المصروفات المعلقة ولكن فقط {{available}} متاح",
+    checking_goals: "فحص الأهداف",
+    checking_goals_description: "جاري فحص تقدم أهداف الادخار...",
+    checking_goal: "فحص الهدف",
+    check_saving_goals: "فحص أهداف الادخار",
+    check_saving_goals_description: "تحقق من حالة أهداف الادخار الخاصة بك",
   },
   validation: {
     required_field: "هذا الحقل مطلوب",
