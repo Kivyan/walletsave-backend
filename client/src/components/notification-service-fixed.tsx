@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@/components/ui/button';
 import { Expense, Wallet, Saving, Budget } from "@shared/schema";
+import { TranslatedText } from '@/components/translated-text';
 import { 
   Dialog, 
   DialogContent, 

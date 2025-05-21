@@ -8,6 +8,7 @@ import NotificationService from "@/components/notification-service-fixed";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { Expense, Wallet as WalletType, Saving, Budget } from "@shared/schema";
+import { TranslatedText } from "@/components/translated-text";
 
 export function MobileNavigation() {
   const { t } = useTranslation();
@@ -103,14 +104,14 @@ export function MobileNavigation() {
         <DialogContent className="sm:max-w-md">
           <div className="space-y-6 py-2">
             <h2 className="text-lg font-medium text-center mb-4">
-              {t("notifications.title") || "Notificações"}
+              <TranslatedText i18nKey="notifications.title">Notificações</TranslatedText>
             </h2>
             
             {/* Seção de verificação de metas de economia */}
             <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
-              <h3 className="text-sm font-medium mb-3">{t("notifications.check_saving_goals")}</h3>
+              <h3 className="text-sm font-medium mb-3"><TranslatedText i18nKey="notifications.check_saving_goals">Verificar Metas</TranslatedText></h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                {t("notifications.check_saving_goals_description")}
+                <TranslatedText i18nKey="notifications.check_saving_goals_description">Verificação de status das metas de economia</TranslatedText>
               </p>
               
               <NotificationService 
