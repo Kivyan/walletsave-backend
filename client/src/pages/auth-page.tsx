@@ -278,10 +278,10 @@ export default function AuthPage() {
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-2 mb-2 md:mb-4 p-1">
               <TabsTrigger value="login" className="py-1 md:py-2 text-xs md:text-sm">
-                {t("auth.login") || "Entrar"}
+                <TranslatedText i18nKey="auth.login">Entrar</TranslatedText>
               </TabsTrigger>
               <TabsTrigger value="register" className="py-1 md:py-2 text-xs md:text-sm">
-                {t("auth.register") || "Cadastrar"}
+                <TranslatedText i18nKey="auth.register">Cadastrar</TranslatedText>
               </TabsTrigger>
             </TabsList>
 
