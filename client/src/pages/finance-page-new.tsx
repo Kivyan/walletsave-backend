@@ -352,7 +352,7 @@ export default function FinancePage() {
                 className="flex flex-col items-center justify-center h-20 p-2"
               >
                 <PlusCircle className="h-6 w-6 mb-2" />
-                <span className="text-xs text-center arabic-font">إضافة محفظة</span>
+                <TranslatedText i18nKey="wallet.add_wallet" className="text-xs text-center">Add Wallet</TranslatedText>
               </Button>
               
               <Button 
