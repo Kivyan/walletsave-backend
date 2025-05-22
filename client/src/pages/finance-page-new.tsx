@@ -325,8 +325,8 @@ export default function FinancePage() {
   const savedAmount = currentBudget ? (budgetAmount > totalMonthlyExpenses ? budgetAmount - totalMonthlyExpenses : 0) : 0;
   const usedPercentage = calculateBudgetPercentage(totalMonthlyExpenses, budgetAmount);
 
-  // Forçar texto árabe para a página de finanças
-  const pageTitle = i18n.language === 'ar' ? "المالية" : t("navigation.finance");
+  // Usar tradução correta para o título da página
+  const pageTitle = t("navigation.finance");
 
   return (
     <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pb-24 md:pb-0 overflow-y-auto custom-scrollbar">
