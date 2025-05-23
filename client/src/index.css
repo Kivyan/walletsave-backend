@@ -52,6 +52,28 @@
     position: relative;
   }
 
+  /* Mejora de contraste para modo claro */
+  .light {
+    --foreground: 0 0% 3.9%;
+    --muted-foreground: 0 0% 20%;
+    --border: 0 0% 45%;
+    --input: 0 0% 45%;
+  }
+
+  /* Texto más negro en modo claro */
+  .light .text-foreground {
+    color: hsl(0 0% 3.9%) !important;
+  }
+
+  .light .text-muted-foreground {
+    color: hsl(0 0% 20%) !important;
+  }
+
+  /* Bordes más fuertes en modo claro */
+  .light .border {
+    border-color: hsl(0 0% 45%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
