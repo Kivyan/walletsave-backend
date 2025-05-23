@@ -74,6 +74,32 @@
     border-color: hsl(0 0% 45%) !important;
   }
 
+  /* Botones con texto negro en modo claro */
+  .light button {
+    color: hsl(0 0% 3.9%) !important;
+  }
+
+  .light .btn-primary,
+  .light button[type="submit"],
+  .light button[data-variant="default"] {
+    color: white !important;
+    background-color: hsl(210 15% 15%) !important;
+  }
+
+  /* Texto negro para todos los elementos en modo claro */
+  .light span,
+  .light p,
+  .light div,
+  .light h1,
+  .light h2,
+  .light h3,
+  .light h4,
+  .light h5,
+  .light h6,
+  .light label {
+    color: hsl(0 0% 3.9%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
