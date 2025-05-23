@@ -52,26 +52,26 @@
     position: relative;
   }
 
-  /* Esquema de grises sin blanco para modo claro */
+  /* Esquema completamente gris sin blanco */
   .light {
-    --background: 0 0% 90%;
+    --background: 0 0% 75%;
     --foreground: 0 0% 3.9%;
-    --card: 0 0% 95%;
+    --card: 0 0% 85%;
     --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 95%;
+    --popover: 0 0% 85%;
     --popover-foreground: 0 0% 3.9%;
     --primary: 210 15% 15%;
-    --primary-foreground: 0 0% 95%;
-    --secondary: 0 0% 70%;
+    --primary-foreground: 0 0% 85%;
+    --secondary: 0 0% 60%;
     --secondary-foreground: 0 0% 3.9%;
-    --muted: 0 0% 70%;
+    --muted: 0 0% 60%;
     --muted-foreground: 0 0% 15%;
-    --accent: 0 0% 70%;
+    --accent: 0 0% 60%;
     --accent-foreground: 0 0% 3.9%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 0 0% 60%;
-    --input: 0 0% 80%;
+    --destructive-foreground: 0 0% 85%;
+    --border: 0 0% 50%;
+    --input: 0 0% 70%;
     --ring: 210 15% 15%;
   }
 
