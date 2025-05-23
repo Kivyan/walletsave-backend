@@ -1,4 +1,4 @@
-export const es = {
+const es = {
   common: {
     save: "Guardar",
     cancel: "Cancelar",
@@ -477,3 +477,5 @@ export const es = {
     goodbye: "¡Hasta luego!",
   },
 };
+
+export default es;
