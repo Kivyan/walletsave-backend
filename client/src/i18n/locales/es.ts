@@ -302,6 +302,7 @@ const es = {
     setup_budget: "Configurar presupuesto mensual",
     no_budget: "No hay presupuesto para este mes",
     monthly_budget: "Presupuesto Mensual",
+    my_budget: "Mi Presupuesto",
   },
   wallet: {
     wallet: "Billetera",
