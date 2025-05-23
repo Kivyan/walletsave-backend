@@ -390,6 +390,8 @@ const fr = {
     expense_reminder_body: "N'oubliez pas d'enregistrer votre dépense récurrente : {{description}}",
     welcome_title: "Bienvenue dans Wallet Save !",
     welcome_body: "Commencez à gérer vos finances intelligemment",
+    check_saving_goals: "Vérifier les Objectifs",
+    check_saving_goals_description: "Vérification du statut des objectifs d'épargne",
   },
   currencies: {
     usd: "Dollar Américain",
