@@ -209,11 +209,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
             </TranslatedText>
           </DialogTitle>
-          <div id="expense-dialog-description" className="text-sm dark:text-gray-300 text-muted-foreground">
-            <TranslatedText i18nKey="expense.dialog_description">
-              Formulário para adicionar ou editar despesas
-            </TranslatedText>
-          </div>
+
         </DialogHeader>
         
         <Form {...form}>
