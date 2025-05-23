@@ -90,6 +90,8 @@ const translations = {
     monthly_budget: "Presupuesto Mensual",
     savings_goals: "Metas de Ahorro",
     expense_distribution: "Distribución de Gastos",
+    manage_wallets: "Gestionar Billeteras",
+    financial_summary: "Finanzas",
   },
   expense: {
     expenses: "Gastos",
@@ -171,12 +173,13 @@ const translations = {
     income_placeholder: "Ej: 5000",
     setup_budget: "Configurar presupuesto mensual",
     no_budget: "No hay presupuesto para este mes",
+    monthly_budget: "Presupuesto Mensual",
   },
   wallet: {
     wallet: "Billetera",
     wallets: "Billeteras",
-    add_wallet: "Añadir billetera",
-    edit_wallet: "Editar billetera",
+    add_wallet: "Añadir Billetera",
+    edit_wallet: "Editar Billetera",
     name: "Nombre de la billetera",
     balance: "Saldo",
     name_placeholder: "Ej: Billetera principal",
@@ -185,6 +188,7 @@ const translations = {
     total: "Saldo total",
     delete_wallet: "Eliminar billetera",
     delete_wallet_description: "¿Estás seguro de que quieres eliminar esta billetera? Esta acción no se puede deshacer.",
+    manage_wallets: "Gestionar Billeteras",
   },
   saving: {
     savings: "Ahorros",
