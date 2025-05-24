@@ -9,6 +9,10 @@ import type {
 } from "@shared/schema";
 import createMemoryStore from "memorystore";
 import session from "express-session";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import { eq, and } from "drizzle-orm";
+import connectPg from "connect-pg-simple";
 
 const MemoryStore = createMemoryStore(session);
 
@@ -61,7 +65,7 @@ export interface IStorage {
   deleteSaving(id: number): Promise<boolean>;
   
   // Session store
-  sessionStore: ReturnType<typeof createMemoryStore>;
+  sessionStore: any;
 }
 
 export class MemStorage implements IStorage {
@@ -344,4 +348,189 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// PostgreSQL Database Storage Implementation
+export class DatabaseStorage implements IStorage {
+  private db: any;
+  sessionStore: any;
+
+  constructor() {
+    if (!process.env.DATABASE_URL) {
+      throw new Error("DATABASE_URL environment variable is required");
+    }
+    
+    const sql = neon(process.env.DATABASE_URL);
+    this.db = drizzle(sql);
+
+    // Configure PostgreSQL session store
+    const PostgresSessionStore = connectPg(session);
+    this.sessionStore = new PostgresSessionStore({
+      conString: process.env.DATABASE_URL,
+      createTableIfMissing: true,
+    });
+  }
+
+  // User operations
+  async getUser(id: number): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.id, id));
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.username, username));
+    return result[0];
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await this.db.select().from(users);
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const result = await this.db.insert(users).values(insertUser).returning();
+    return result[0];
+  }
+
+  async updateUser(id: number, userData: Partial<User>): Promise<User | undefined> {
+    const result = await this.db.update(users).set(userData).where(eq(users.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteUser(id: number): Promise<boolean> {
+    const result = await this.db.delete(users).where(eq(users.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Category operations
+  async getCategories(userId: number): Promise<Category[]> {
+    return await this.db.select().from(categories).where(eq(categories.userId, userId));
+  }
+
+  async getCategoryById(id: number): Promise<Category | undefined> {
+    const result = await this.db.select().from(categories).where(eq(categories.id, id));
+    return result[0];
+  }
+
+  async createCategory(insertCategory: InsertCategory): Promise<Category> {
+    const result = await this.db.insert(categories).values(insertCategory).returning();
+    return result[0];
+  }
+
+  async updateCategory(id: number, categoryData: Partial<Category>): Promise<Category | undefined> {
+    const result = await this.db.update(categories).set(categoryData).where(eq(categories.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteCategory(id: number): Promise<boolean> {
+    const result = await this.db.delete(categories).where(eq(categories.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Expense operations
+  async getExpenses(userId: number): Promise<Expense[]> {
+    return await this.db.select().from(expenses).where(eq(expenses.userId, userId));
+  }
+
+  async getExpenseById(id: number): Promise<Expense | undefined> {
+    const result = await this.db.select().from(expenses).where(eq(expenses.id, id));
+    return result[0];
+  }
+
+  async createExpense(insertExpense: InsertExpense): Promise<Expense> {
+    const result = await this.db.insert(expenses).values(insertExpense).returning();
+    return result[0];
+  }
+
+  async updateExpense(id: number, expenseData: Partial<Expense>): Promise<Expense | undefined> {
+    const result = await this.db.update(expenses).set(expenseData).where(eq(expenses.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteExpense(id: number): Promise<boolean> {
+    const result = await this.db.delete(expenses).where(eq(expenses.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Wallet operations
+  async getWallets(userId: number): Promise<Wallet[]> {
+    return await this.db.select().from(wallets).where(eq(wallets.userId, userId));
+  }
+
+  async getWalletById(id: number): Promise<Wallet | undefined> {
+    const result = await this.db.select().from(wallets).where(eq(wallets.id, id));
+    return result[0];
+  }
+
+  async createWallet(insertWallet: InsertWallet): Promise<Wallet> {
+    const result = await this.db.insert(wallets).values(insertWallet).returning();
+    return result[0];
+  }
+
+  async updateWallet(id: number, walletData: Partial<Wallet>): Promise<Wallet | undefined> {
+    const result = await this.db.update(wallets).set(walletData).where(eq(wallets.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteWallet(id: number): Promise<boolean> {
+    const result = await this.db.delete(wallets).where(eq(wallets.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Budget operations
+  async getBudgets(userId: number): Promise<Budget[]> {
+    return await this.db.select().from(budgets).where(eq(budgets.userId, userId));
+  }
+
+  async getBudgetById(id: number): Promise<Budget | undefined> {
+    const result = await this.db.select().from(budgets).where(eq(budgets.id, id));
+    return result[0];
+  }
+
+  async getBudgetByMonthYear(userId: number, month: number, year: number): Promise<Budget | undefined> {
+    const result = await this.db.select().from(budgets).where(
+      and(eq(budgets.userId, userId), eq(budgets.month, month), eq(budgets.year, year))
+    );
+    return result[0];
+  }
+
+  async createBudget(insertBudget: InsertBudget): Promise<Budget> {
+    const result = await this.db.insert(budgets).values(insertBudget).returning();
+    return result[0];
+  }
+
+  async updateBudget(id: number, budgetData: Partial<Budget>): Promise<Budget | undefined> {
+    const result = await this.db.update(budgets).set(budgetData).where(eq(budgets.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteBudget(id: number): Promise<boolean> {
+    const result = await this.db.delete(budgets).where(eq(budgets.id, id));
+    return result.rowCount > 0;
+  }
+
+  // Saving operations
+  async getSavings(userId: number): Promise<Saving[]> {
+    return await this.db.select().from(savings).where(eq(savings.userId, userId));
+  }
+
+  async getSavingById(id: number): Promise<Saving | undefined> {
+    const result = await this.db.select().from(savings).where(eq(savings.id, id));
+    return result[0];
+  }
+
+  async createSaving(insertSaving: InsertSaving): Promise<Saving> {
+    const result = await this.db.insert(savings).values(insertSaving).returning();
+    return result[0];
+  }
+
+  async updateSaving(id: number, savingData: Partial<Saving>): Promise<Saving | undefined> {
+    const result = await this.db.update(savings).set(savingData).where(eq(savings.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteSaving(id: number): Promise<boolean> {
+    const result = await this.db.delete(savings).where(eq(savings.id, id));
+    return result.rowCount > 0;
+  }
+}
+
+// Use PostgreSQL database storage instead of memory storage
+export const storage = new DatabaseStorage();
