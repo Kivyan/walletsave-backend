@@ -261,6 +261,8 @@ const ja = {
     paid: "支払済み",
     unpaid: "未払い",
     distribution: "分布",
+    month_expenses: "月間支出",
+    expense_chart: "支出チャート",
   },
   category: {
     add_category: "カテゴリを追加",
