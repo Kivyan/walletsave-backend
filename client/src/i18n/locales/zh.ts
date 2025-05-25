@@ -209,6 +209,10 @@ const zh = {
     expense_distribution: "支出分布",
     manage_wallets: "管理钱包",
     financial_summary: "财务摘要",
+    remaining_balance: "剩余余额",
+    month_expenses: "月度支出",
+    add_balance: "添加余额",
+    amount_to_add: "添加金额",
   },
   reports: {
     monthly: "月度",
@@ -261,6 +265,8 @@ const zh = {
     paid: "已支付",
     unpaid: "未支付",
     distribution: "分布",
+    month_expenses: "月度支出",
+    expense_chart: "支出图表",
   },
   category: {
     add_category: "添加类别",
