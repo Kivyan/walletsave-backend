@@ -115,11 +115,22 @@
     color: hsl(0 0% 3.9%) !important;
   }
 
-  /* Esquema invertido - botões e elements em cinza claro */
+  /* Esquema invertido - TODOS os botões em cinza claro */
   .light button {
     background-color: hsl(0 0% 88%) !important;
     color: hsl(0 0% 3.9%) !important;
     border-color: hsl(0 0% 60%) !important;
+  }
+
+  .light button[type="submit"] {
+    background-color: hsl(0 0% 88%) !important;
+    color: hsl(0 0% 3.9%) !important;
+  }
+
+  .light .btn-primary,
+  .light button[data-variant="default"] {
+    background-color: hsl(0 0% 88%) !important;
+    color: hsl(0 0% 3.9%) !important;
   }
 
   .light .bg-neutral-800 {
