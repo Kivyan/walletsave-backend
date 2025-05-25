@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { LanguageSelector } from "@/components/language-selector";
 import { TranslatedText } from "@/components/translated-text";
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/hooks/use-theme";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faCoins, faDollarSign, faMoneyBillWave, faEye, faEyeSlash, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
