@@ -208,64 +208,66 @@ export default function AdminPage() {
             <CardTitle>Gerenciar Usuários</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Usuário</TableHead>
-                  <TableHead>Nome</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Verificado</TableHead>
-                  <TableHead>Despesas</TableHead>
-                  <TableHead>Total Gasto</TableHead>
-                  <TableHead>Último Acesso</TableHead>
-                  <TableHead>Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users?.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.username}</TableCell>
-                    <TableCell>{user.fullName}</TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant={user.isBlocked ? "destructive" : "default"}
-                        className={user.role === 'admin' ? "bg-purple-100 text-purple-800" : ""}
-                      >
-                        {user.isBlocked ? "Bloqueado" : user.role === 'admin' ? "Admin" : "Ativo"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={user.isVerified ? "default" : "secondary"}>
-                        {user.isVerified ? "Sim" : "Não"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{user.expenseCount}</TableCell>
-                    <TableCell>{formatMoney(user.totalSpent)}</TableCell>
-                    <TableCell>{formatDate(user.lastActiveAt)}</TableCell>
-                    <TableCell>
-                      <div className="flex space-x-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setSelectedUser(user)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        {user.role !== 'admin' && (
-                          <Button
-                            variant={user.isBlocked ? "default" : "destructive"}
-                            size="sm"
-                            onClick={() => handleUserAction(user, user.isBlocked ? 'unblock' : 'block')}
-                          >
-                            {user.isBlocked ? <UserCheck className="h-4 w-4" /> : <UserX className="h-4 w-4" />}
-                          </Button>
-                        )}
-                      </div>
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[200px]">Usuário</TableHead>
+                    <TableHead className="min-w-[150px]">Nome</TableHead>
+                    <TableHead className="min-w-[100px]">Status</TableHead>
+                    <TableHead className="min-w-[100px]">Verificado</TableHead>
+                    <TableHead className="min-w-[80px]">Despesas</TableHead>
+                    <TableHead className="min-w-[120px]">Total Gasto</TableHead>
+                    <TableHead className="min-w-[140px]">Último Acesso</TableHead>
+                    <TableHead className="min-w-[100px]">Ações</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {users?.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell className="font-medium break-all">{user.username}</TableCell>
+                      <TableCell className="break-words">{user.fullName}</TableCell>
+                      <TableCell>
+                        <Badge 
+                          variant={user.isBlocked ? "destructive" : "default"}
+                          className={user.role === 'admin' ? "bg-purple-100 text-purple-800" : ""}
+                        >
+                          {user.isBlocked ? "Bloqueado" : user.role === 'admin' ? "Admin" : "Ativo"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={user.isVerified ? "default" : "secondary"}>
+                          {user.isVerified ? "Sim" : "Não"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{user.expenseCount}</TableCell>
+                      <TableCell className="whitespace-nowrap">{formatMoney(user.totalSpent)}</TableCell>
+                      <TableCell className="text-sm">{formatDate(user.lastActiveAt)}</TableCell>
+                      <TableCell>
+                        <div className="flex space-x-1">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedUser(user)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          {user.role !== 'admin' && (
+                            <Button
+                              variant={user.isBlocked ? "default" : "destructive"}
+                              size="sm"
+                              onClick={() => handleUserAction(user, user.isBlocked ? 'unblock' : 'block')}
+                            >
+                              {user.isBlocked ? <UserCheck className="h-4 w-4" /> : <UserX className="h-4 w-4" />}
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>
