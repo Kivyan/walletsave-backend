@@ -52,26 +52,26 @@
     position: relative;
   }
 
-  /* Esquema simples de dois tons de cinza */
+  /* Esquema invertido: fundo escuro, cards claros */
   .light {
-    --background: 0 0% 85%;
+    --background: 0 0% 75%;
     --foreground: 0 0% 3.9%;
-    --card: 0 0% 75%;
+    --card: 0 0% 88%;
     --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 75%;
+    --popover: 0 0% 88%;
     --popover-foreground: 0 0% 3.9%;
     --primary: 210 15% 20%;
-    --primary-foreground: 0 0% 85%;
-    --secondary: 0 0% 75%;
+    --primary-foreground: 0 0% 88%;
+    --secondary: 0 0% 88%;
     --secondary-foreground: 0 0% 3.9%;
-    --muted: 0 0% 75%;
+    --muted: 0 0% 88%;
     --muted-foreground: 0 0% 15%;
-    --accent: 0 0% 75%;
+    --accent: 0 0% 88%;
     --accent-foreground: 0 0% 3.9%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 85%;
+    --destructive-foreground: 0 0% 88%;
     --border: 0 0% 60%;
-    --input: 0 0% 75%;
+    --input: 0 0% 88%;
     --ring: 210 15% 20%;
   }
 
@@ -115,28 +115,28 @@
     color: hsl(0 0% 3.9%) !important;
   }
 
-  /* Remover cores escuras - usar apenas os dois tons de cinza */
+  /* Esquema invertido - botões e elements em cinza claro */
   .light button {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 88%) !important;
     color: hsl(0 0% 3.9%) !important;
     border-color: hsl(0 0% 60%) !important;
   }
 
   .light .bg-neutral-800 {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 88%) !important;
   }
 
   .light .dark\\:bg-neutral-800 {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 88%) !important;
   }
 
-  /* Remover TODOS os fundos brancos do aplicativo */
+  /* Quadrados/cards em cinza claro sobre fundo escuro */
   .light .bg-white {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 88%) !important;
   }
 
   .light [class*="bg-white"] {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 88%) !important;
   }
 
   #root {
