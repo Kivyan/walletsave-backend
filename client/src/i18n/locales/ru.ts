@@ -209,6 +209,10 @@ const ru = {
     expense_distribution: "Распределение Расходов",
     manage_wallets: "Управление Кошельками",
     financial_summary: "Финансовая Сводка",
+    remaining_balance: "Остаток Баланса",
+    month_expenses: "Месячные Расходы",
+    add_balance: "Добавить Баланс",
+    amount_to_add: "Сумма для добавления",
   },
   reports: {
     monthly: "Месячный",
@@ -261,6 +265,8 @@ const ru = {
     paid: "Оплачено",
     unpaid: "Не оплачено",
     distribution: "Распределение",
+    month_expenses: "Месячные Расходы",
+    expense_chart: "График Расходов",
   },
   category: {
     add_category: "Добавить Категорию",
