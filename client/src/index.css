@@ -115,6 +115,21 @@
     color: hsl(0 0% 3.9%) !important;
   }
 
+  /* Remover cores escuras - usar apenas os dois tons de cinza */
+  .light button {
+    background-color: hsl(0 0% 75%) !important;
+    color: hsl(0 0% 3.9%) !important;
+    border-color: hsl(0 0% 60%) !important;
+  }
+
+  .light .bg-neutral-800 {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
+  .light .dark\\:bg-neutral-800 {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
