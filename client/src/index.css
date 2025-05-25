@@ -60,7 +60,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 88%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 75%;
+    --primary: 0 0% 96%;
     --primary-foreground: 0 0% 10%;
     --secondary: 0 0% 88%;
     --secondary-foreground: 0 0% 3.9%;
@@ -176,23 +176,25 @@
     color: hsl(0 0% 45%) !important;
   }
 
-  /* Botões na cor cinza clara como o fundo */
+  /* Botões na cor cinza clara como o fundo da página */
   .light button[class*="bg-primary"] {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 96%) !important;
     color: hsl(0 0% 10%) !important;
+    border: 1px solid hsl(0 0% 80%) !important;
   }
 
   .light button[class*="bg-primary"]:hover {
-    background-color: hsl(0 0% 70%) !important;
+    background-color: hsl(0 0% 93%) !important;
   }
 
   .light .bg-primary {
-    background-color: hsl(0 0% 75%) !important;
+    background-color: hsl(0 0% 96%) !important;
     color: hsl(0 0% 10%) !important;
+    border: 1px solid hsl(0 0% 80%) !important;
   }
 
   .light .bg-primary:hover {
-    background-color: hsl(0 0% 70%) !important;
+    background-color: hsl(0 0% 93%) !important;
   }
 
   /* Campos de input com a mesma cor dos botões */
