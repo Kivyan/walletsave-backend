@@ -133,10 +133,11 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
         description: "",
         amount: "",
         date: new Date(),
-        categoryId: categories && categories.length > 0 ? String(categories[0].id) : "",
-        isFixed: "fixed",
+        categoryId: "",
+        isFixed: "variable",
         isRecurring: false,
-        recurringFrequency: "monthly",
+        recurringFrequency: "",
+        recurringEndDate: undefined,
       });
       
       setShowRecurringOptions(false);
