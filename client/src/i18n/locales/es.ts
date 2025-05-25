@@ -92,6 +92,7 @@ const es = {
     early: "Temprano",
     late: "Tarde",
     on_time: "A tiempo",
+    saving: "Guardando...",
   },
   validation: {
     required: "Este campo es requerido",
@@ -303,6 +304,10 @@ const es = {
     no_budget: "No hay presupuesto para este mes",
     monthly_budget: "Presupuesto Mensual",
     my_budget: "Mi Presupuesto",
+    finance: "Finanzas",
+    remaining_balance: "Saldo Restante",
+    add_balance: "Agregar Saldo",
+    amount_to_add: "Cantidad a agregar",
   },
   wallet: {
     wallet: "Billetera",
