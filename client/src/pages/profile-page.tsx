@@ -124,17 +124,36 @@ export default function ProfilePage(): ReactElement {
 
       await apiRequest("PUT", "/api/user", payload);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-      toast({
-        title: t("toast.profile_updated"),
-        description: t("toast.profile_updated_description"),
-      });
-
-      // Update language if changed
-      if (user?.language !== form.getValues().language) {
-        i18n.changeLanguage(form.getValues().language);
+      
+      const newLanguage = form.getValues().language;
+      
+      // Update language first if changed
+      if (user?.language !== newLanguage) {
+        await i18n.changeLanguage(newLanguage);
       }
+
+      // Mensagens de sucesso no idioma correto
+      const successMessages = {
+        'pt': { title: 'Perfil atualizado', description: 'Suas informações foram atualizadas com sucesso.' },
+        'en': { title: 'Profile updated', description: 'Your information has been updated successfully.' },
+        'es': { title: 'Perfil actualizado', description: 'Tu información ha sido actualizada exitosamente.' },
+        'fr': { title: 'Profil mis à jour', description: 'Vos informations ont été mises à jour avec succès.' },
+        'de': { title: 'Profil aktualisiert', description: 'Ihre Informationen wurden erfolgreich aktualisiert.' },
+        'it': { title: 'Profilo aggiornato', description: 'Le tue informazioni sono state aggiornate con successo.' },
+        'ja': { title: 'プロフィールが更新されました', description: '情報が正常に更新されました。' },
+        'zh': { title: '个人资料已更新', description: '您的信息已成功更新。' },
+        'ru': { title: 'Профиль обновлен', description: 'Ваша информация была успешно обновлена.' },
+        'ar': { title: 'تم تحديث الملف الشخصي', description: 'تم تحديث معلوماتك بنجاح.' }
+      };
+
+      const message = successMessages[newLanguage] || successMessages['en'];
+      
+      toast({
+        title: message.title,
+        description: message.description,
+      });
       
       // Update currency in localStorage
       localStorage.setItem("userCurrency", form.getValues().currency);
