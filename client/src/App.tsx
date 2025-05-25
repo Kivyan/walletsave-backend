@@ -18,6 +18,7 @@ import ResetPasswordPage from "@/pages/reset-password-page";
 import AdminPage from "@/pages/admin-page";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { NavigationButtons } from "@/components/navigation-buttons";
+import { AdminButton } from "@/components/admin-button";
 import { ReactElement } from "react";
 import { AutoScaleContainer } from "@/components/auto-scale-container";
 import { I18nProvider } from "@/components/i18n-provider";
@@ -62,7 +63,8 @@ function App() {
           <I18nProvider>
             <AutoScaleContainer>
               <Router />
-              <NavigationButtons />
+              <AdminButton />
+            <NavigationButtons />
               <Toaster />
             </AutoScaleContainer>
           </I18nProvider>

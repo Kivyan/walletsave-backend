@@ -479,7 +479,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       for (const user of allUsers) {
         const userExpenses = await storage.getExpenses(user.id);
         totalExpenses += userExpenses.length;
-        totalAmount += userExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+        totalAmount += userExpenses.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
       }
 
       res.json({
@@ -503,7 +503,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         allUsers.map(async (user) => {
           const expenses = await storage.getExpenses(user.id);
           const expenseCount = expenses.length;
-          const totalSpent = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+          const totalSpent = expenses.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
           
           return {
             id: user.id,
