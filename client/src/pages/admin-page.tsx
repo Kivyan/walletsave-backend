@@ -229,7 +229,7 @@ export default function AdminPage() {
                         <div className="break-all max-w-[200px]">{user.username}</div>
                       </TableCell>
                       <TableCell>
-                        <div className="break-words max-w-[150px]">{user.fullName}</div>
+                        <div className="break-words max-w-[200px]">{user.fullName}</div>
                       </TableCell>
                       <TableCell>
                         <Badge 
