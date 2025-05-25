@@ -205,6 +205,19 @@
     background-color: hsl(0 0% 75%) !important;
   }
 
+  /* Switch/Toggle mais escuro */
+  .light [role="switch"] {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
+  .light [role="switch"][data-state="checked"] {
+    background-color: hsl(0 0% 60%) !important;
+  }
+
+  .light [role="switch"] span {
+    background-color: hsl(0 0% 90%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
