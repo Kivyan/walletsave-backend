@@ -211,6 +211,8 @@ const ja = {
     financial_summary: "財務概要",
     remaining_balance: "残高",
     month_expenses: "月間支出",
+    add_balance: "残高を追加",
+    amount_to_add: "追加する金額",
   },
   reports: {
     monthly: "月間",
