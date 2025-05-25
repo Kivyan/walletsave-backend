@@ -174,6 +174,7 @@ const translations = {
     balance_added: "Saldo adicionado",
     balance_added_description: "Seu saldo foi atualizado com sucesso",
     balance_error: "Erro ao adicionar saldo",
+    remaining_balance: "Saldo Restante",
     recent_expenses: "Despesas Recentes",
     manage_wallets: "Gerenciar Carteiras",
     budget: "Orçamento",

@@ -319,6 +319,13 @@ const it = {
     delete_wallet: "Elimina portafoglio",
     delete_wallet_description: "Sei sicuro di voler eliminare questo portafoglio? Questa azione non può essere annullata.",
     manage_wallets: "Gestisci Portafogli",
+    total_balance: "Saldo Totale",
+    add_balance: "Aggiungi Saldo",
+    amount_to_add: "Importo da aggiungere",
+    balance_added: "Saldo aggiunto",
+    balance_added_description: "Il tuo saldo è stato aggiornato con successo",
+    balance_error: "Errore nell'aggiungere il saldo",
+    remaining_balance: "Saldo Rimanente",
   },
   saving: {
     savings: "Risparmi",

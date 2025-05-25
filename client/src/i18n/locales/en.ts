@@ -323,6 +323,15 @@ const translations = {
     account_deleted: "Account deleted",
     account_deleted_description: "Your account has been successfully deleted. All your data has been removed.",
   },
+  finance: {
+    total_balance: "Total Balance",
+    add_balance: "Add Balance",
+    amount_to_add: "Amount to add",
+    balance_added: "Balance added",
+    balance_added_description: "Your balance has been updated successfully",
+    balance_error: "Error adding balance",
+    remaining_balance: "Remaining Balance",
+  },
   months: {
     january: "January",
     february: "February",

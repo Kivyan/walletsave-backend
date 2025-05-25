@@ -318,6 +318,13 @@ const es = {
     delete_wallet: "Eliminar billetera",
     delete_wallet_description: "¿Estás seguro de que quieres eliminar esta billetera? Esta acción no se puede deshacer.",
     manage_wallets: "Gestionar Billeteras",
+    total_balance: "Saldo Total",
+    add_balance: "Agregar Saldo",
+    amount_to_add: "Cantidad a agregar",
+    balance_added: "Saldo agregado",
+    balance_added_description: "Tu saldo ha sido actualizado exitosamente",
+    balance_error: "Error al agregar saldo",
+    remaining_balance: "Saldo Restante",
   },
   saving: {
     savings: "Ahorros",

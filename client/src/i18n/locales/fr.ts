@@ -319,6 +319,13 @@ const fr = {
     delete_wallet: "Supprimer le portefeuille",
     delete_wallet_description: "Êtes-vous sûr de vouloir supprimer ce portefeuille ? Cette action ne peut pas être annulée.",
     manage_wallets: "Gérer les Portefeuilles",
+    total_balance: "Solde Total",
+    add_balance: "Ajouter un Solde",
+    amount_to_add: "Montant à ajouter",
+    balance_added: "Solde ajouté",
+    balance_added_description: "Votre solde a été mis à jour avec succès",
+    balance_error: "Erreur lors de l'ajout du solde",
+    remaining_balance: "Solde Restant",
   },
   saving: {
     savings: "Épargne",
