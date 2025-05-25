@@ -306,9 +306,10 @@ const es = {
     my_budget: "Mi Presupuesto",
     finance: "Finanzas",
     remaining_balance: "Saldo Restante",
-    add_balance: "Agregar Saldo",
+    add_balance: "Agregar Saldo", 
     amount_to_add: "Cantidad a agregar",
     total_balance: "Saldo Total",
+    month_expenses: "Gastos del Mes",
   },
   wallet: {
     wallet: "Billetera",
