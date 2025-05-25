@@ -43,8 +43,22 @@ export function I18nProvider({ children }: I18nProviderProps) {
       document.documentElement.setAttribute('dir', 'ltr');
       document.documentElement.setAttribute('lang', i18n.language);
       
-      // Log para depuração
-      console.log(`Idioma alterado para: ${i18n.language}, mantendo direção: ltr`);
+      // Mensagens de mudança de idioma no idioma correto
+      const languageMessages = {
+        'pt': `Idioma alterado para: ${i18n.language}, mantendo direção: ltr`,
+        'en': `Language changed to: ${i18n.language}, maintaining direction: ltr`,
+        'es': `Idioma cambiado a: ${i18n.language}, manteniendo dirección: ltr`,
+        'fr': `Langue changée vers: ${i18n.language}, maintien de la direction: ltr`,
+        'de': `Sprache geändert zu: ${i18n.language}, Richtung beibehalten: ltr`,
+        'it': `Lingua cambiata in: ${i18n.language}, mantenendo direzione: ltr`,
+        'ja': `言語が変更されました: ${i18n.language}、方向を維持: ltr`,
+        'zh': `语言已更改为: ${i18n.language}，保持方向: ltr`,
+        'ru': `Язык изменен на: ${i18n.language}, сохранение направления: ltr`,
+        'ar': `تم تغيير اللغة إلى: ${i18n.language}، الاحتفاظ بالاتجاه: ltr`
+      };
+      
+      // Log na língua correta
+      console.log(languageMessages[i18n.language] || languageMessages['en']);
       
       // Disparar evento global para que outros componentes possam reagir
       window.dispatchEvent(new Event('languageChanged'));
