@@ -234,9 +234,9 @@ export default function ProfilePage(): ReactElement {
                 {getInitials(user.fullName)}
               </AvatarFallback>
             </Avatar>
-            <div>
+            <div className="flex-1 min-w-0">
               <CardTitle className="text-2xl font-heading">{user.fullName}</CardTitle>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 break-all">
                 {user.username}
               </p>
             </div>

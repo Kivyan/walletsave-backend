@@ -225,8 +225,12 @@ export default function AdminPage() {
                 <TableBody>
                   {users?.map((user) => (
                     <TableRow key={user.id}>
-                      <TableCell className="font-medium break-all">{user.username}</TableCell>
-                      <TableCell className="break-words">{user.fullName}</TableCell>
+                      <TableCell className="font-medium">
+                        <div className="break-all max-w-[200px]">{user.username}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="break-words max-w-[150px]">{user.fullName}</div>
+                      </TableCell>
                       <TableCell>
                         <Badge 
                           variant={user.isBlocked ? "destructive" : "default"}
@@ -242,7 +246,9 @@ export default function AdminPage() {
                       </TableCell>
                       <TableCell>{user.expenseCount}</TableCell>
                       <TableCell className="whitespace-nowrap">{formatMoney(user.totalSpent)}</TableCell>
-                      <TableCell className="text-sm">{formatDate(user.lastActiveAt)}</TableCell>
+                      <TableCell>
+                        <div className="text-sm break-words max-w-[140px]">{formatDate(user.lastActiveAt)}</div>
+                      </TableCell>
                       <TableCell>
                         <div className="flex space-x-1">
                           <Button
