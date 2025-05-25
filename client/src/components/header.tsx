@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { UserProfileDropdown } from "@/components/user-profile-dropdown";
 import { NotificationsDropdown } from "@/components/notifications-dropdown-new";
-import { Moon, Sun, ChevronLeft } from "lucide-react";
+import { Moon, Sun, ChevronLeft, Shield } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { Button } from "@/components/ui/button";
 import { useLocation, Link } from "wouter";
 import { TranslatedText } from "@/components/translated-text";
+import { useAuth } from "@/hooks/use-auth";
 
 interface HeaderProps {
   title: string;
@@ -15,6 +16,10 @@ export function Header({ title }: HeaderProps) {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const [location] = useLocation();
+  const { user } = useAuth();
+  
+  // Check if user is admin
+  const isAdmin = user?.role === 'admin';
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -67,6 +72,20 @@ export function Header({ title }: HeaderProps) {
 
           {/* Right actions */}
           <div className="flex items-center space-x-2 sm:space-x-4 z-20">
+            {/* Admin button - only show for admin users and not on admin page */}
+            {isAdmin && location !== '/admin' && (
+              <Link href="/admin">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+                  title="Painel Administrativo"
+                >
+                  <Shield className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
+            
             {/* Toggle dark mode */}
             <Button
               variant="ghost"
