@@ -99,6 +99,10 @@ const translations = {
     financial_summary: "الملخص المالي",
     budget: "الميزانية",
     total_balance: "الرصيد الإجمالي",
+    remaining_balance: "الرصيد المتبقي",
+    month_expenses: "مصروفات الشهر",
+    add_balance: "إضافة رصيد",
+    amount_to_add: "المبلغ المراد إضافته",
   },
   home: {
     welcome: "مرحبًا، {{name}}",
@@ -208,6 +212,8 @@ const translations = {
     distribution: "توزيع المصروفات",
     paid: "مدفوع",
     unpaid: "غير مدفوع",
+    month_expenses: "مصروفات الشهر",
+    expense_chart: "مخطط المصروفات",
   },
   category: {
     add_category: "إضافة فئة",
