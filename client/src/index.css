@@ -150,16 +150,11 @@
     background-color: hsl(0 0% 88%) !important;
   }
 
-  /* Placeholders com a mesma cor dos botões */
-  .light input::placeholder {
-    color: hsl(0 0% 45%) !important;
-  }
-
-  .light textarea::placeholder {
-    color: hsl(0 0% 45%) !important;
-  }
-
-  .light [data-placeholder] {
+  /* Placeholders com a mesma cor dos botões - mais específico */
+  .light input::placeholder,
+  .light textarea::placeholder,
+  .light [data-placeholder],
+  .light *::placeholder {
     color: hsl(0 0% 45%) !important;
   }
 
@@ -169,6 +164,11 @@
   }
 
   .light .text-muted-foreground[data-placeholder] {
+    color: hsl(0 0% 45%) !important;
+  }
+
+  /* Classe Tailwind para placeholder */
+  .placeholder\:text-gray-400::placeholder {
     color: hsl(0 0% 45%) !important;
   }
 
