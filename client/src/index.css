@@ -167,6 +167,25 @@
     color: hsl(0 0% 45%) !important;
   }
 
+  /* Campos de input com a mesma cor dos botões */
+  .light input {
+    background-color: hsl(0 0% 88%) !important;
+    color: hsl(0 0% 3.9%) !important;
+    border-color: hsl(0 0% 60%) !important;
+  }
+
+  .light textarea {
+    background-color: hsl(0 0% 88%) !important;
+    color: hsl(0 0% 3.9%) !important;
+    border-color: hsl(0 0% 60%) !important;
+  }
+
+  .light select {
+    background-color: hsl(0 0% 88%) !important;
+    color: hsl(0 0% 3.9%) !important;
+    border-color: hsl(0 0% 60%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
