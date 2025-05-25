@@ -12,11 +12,15 @@ export function AdminButton() {
   console.log("AdminButton - User role:", user?.role);
   console.log("AdminButton - Location:", location);
 
-  // Só mostrar se o usuário é admin e não está na página admin
-  if (!user || user.role !== 'admin' || location === '/admin') {
+  // Mostrar para walletsavecompany@gmail.com (proprietário do app) e admins
+  const isOwner = user?.username === 'walletsavecompany@gmail.com';
+  const isAdmin = user?.role === 'admin';
+  
+  if (!user || (!isOwner && !isAdmin) || location === '/admin') {
     console.log("AdminButton - Not showing because:", {
       hasUser: !!user,
-      isAdmin: user?.role === 'admin',
+      isOwner,
+      isAdmin,
       notOnAdminPage: location !== '/admin'
     });
     return null;
@@ -25,15 +29,16 @@ export function AdminButton() {
   console.log("AdminButton - Showing button");
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 left-6 z-10">
+    <div className="fixed top-4 right-4 z-50">
       <Button 
         variant="outline" 
         size="sm" 
-        className="rounded-full w-10 h-10 p-0 shadow-md flex items-center justify-center bg-purple-100 hover:bg-purple-200 border-purple-300"
+        className="bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-700 font-medium shadow-lg"
         onClick={() => navigate('/admin')}
-        title="Painel Administrativo"
+        title="Admin"
       >
-        <Shield className="h-5 w-5 text-purple-700" />
+        <Shield className="h-4 w-4 mr-2" />
+        Admin
       </Button>
     </div>
   );
