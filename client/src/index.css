@@ -130,6 +130,15 @@
     background-color: hsl(0 0% 75%) !important;
   }
 
+  /* Remover TODOS os fundos brancos do aplicativo */
+  .light .bg-white {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
+  .light [class*="bg-white"] {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
