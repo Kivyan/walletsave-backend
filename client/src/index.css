@@ -163,6 +163,15 @@
     color: hsl(0 0% 45%) !important;
   }
 
+  /* SelectValue placeholder também em cinza claro */
+  .light [data-radix-select-trigger] [data-placeholder] {
+    color: hsl(0 0% 45%) !important;
+  }
+
+  .light .text-muted-foreground[data-placeholder] {
+    color: hsl(0 0% 45%) !important;
+  }
+
   .light .text-muted-foreground {
     color: hsl(0 0% 45%) !important;
   }
