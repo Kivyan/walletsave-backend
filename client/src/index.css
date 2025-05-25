@@ -150,26 +150,26 @@
     background-color: hsl(0 0% 88%) !important;
   }
 
-  /* Placeholders com a mesma cor dos botões - mais específico */
+  /* Placeholders na cor cinza bem clara como o fundo */
   .light input::placeholder,
   .light textarea::placeholder,
   .light [data-placeholder],
   .light *::placeholder {
-    color: hsl(0 0% 45%) !important;
+    color: hsl(0 0% 70%) !important;
   }
 
-  /* SelectValue placeholder também em cinza claro */
+  /* SelectValue placeholder também na cor clara */
   .light [data-radix-select-trigger] [data-placeholder] {
-    color: hsl(0 0% 45%) !important;
+    color: hsl(0 0% 70%) !important;
   }
 
   .light .text-muted-foreground[data-placeholder] {
-    color: hsl(0 0% 45%) !important;
+    color: hsl(0 0% 70%) !important;
   }
 
   /* Classe Tailwind para placeholder */
   .placeholder\:text-gray-400::placeholder {
-    color: hsl(0 0% 45%) !important;
+    color: hsl(0 0% 70%) !important;
   }
 
   .light .text-muted-foreground {
@@ -195,6 +195,23 @@
 
   .light .bg-primary:hover {
     background-color: hsl(0 0% 93%) !important;
+  }
+
+  /* Botão destructive também na cor clara */
+  .light button[class*="destructive"] {
+    background-color: hsl(0 0% 96%) !important;
+    color: hsl(0 0% 20%) !important;
+    border: 1px solid hsl(0 0% 80%) !important;
+  }
+
+  .light button[class*="destructive"]:hover {
+    background-color: hsl(0 0% 93%) !important;
+  }
+
+  .light .bg-destructive {
+    background-color: hsl(0 0% 96%) !important;
+    color: hsl(0 0% 20%) !important;
+    border: 1px solid hsl(0 0% 80%) !important;
   }
 
   /* Campos de input com a mesma cor dos botões */
