@@ -7,10 +7,22 @@ export function AdminButton() {
   const { user } = useAuth();
   const [location, navigate] = useLocation();
 
+  // Debug log para verificar o estado do usuário
+  console.log("AdminButton - User:", user);
+  console.log("AdminButton - User role:", user?.role);
+  console.log("AdminButton - Location:", location);
+
   // Só mostrar se o usuário é admin e não está na página admin
   if (!user || user.role !== 'admin' || location === '/admin') {
+    console.log("AdminButton - Not showing because:", {
+      hasUser: !!user,
+      isAdmin: user?.role === 'admin',
+      notOnAdminPage: location !== '/admin'
+    });
     return null;
   }
+
+  console.log("AdminButton - Showing button");
 
   return (
     <div className="fixed bottom-20 md:bottom-6 left-6 z-10">
