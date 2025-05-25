@@ -196,6 +196,15 @@
     background-color: hsl(0 0% 88%) !important;
   }
 
+  /* Dialog com fundo mais escuro */
+  .light [role="dialog"] {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
+  .light .dialog-content {
+    background-color: hsl(0 0% 75%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
