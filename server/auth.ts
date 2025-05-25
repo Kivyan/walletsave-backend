@@ -74,15 +74,23 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       const user = await storage.getUserByUsername(username);
-      if (!user || !(await comparePasswords(password, user.password))) {
-        return done(null, false);
-      } else {
-        // Verificar se o usuário confirmou o email
-        if (!user.isVerified) {
-          return done(null, false, { message: 'Por favor, verifique seu email antes de fazer login' });
-        }
-        return done(null, user);
+      
+      // Se o usuário não existe, retorna erro de email inválido
+      if (!user) {
+        return done(null, false, { message: 'Email não encontrado' });
       }
+      
+      // Se a senha está incorreta, retorna erro de senha
+      if (!(await comparePasswords(password, user.password))) {
+        return done(null, false, { message: 'Senha incorreta' });
+      }
+      
+      // Verificar se o usuário confirmou o email
+      if (!user.isVerified) {
+        return done(null, false, { message: 'Por favor, verifique seu email antes de fazer login' });
+      }
+      
+      return done(null, user);
     }),
   );
 
