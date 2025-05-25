@@ -186,20 +186,24 @@ export default function ProfilePage(): ReactElement {
       await apiRequest("DELETE", "/api/user");
     },
     onSuccess: () => {
+      // Fazer logout imediatamente após exclusão
+      logoutMutation.mutate();
+      
       // Limpar dados de autenticação locais
       localStorage.removeItem("theme");
       localStorage.removeItem("userCurrency");
       localStorage.removeItem("i18nextLng");
+      
+      // Limpar cache do React Query
+      queryClient.clear();
       
       toast({
         title: t("toast.account_deleted"),
         description: t("toast.account_deleted_description"),
       });
       
-      // Redirecionar para a página de autenticação
-      setTimeout(() => {
-        navigate("/auth");
-      }, 1500);
+      // Redirecionar para a página de autenticação imediatamente
+      navigate("/auth");
     },
     onError: (error: Error) => {
       toast({
