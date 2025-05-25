@@ -209,6 +209,8 @@ const ja = {
     expense_distribution: "支出分布",
     manage_wallets: "ウォレット管理",
     financial_summary: "財務概要",
+    remaining_balance: "残高",
+    month_expenses: "月間支出",
   },
   reports: {
     monthly: "月間",
