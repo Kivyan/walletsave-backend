@@ -15,7 +15,7 @@ import FinancePage from "@/pages/finance-page-simplified";
 import TermsOfService from "@/pages/terms-of-service";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import ResetPasswordPage from "@/pages/reset-password-page";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/hooks/use-theme";
 import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
 import { AutoScaleContainer } from "@/components/auto-scale-container";
@@ -55,7 +55,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ThemeProvider>
+        <ThemeProvider defaultTheme="light" storageKey="wallet-save-theme">
           <I18nProvider>
             <AutoScaleContainer>
               <Router />

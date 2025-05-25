@@ -10,7 +10,7 @@ import { useLocation, Redirect } from "wouter";
 import { getInitials, SUPPORTED_CURRENCIES } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/hooks/use-theme";
 import { useToast } from "@/hooks/use-toast";
 import { languages } from "@/i18n";
 

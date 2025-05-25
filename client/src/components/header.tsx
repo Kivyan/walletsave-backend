@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { UserProfileDropdown } from "@/components/user-profile-dropdown";
 import { NotificationsDropdown } from "@/components/notifications-dropdown-new";
 import { Moon, Sun, ChevronLeft } from "lucide-react";
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/hooks/use-theme";
 import { Button } from "@/components/ui/button";
 import { useLocation, Link } from "wouter";
 import { TranslatedText } from "@/components/translated-text";
