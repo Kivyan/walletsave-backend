@@ -209,6 +209,10 @@ const de = {
     expense_distribution: "Ausgabenverteilung",
     manage_wallets: "Wallets verwalten",
     financial_summary: "Finanzübersicht",
+    remaining_balance: "Verbleibendes Guthaben",
+    add_balance: "Guthaben hinzufügen",
+    amount_to_add: "Hinzuzufügender Betrag",
+    month_expenses: "Monatsausgaben",
   },
   reports: {
     monthly: "Monatlich",
@@ -261,6 +265,8 @@ const de = {
     paid: "Bezahlt",
     unpaid: "Unbezahlt",
     distribution: "Verteilung",
+    month_expenses: "Monatsausgaben",
+    expense_chart: "Ausgabendiagramm",
   },
   category: {
     add_category: "Kategorie hinzufügen",
