@@ -451,6 +451,110 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Middleware para verificar se o usuário é admin
+  const requireAdmin = (req: any, res: any, next: any) => {
+    if (!req.isAuthenticated() || !req.user || req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Acesso negado. Privilégios administrativos necessários.' });
+    }
+    next();
+  };
+
+  // Rotas administrativas
+  app.get("/api/admin/stats", requireAdmin, async (req, res) => {
+    try {
+      const allUsers = await storage.getAllUsers();
+      const totalUsers = allUsers.length;
+      
+      // Contar usuários ativos (que fizeram login nos últimos 30 dias)
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const activeUsers = allUsers.filter(user => 
+        user.lastActiveAt && new Date(user.lastActiveAt) > thirtyDaysAgo
+      ).length;
+
+      // Buscar todas as despesas para calcular estatísticas
+      let totalExpenses = 0;
+      let totalAmount = 0;
+      
+      for (const user of allUsers) {
+        const userExpenses = await storage.getExpenses(user.id);
+        totalExpenses += userExpenses.length;
+        totalAmount += userExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+      }
+
+      res.json({
+        totalUsers,
+        activeUsers,
+        totalExpenses,
+        totalAmount
+      });
+    } catch (error) {
+      console.error('Erro ao buscar estatísticas administrativas:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  });
+
+  app.get("/api/admin/users", requireAdmin, async (req, res) => {
+    try {
+      const allUsers = await storage.getAllUsers();
+      
+      // Buscar estatísticas de cada usuário
+      const usersWithStats = await Promise.all(
+        allUsers.map(async (user) => {
+          const expenses = await storage.getExpenses(user.id);
+          const expenseCount = expenses.length;
+          const totalSpent = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+          
+          return {
+            id: user.id,
+            username: user.username,
+            fullName: user.fullName,
+            role: user.role,
+            isBlocked: user.isBlocked,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt,
+            lastActiveAt: user.lastActiveAt || user.createdAt,
+            expenseCount,
+            totalSpent
+          };
+        })
+      );
+
+      res.json(usersWithStats);
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  });
+
+  app.put("/api/admin/users/:userId/block", requireAdmin, async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const { block } = req.body;
+
+      // Verificar se não está tentando bloquear outro admin
+      const targetUser = await storage.getUser(userId);
+      if (!targetUser) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+
+      if (targetUser.role === 'admin') {
+        return res.status(400).json({ error: 'Não é possível bloquear outro administrador' });
+      }
+
+      const updatedUser = await storage.updateUser(userId, { isBlocked: block });
+      
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+
+      res.json({ success: true, user: updatedUser });
+    } catch (error) {
+      console.error('Erro ao atualizar status do usuário:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

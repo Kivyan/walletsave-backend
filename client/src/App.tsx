@@ -15,6 +15,7 @@ import FinancePage from "@/pages/finance-page-simplified";
 import TermsOfService from "@/pages/terms-of-service";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import ResetPasswordPage from "@/pages/reset-password-page";
+import AdminPage from "@/pages/admin-page";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { NavigationButtons } from "@/components/navigation-buttons";
 import { ReactElement } from "react";
@@ -32,6 +33,7 @@ function Router(): ReactElement {
   const renderPrivacyPolicy = (): ReactElement => <PrivacyPolicy />;
   const renderLanguageDemo = (): ReactElement => <LanguageDemo />;
   const renderResetPasswordPage = (): ReactElement => <ResetPasswordPage />;
+  const renderAdminPage = (): ReactElement => <AdminPage />;
 
   return (
     <Switch>
@@ -40,6 +42,7 @@ function Router(): ReactElement {
       <ProtectedRoute path="/finance" component={renderFinancePage} />
       <ProtectedRoute path="/reports" component={renderReportsPage} />
       <ProtectedRoute path="/savings" component={renderSavingsPage} />
+      <ProtectedRoute path="/admin" component={renderAdminPage} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/reset-password" component={renderResetPasswordPage} />
       <Route path="/reset-password/:token" component={renderResetPasswordPage} />
