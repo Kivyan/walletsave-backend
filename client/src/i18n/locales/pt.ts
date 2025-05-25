@@ -168,6 +168,7 @@ const translations = {
   finance: {
     overview: "Visão Geral",
     financial_summary: "Finanças",
+    total_balance: "Saldo Total",
     recent_expenses: "Despesas Recentes",
     manage_wallets: "Gerenciar Carteiras",
     budget: "Orçamento",

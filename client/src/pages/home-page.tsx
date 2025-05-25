@@ -203,20 +203,20 @@ export default function HomePage(): ReactElement {
                 </div>
               </div>
               
-              {/* Finance Info Cards - Simplificado em linha única */}
+              {/* Saldo Único Unificado */}
               <div className="flex flex-wrap items-center mt-4">
-                {/* Wallet Balance */}
+                {/* Saldo Total (Unificado: Carteiras + Orçamento) */}
                 <div className="flex items-center mr-8 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3">
-                    <Icons.Wallet className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3">
+                    <Icons.DollarSign className="h-4 w-4 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{t("wallet.balance")}</div>
-                    <div className="text-lg font-bold">{formatMoney(totalBalance)}</div>
+                    <div className="text-sm font-medium">{t("finance.total_balance")}</div>
+                    <div className="text-lg font-bold">{formatMoney((currentBudget?.amount ? Number(currentBudget.amount) : 0) + totalBalance)}</div>
                   </div>
                 </div>
                 
-                {/* Monthly Budget */}
+                {/* Gastos do Mês */}
                 <div className="flex items-center mr-8 mb-2">
                   <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3">
                     <Icons.LineChart className="h-4 w-4 text-green-600 dark:text-green-400" />
