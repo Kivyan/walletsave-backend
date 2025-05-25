@@ -192,7 +192,6 @@ const es = {
     notifications: "Notificaciones",
   },
   finance: {
-    recent_expenses: "Gastos Recientes",
     month_overview: "Resumen del Mes",
     quick_actions: "Acciones Rápidas",
     overview: "Resumen",
@@ -219,7 +218,6 @@ const es = {
     daily_expenses: "Gastos Diarios",
     daily_expenses_description: "Visualiza tus gastos diarios para este mes",
     category_distribution_description: "Mira cómo se distribuye tu dinero entre categorías",
-    recent_expenses: "Gastos Recientes",
   },
   expense: {
     expenses: "Gastos",
