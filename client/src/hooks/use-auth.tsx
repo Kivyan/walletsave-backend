@@ -208,6 +208,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Para respostas de login bem-sucedidas
       const user = response as SelectUser;
+      
+      // CRÍTICO: Limpar TODOS os dados em cache para evitar vazamento de dados entre usuários
+      queryClient.clear();
+      
+      // Agora definir os dados do novo usuário
       queryClient.setQueryData(["/api/user"], user);
       
       // Store currency in localStorage when user logs in
