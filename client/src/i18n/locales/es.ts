@@ -310,6 +310,7 @@ const es = {
     remaining_balance: "Saldo Restante",
     add_balance: "Agregar Saldo",
     amount_to_add: "Cantidad a agregar",
+    total_balance: "Saldo Total",
   },
   wallet: {
     wallet: "Billetera",
@@ -331,7 +332,6 @@ const es = {
     balance_added: "Saldo agregado",
     balance_added_description: "Tu saldo ha sido actualizado exitosamente",
     balance_error: "Error al agregar saldo",
-    remaining_balance: "Saldo Restante",
   },
   saving: {
     savings: "Ahorros",
