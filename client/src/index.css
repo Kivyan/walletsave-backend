@@ -186,6 +186,16 @@
     border-color: hsl(0 0% 60%) !important;
   }
 
+  /* Containers com bordas também em cinza claro */
+  .light .border {
+    background-color: hsl(0 0% 88%) !important;
+    border-color: hsl(0 0% 60%) !important;
+  }
+
+  .light .rounded-md.border {
+    background-color: hsl(0 0% 88%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
