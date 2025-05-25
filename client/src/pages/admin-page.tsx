@@ -207,29 +207,102 @@ export default function AdminPage() {
           <CardHeader>
             <CardTitle>Gerenciar Usuários</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
+          <CardContent className="p-0">
+            {/* Layout Mobile/Tablet - Cards */}
+            <div className="md:hidden space-y-4 p-6">
+              {users?.map((user) => (
+                <Card key={user.id} className="p-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium break-words">{user.fullName}</h3>
+                        <p className="text-sm text-neutral-500 break-all">{user.username}</p>
+                      </div>
+                      <div className="flex space-x-1 ml-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedUser(user)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        {user.role !== 'admin' && (
+                          <Button
+                            variant={user.isBlocked ? "default" : "destructive"}
+                            size="sm"
+                            onClick={() => handleUserAction(user, user.isBlocked ? 'unblock' : 'block')}
+                          >
+                            {user.isBlocked ? <UserCheck className="h-4 w-4" /> : <UserX className="h-4 w-4" />}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <span className="text-neutral-500">Status:</span>
+                        <div className="mt-1">
+                          <Badge 
+                            variant={user.isBlocked ? "destructive" : "default"}
+                            className={user.role === 'admin' ? "bg-purple-100 text-purple-800" : ""}
+                          >
+                            {user.isBlocked ? "Bloqueado" : user.role === 'admin' ? "Admin" : "Ativo"}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <span className="text-neutral-500">Verificado:</span>
+                        <div className="mt-1">
+                          <Badge variant={user.isVerified ? "default" : "secondary"}>
+                            {user.isVerified ? "Sim" : "Não"}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <span className="text-neutral-500">Despesas:</span>
+                        <div className="font-medium">{user.expenseCount}</div>
+                      </div>
+                      
+                      <div>
+                        <span className="text-neutral-500">Total Gasto:</span>
+                        <div className="font-medium">{formatMoney(user.totalSpent)}</div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <span className="text-neutral-500 text-sm">Último Acesso:</span>
+                      <div className="text-sm">{formatDate(user.lastActiveAt)}</div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Layout Desktop - Tabela */}
+            <div className="hidden md:block overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[200px]">Usuário</TableHead>
-                    <TableHead className="min-w-[150px]">Nome</TableHead>
-                    <TableHead className="min-w-[100px]">Status</TableHead>
-                    <TableHead className="min-w-[100px]">Verificado</TableHead>
-                    <TableHead className="min-w-[80px]">Despesas</TableHead>
-                    <TableHead className="min-w-[120px]">Total Gasto</TableHead>
-                    <TableHead className="min-w-[140px]">Último Acesso</TableHead>
-                    <TableHead className="min-w-[100px]">Ações</TableHead>
+                    <TableHead className="w-1/4">Usuário</TableHead>
+                    <TableHead className="w-1/6">Nome</TableHead>
+                    <TableHead className="w-1/8">Status</TableHead>
+                    <TableHead className="w-1/8">Verificado</TableHead>
+                    <TableHead className="w-1/12">Despesas</TableHead>
+                    <TableHead className="w-1/8">Total Gasto</TableHead>
+                    <TableHead className="w-1/6">Último Acesso</TableHead>
+                    <TableHead className="w-1/8">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {users?.map((user) => (
                     <TableRow key={user.id}>
                       <TableCell className="font-medium">
-                        <div className="break-all max-w-[200px]">{user.username}</div>
+                        <div className="break-all">{user.username}</div>
                       </TableCell>
                       <TableCell>
-                        <div className="break-words max-w-[200px]">{user.fullName}</div>
+                        <div className="break-words">{user.fullName}</div>
                       </TableCell>
                       <TableCell>
                         <Badge 
@@ -247,7 +320,7 @@ export default function AdminPage() {
                       <TableCell>{user.expenseCount}</TableCell>
                       <TableCell className="whitespace-nowrap">{formatMoney(user.totalSpent)}</TableCell>
                       <TableCell>
-                        <div className="text-sm break-words max-w-[140px]">{formatDate(user.lastActiveAt)}</div>
+                        <div className="text-sm">{formatDate(user.lastActiveAt)}</div>
                       </TableCell>
                       <TableCell>
                         <div className="flex space-x-1">
