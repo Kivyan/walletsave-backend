@@ -150,6 +150,23 @@
     background-color: hsl(0 0% 88%) !important;
   }
 
+  /* Placeholders com a mesma cor dos botões */
+  .light input::placeholder {
+    color: hsl(0 0% 45%) !important;
+  }
+
+  .light textarea::placeholder {
+    color: hsl(0 0% 45%) !important;
+  }
+
+  .light [data-placeholder] {
+    color: hsl(0 0% 45%) !important;
+  }
+
+  .light .text-muted-foreground {
+    color: hsl(0 0% 45%) !important;
+  }
+
   #root {
     @apply h-full w-full flex flex-col;
   }
