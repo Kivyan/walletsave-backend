@@ -261,6 +261,8 @@ const es = {
     paid: "Pagado",
     unpaid: "No pagado",
     distribution: "Distribución",
+    month_expenses: "Gastos del Mes",
+    expense_chart: "Gráfico de Gastos",
   },
   category: {
     add_category: "Añadir Categoría",
