@@ -257,7 +257,7 @@ export default function ProfilePage(): ReactElement {
                     <FormItem>
                       <FormLabel>{t("profile.full_name")}</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Nome completo" className="placeholder:text-gray-400" />
+                        <Input {...field} placeholder="Nome completo" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

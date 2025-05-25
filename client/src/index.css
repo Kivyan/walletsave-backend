@@ -155,7 +155,8 @@
   .light textarea::placeholder,
   .light [data-placeholder],
   .light *::placeholder {
-    color: hsl(0 0% 70%) !important;
+    color: hsl(0 0% 85%) !important;
+    opacity: 1 !important;
   }
 
   /* SelectValue placeholder também na cor clara */
