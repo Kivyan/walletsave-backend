@@ -29,16 +29,15 @@ export function AdminButton() {
   console.log("AdminButton - Showing button");
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-20 right-4 z-50">
       <Button 
         variant="outline" 
         size="sm" 
-        className="bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-700 font-medium shadow-lg"
+        className="rounded-full w-10 h-10 p-0 bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-700 shadow-lg transition-all duration-200 hover:scale-105"
         onClick={() => navigate('/admin')}
-        title="Admin"
+        title="Painel Administrativo"
       >
-        <Shield className="h-4 w-4 mr-2" />
-        Admin
+        <Shield className="h-4 w-4" />
       </Button>
     </div>
   );
