@@ -115,38 +115,34 @@ export default function FinancePage() {
     0
   );
 
-  // Wallet form validation schema
-  const walletFormSchema = z.object({
-    name: z.string().min(1, t("validation.name_required")),
-    balance: z.string().refine(
+  // Budget form validation schema (simplificado)
+  const budgetFormSchema = z.object({
+    amount: z.string().refine(
       (val) => !isNaN(Number(val)) && Number(val) >= 0,
       t("validation.amount_positive")
     ),
   });
 
-  // Initialize the wallet form
-  const walletForm = useForm<z.infer<typeof walletFormSchema>>({
-    resolver: zodResolver(walletFormSchema),
+  // Initialize the budget form
+  const budgetForm = useForm<z.infer<typeof budgetFormSchema>>({
+    resolver: zodResolver(budgetFormSchema),
     defaultValues: {
-      name: "",
-      balance: "0",
+      amount: "0",
     },
   })
 
-  // Reset form when editing wallet changes
+  // Reset form when editing budget changes
   useEffect(() => {
-    if (editingWallet) {
-      walletForm.reset({
-        name: editingWallet.name,
-        balance: String(editingWallet.balance),
+    if (currentBudget) {
+      budgetForm.reset({
+        amount: String(currentBudget.amount),
       });
     } else {
-      walletForm.reset({
-        name: "",
-        balance: "0",
+      budgetForm.reset({
+        amount: "0",
       });
     }
-  }, [editingWallet, walletForm]);
+  }, [currentBudget, budgetForm]);
 
   // Budget form validation schema
   const budgetFormSchema = z.object({

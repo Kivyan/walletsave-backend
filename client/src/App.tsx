@@ -11,7 +11,7 @@ import ProfilePage from "@/pages/profile-page";
 // Wallet integrado na página de Finanças
 import ReportsPage from "@/pages/reports-page";
 import SavingsPage from "@/pages/savings-page";
-import FinancePage from "@/pages/finance-page-new";
+import FinancePage from "@/pages/finance-page-simplified";
 import TermsOfService from "@/pages/terms-of-service";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import ResetPasswordPage from "@/pages/reset-password-page";
