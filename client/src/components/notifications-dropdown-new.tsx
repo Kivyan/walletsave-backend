@@ -98,7 +98,7 @@ export function NotificationsDropdown() {
       <DropdownMenuContent align="end" className="w-80">
         <div className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
           <h3 className="font-medium text-neutral-800 dark:text-white">
-            <TranslatedText i18nKey="notifications.title">الإشعارات</TranslatedText>
+            {t("notifications.title")}
           </h3>
         </div>
         
