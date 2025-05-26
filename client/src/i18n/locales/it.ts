@@ -487,6 +487,9 @@ const it = {
     welcome_back: "Bentornato!",
     goodbye: "Arrivederci!",
   },
+  footer: {
+    copyright: "© 2025 Kivyan Avila. Tutti i diritti riservati.",
+  },
 };
 
 export default it;

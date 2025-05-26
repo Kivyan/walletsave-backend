@@ -452,6 +452,9 @@ const translations = {
     contact_title: "Entre em Contato",
     contact_content: "Se você tiver alguma dúvida sobre estes Termos de Serviço ou Política de Privacidade, entre em contato conosco pelo e-mail support@walletsave.com.",
   },
+  footer: {
+    copyright: "© 2025 Kivyan Avila. Todos os direitos reservados.",
+  },
 };
 
 export default translations;

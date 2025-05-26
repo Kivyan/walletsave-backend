@@ -316,7 +316,10 @@ const es = {
     set_monthly_budget: "Establecer presupuesto mensual",
     no_budget_set: "No hay presupuesto establecido",
     budget_overview: "Resumen del presupuesto"
-  }
+  },
+  footer: {
+    copyright: "© 2025 Kivyan Avila. Todos los derechos reservados.",
+  },
 };
 
 export default es;

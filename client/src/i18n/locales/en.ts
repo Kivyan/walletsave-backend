@@ -389,6 +389,9 @@ const translations = {
     contact_title: "Contact Us",
     contact_content: "If you have any questions about these Terms of Service or Privacy Policy, please contact us at support@walletsave.com.",
   },
+  footer: {
+    copyright: "© 2025 Kivyan Avila. All rights reserved.",
+  },
 };
 
 export default translations;

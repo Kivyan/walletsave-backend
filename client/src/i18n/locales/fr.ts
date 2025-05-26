@@ -493,6 +493,9 @@ const fr = {
     welcome_back: "Bon retour !",
     goodbye: "Au revoir !",
   },
+  footer: {
+    copyright: "© 2025 Kivyan Avila. Tous droits réservés.",
+  },
 };
 
 export default fr;
