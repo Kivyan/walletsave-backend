@@ -67,10 +67,18 @@ const es = {
     yesterday: "Ayer",
     tomorrow: "Mañana",
     add_expense: "Añadir Gasto",
-    quick_actions: "Acciones Rápidas",
+    quick_actions: "Acciones Rápidas", 
     month_overview: "Resumen del Mes",
     no_expenses: "No hay gastos",
-    add_new_expense: "Añadir Nuevo Gasto"
+    add_new_expense: "Añadir Nuevo Gasto",
+    total_balance: "Saldo Total",
+    remaining_balance: "Saldo Restante",
+    month_expenses: "Gastos del Mes",
+    expense_distribution: "Distribución de Gastos",
+    recent_expenses: "Gastos Recientes",
+    view_all: "Ver Todo",
+    create_categories: "Crear Categorías",
+    manage_budget: "Gestionar Presupuesto"
   },
   auth: {
     username: "Nombre de usuario",
@@ -195,7 +203,11 @@ const es = {
     unpaid: "No pagado",
     distribution: "Distribución",
     month_expenses: "Gastos del Mes",
-    expense_chart: "Gráfico de Gastos"
+    expense_chart: "Gráfico de Gastos",
+    expense_created: "Gasto creado",
+    expense_updated: "Gasto actualizado", 
+    expense_deleted: "Gasto eliminado",
+    expense_error: "Error en el gasto"
   },
   category: {
     add_category: "Añadir Categoría",
@@ -299,7 +311,14 @@ const es = {
     delete_account: "Eliminar cuenta",
     delete_account_warning: "Esta acción no se puede deshacer",
     account_deleted: "Cuenta eliminada",
-    account_deleted_description: "Tu cuenta ha sido eliminada exitosamente. Todos tus datos han sido removidos."
+    account_deleted_description: "Tu cuenta ha sido eliminada exitosamente. Todos tus datos han sido removidos.",
+    admin: "Administrador",
+    admin_panel: "Panel de Administración",
+    user_management: "Gestión de Usuarios",
+    active_users: "Usuarios Activos",
+    blocked_users: "Usuarios Bloqueados",
+    block_user: "Bloquear Usuario",
+    unblock_user: "Desbloquear Usuario"
   },
   budget: {
     budget: "Presupuesto",
@@ -327,6 +346,38 @@ const es = {
   },
   footer: {
     copyright: "© 2025 Kivyan Avila. Todos los derechos reservados.",
+  },
+  admin: {
+    admin_panel: "Panel de Administración",
+    user_management: "Gestión de Usuarios",
+    total_users: "Total de Usuarios",
+    active_users: "Usuarios Activos", 
+    blocked_users: "Usuarios Bloqueados",
+    user_details: "Detalles del Usuario",
+    block_user: "Bloquear Usuario",
+    unblock_user: "Desbloquear Usuario",
+    delete_user: "Eliminar Usuario",
+    confirm_block: "¿Confirmar bloqueo?",
+    confirm_unblock: "¿Confirmar desbloqueo?",
+    confirm_delete: "¿Confirmar eliminación?",
+    user_blocked: "Usuario bloqueado",
+    user_unblocked: "Usuario desbloqueado",
+    user_deleted: "Usuario eliminado",
+    admin_actions: "Acciones de Administrador",
+    system_stats: "Estadísticas del Sistema"
+  },
+  reports: {
+    reports: "Informes",
+    financial_report: "Informe Financiero",
+    expense_report: "Informe de Gastos",
+    monthly_report: "Informe Mensual",
+    yearly_report: "Informe Anual",
+    generate_report: "Generar Informe",
+    export_data: "Exportar Datos",
+    date_range: "Rango de Fechas",
+    from_date: "Desde",
+    to_date: "Hasta",
+    no_data: "No hay datos disponibles"
   },
 };
 
