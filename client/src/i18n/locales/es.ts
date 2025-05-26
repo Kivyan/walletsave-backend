@@ -115,6 +115,7 @@ const es = {
   },
   finance: {
     finance: "Finanzas",
+    financial_summary: "Resumen Financiero",
     remaining_balance: "Saldo Restante",
     add_balance: "Agregar Saldo",
     amount_to_add: "Cantidad a agregar",
