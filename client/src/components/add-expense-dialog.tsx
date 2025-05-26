@@ -206,9 +206,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
       >
         <DialogHeader>
           <DialogTitle className="dark:text-gray-300 text-gray-800">
-            <TranslatedText i18nKey={editExpense ? "expense.edit_expense" : "expense.add_expense"}>
-              {editExpense ? "Editar Despesa" : "Adicionar Despesa"}
-            </TranslatedText>
+            {editExpense ? t("expense.edit_expense") : t("expense.add_expense")}
           </DialogTitle>
 
         </DialogHeader>
@@ -221,7 +219,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="dark:text-gray-300 text-gray-800">
-                    <TranslatedText i18nKey="expense.description">Descrição</TranslatedText>
+                    {t("expense.description")}
                   </FormLabel>
                   <FormControl>
                     <Input placeholder={t("expense.description_placeholder")} {...field} />
@@ -237,7 +235,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="dark:text-gray-300 text-gray-800">
-                    <TranslatedText i18nKey="expense.amount">Valor</TranslatedText>
+                    {t("expense.amount")}
                   </FormLabel>
                   <FormControl>
                     <Input 
@@ -258,7 +256,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel className="dark:text-gray-300 text-gray-800">
-                    <TranslatedText i18nKey="expense.date">Data</TranslatedText>
+                    {t("expense.date")}
                   </FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -297,7 +295,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="dark:text-gray-300 text-gray-800">
-                    <TranslatedText i18nKey="expense.category">Categoria</TranslatedText>
+                    {t("expense.category")}
                   </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>

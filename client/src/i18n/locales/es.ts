@@ -174,6 +174,7 @@ const es = {
     description_placeholder: "Ej: Alquiler",
     amount: "Monto",
     date: "Fecha",
+    select_date: "Seleccionar fecha",
     category: "Categoría",
     select_category: "Seleccionar categoría",
     is_recurring: "Es recurrente",
