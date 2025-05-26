@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function NotificationsDropdown() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [viewedNotifications, setViewedNotifications] = useState<number[]>([]);
   
@@ -127,7 +127,7 @@ export function NotificationsDropdown() {
                       <p className="text-sm text-neutral-700 dark:text-neutral-300">
                         {isToday 
                           ? t("notifications.due_today", { description: expense.description })
-                          : t("notifications.upcoming_expense", { description: expense.description, date: formatDate(expense.date) })}
+                          : t("notifications.upcoming_expense", { description: expense.description, date: formatDate(expense.date, i18n.language) })}
                       </p>
                       <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
                         {category?.name}

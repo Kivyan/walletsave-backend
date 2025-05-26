@@ -31,7 +31,7 @@ interface ExpenseItemProps {
 }
 
 export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -182,7 +182,7 @@ export function ExpenseItem({ expense, category, onEdit }: ExpenseItemProps) {
                   <Edit className="ml-2 h-3 w-3 text-neutral-400" />
                 </h3>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                  {formatDate(expense.date)} • {expense.isFixed ? t("expense.fixed") : t("expense.variable")}
+                  {formatDate(expense.date, i18n.language)} • {expense.isFixed ? t("expense.fixed") : t("expense.variable")}
                 </p>
               </div>
             </div>

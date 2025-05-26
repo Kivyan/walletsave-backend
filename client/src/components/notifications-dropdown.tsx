@@ -28,7 +28,7 @@ interface SavingGoalNotification {
 }
 
 export function NotificationsDropdown() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [viewedNotifications, setViewedNotifications] = useState<number[]>([]);
