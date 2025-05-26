@@ -410,6 +410,7 @@ const es = {
     expense_trends: "Tendencias de Gastos",
     category_breakdown: "Desglose por Categoría",
     export_report: "Exportar Informe",
+    recent_expenses: "Gastos Recientes",
     no_data: "No hay datos disponibles"
   },
   validation: {
