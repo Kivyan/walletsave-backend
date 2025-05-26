@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { LanguageSelector } from "@/components/language-selector";
 import { TranslatedText } from "@/components/translated-text";
+import { Footer } from "@/components/footer";
 import { useTheme } from "@/hooks/use-theme";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -476,6 +477,9 @@ export default function AuthPage() {
           </p>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
