@@ -118,15 +118,15 @@ export const CATEGORY_COLORS = {
 };
 
 export const DEFAULT_CATEGORIES = [
-  { name: "Housing", color: "#EF4444", icon: "home" },
-  { name: "Transportation", color: "#3B82F6", icon: "car" },
-  { name: "Food", color: "#22C55E", icon: "shopping-basket" },
-  { name: "Entertainment", color: "#8B5CF6", icon: "film" },
-  { name: "Health", color: "#F59E0B", icon: "heart" },
-  { name: "Education", color: "#6366F1", icon: "book" },
-  { name: "Shopping", color: "#EC4899", icon: "shopping-bag" },
-  { name: "Utilities", color: "#06B6D4", icon: "zap" },
-  { name: "Other", color: "#6B7280", icon: "more-horizontal" },
+  { name: "Vivienda", color: "#EF4444", icon: "home" },
+  { name: "Transporte", color: "#3B82F6", icon: "car" },
+  { name: "Alimentación", color: "#22C55E", icon: "shopping-basket" },
+  { name: "Entretenimiento", color: "#8B5CF6", icon: "film" },
+  { name: "Salud", color: "#F59E0B", icon: "heart" },
+  { name: "Educación", color: "#6366F1", icon: "book" },
+  { name: "Compras", color: "#EC4899", icon: "shopping-bag" },
+  { name: "Servicios", color: "#06B6D4", icon: "zap" },
+  { name: "Otros", color: "#6B7280", icon: "more-horizontal" },
 ];
 
 /**
