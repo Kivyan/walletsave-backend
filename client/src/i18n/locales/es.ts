@@ -290,6 +290,7 @@ const es = {
   },
   user: {
     profile: "Perfil",
+    my_profile: "Mi Perfil",
     edit_profile: "Editar Perfil",
     personal_info: "Información Personal",
     preferences: "Preferencias",
@@ -319,7 +320,11 @@ const es = {
     active_users: "Usuarios Activos",
     blocked_users: "Usuarios Bloqueados",
     block_user: "Bloquear Usuario",
-    unblock_user: "Desbloquear Usuario"
+    unblock_user: "Desbloquear Usuario",
+    full_name: "Nombre Completo",
+    username: "Nombre de Usuario",
+    password: "Contraseña",
+    confirm_password: "Confirmar Contraseña"
   },
   budget: {
     budget: "Presupuesto",
@@ -370,6 +375,7 @@ const es = {
   reports: {
     reports: "Informes",
     financial_report: "Informe Financiero",
+    financial_summary: "Resumen Financiero",
     expense_report: "Informe de Gastos",
     monthly_report: "Informe Mensual",
     yearly_report: "Informe Anual",
@@ -378,8 +384,32 @@ const es = {
     date_range: "Rango de Fechas",
     from_date: "Desde",
     to_date: "Hasta",
-    no_data: "No hay datos disponibles"
+    no_data: "No hay datos disponibles",
+    financial_overview: "Resumen Financiero",
+    monthly_summary: "Resumen Mensual",
+    expense_analysis: "Análisis de Gastos",
+    budget_analysis: "Análisis de Presupuesto",
+    spending_trends: "Tendencias de Gasto",
+    category_breakdown: "Desglose por Categoría"
   },
+  profile: {
+    my_profile: "Mi Perfil",
+    edit_profile: "Editar Perfil",
+    full_name: "Nombre Completo",
+    username: "Nombre de Usuario",
+    password: "Contraseña",
+    confirm_password: "Confirmar Contraseña",
+    update_profile: "Actualizar Perfil",
+    delete_account: "Eliminar Cuenta"
+  },
+  toast: {
+    error: "Error",
+    success: "Éxito",
+    account_deleted: "Cuenta eliminada",
+    account_deleted_description: "Tu cuenta ha sido eliminada exitosamente. Todos tus datos han sido removidos.",
+    profile_updated: "Perfil actualizado",
+    profile_updated_description: "Tu información ha sido actualizada exitosamente."
+  }
 };
 
 export default es;
