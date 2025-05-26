@@ -466,11 +466,11 @@ export default function AuthPage() {
         <div className="mt-4 text-center text-xs text-neutral-800 dark:text-neutral-400" style={{ color: theme === 'dark' ? undefined : "#1f2937" }}>
           <p>
             {t("auth.terms_agreement")}{" "}
-            <a href="/terms-of-service" className="font-medium dark:text-accent hover:underline" style={{ color: theme === 'dark' ? undefined : "#111827", fontWeight: theme === 'dark' ? undefined : "bold" }}>
+            <a href="/terms-of-service" className="font-medium hover:underline text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200">
               {t("auth.terms_of_service")}
             </a>{" "}
             {t("auth.and")}{" "}
-            <a href="/privacy-policy" className="font-medium dark:text-accent hover:underline" style={{ color: theme === 'dark' ? undefined : "#111827", fontWeight: theme === 'dark' ? undefined : "bold" }}>
+            <a href="/privacy-policy" className="font-medium hover:underline text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200">
               {t("auth.privacy_policy")}
             </a>
             .
