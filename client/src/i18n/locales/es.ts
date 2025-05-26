@@ -65,7 +65,8 @@ const es = {
     category: "Categoría",
     today: "Hoy",
     yesterday: "Ayer",
-    tomorrow: "Mañana"
+    tomorrow: "Mañana",
+    all_rights_reserved: "Todos los derechos reservados"
   },
   auth: {
     username: "Nombre de usuario",
