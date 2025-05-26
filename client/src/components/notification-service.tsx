@@ -381,7 +381,7 @@ export default function NotificationService({
             onClick={enableNotifications}
           >
             <FontAwesomeIcon icon={faBell} className="h-4 w-4" />
-            <TranslatedText i18nKey="notifications.enable">Ativar notificações</TranslatedText>
+{t("notifications.enable")}
           </Button>
         )}
         
@@ -392,7 +392,7 @@ export default function NotificationService({
             className="flex items-center gap-2 text-green-600"
           >
             <FontAwesomeIcon icon={faBell} className="h-4 w-4" />
-            <TranslatedText i18nKey="notifications.enabled">Notificações ativadas</TranslatedText>
+{t("notifications.enabled")}
           </Button>
         )}
       </div>
@@ -401,19 +401,15 @@ export default function NotificationService({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              <TranslatedText i18nKey="notifications.permission_title">
-                Permissão de Notificações
-              </TranslatedText>
+              {t("notifications.permission_title")}
             </DialogTitle>
           </DialogHeader>
           <p className="py-4">
-            <TranslatedText i18nKey="notifications.permission_description">
-              Para receber notificações sobre suas finanças, você precisa permitir notificações no seu navegador.
-            </TranslatedText>
+            {t("notifications.permission_description")}
           </p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowPermissionDialog(false)}>
-              <TranslatedText i18nKey="common.close">Fechar</TranslatedText>
+{t("common.close")}
             </Button>
           </DialogFooter>
         </DialogContent>

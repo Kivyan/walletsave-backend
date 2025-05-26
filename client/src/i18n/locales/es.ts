@@ -396,6 +396,10 @@ const es = {
   },
   notifications: {
     title: "Notificaciones",
+    enable: "Activar Notificaciones",
+    enabled: "Notificaciones Activadas",
+    permission_title: "Permiso de Notificaciones Requerido",
+    permission_description: "Por favor habilita las notificaciones en la configuración de tu navegador para recibir alertas financieras importantes.",
     no_notifications: "No hay notificaciones",
     mark_as_read: "Marcar como leído",
     clear_all: "Limpiar todo",
