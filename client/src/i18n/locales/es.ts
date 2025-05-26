@@ -347,6 +347,13 @@ const es = {
     verified: "Verificado",
     unverified: "No verificado"
   },
+  profile: {
+    my_profile: "Mi Perfil",
+    dark_mode: "Modo Oscuro",
+    light_mode: "Modo Claro",
+    logout: "Cerrar Sesión",
+    logging_out: "Cerrando Sesión..."
+  },
   budget: {
     budget: "Presupuesto",
     budgets: "Presupuestos",
