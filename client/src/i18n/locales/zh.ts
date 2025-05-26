@@ -486,6 +486,9 @@ const zh = {
     welcome_back: "欢迎回来！",
     goodbye: "再见！",
   },
+  footer: {
+    copyright: "© 2025 Kivyan Avila. 版权所有。",
+  },
 };
 
 export default zh;

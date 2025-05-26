@@ -479,7 +479,7 @@ export default function AuthPage() {
           {/* Footer Copyright */}
           <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-700">
             <p className="text-xs text-center text-neutral-600 dark:text-neutral-400">
-              © 2025 Kivyan Avila. Todos os direitos reservados.
+              {t("footer.copyright")}
             </p>
           </div>
         </div>

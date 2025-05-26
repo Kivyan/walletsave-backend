@@ -571,6 +571,9 @@ const translations = {
     contact_title: "اتصل بنا",
     contact_content: "إذا كانت لديك أسئلة حول شروط الخدمة هذه أو سياسة الخصوصية، فاتصل بنا على support@walletsave.com.",
   },
+  footer: {
+    copyright: "© 2025 كيفيان أفيلا. جميع الحقوق محفوظة.",
+  },
 };
 
 export default translations;
