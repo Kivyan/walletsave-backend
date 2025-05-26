@@ -1,6 +1,7 @@
 const fr = {
   common: {
     save: "Enregistrer",
+    saving: "Enregistrement...",
     cancel: "Annuler",
     delete: "Supprimer",
     edit: "Modifier",
