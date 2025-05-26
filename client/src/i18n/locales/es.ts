@@ -2,7 +2,7 @@ const es = {
   common: {
     cancel: "Cancelar",
     save: "Guardar",
-    edit: "Editar",
+    edit: "Editar", 
     delete: "Eliminar",
     add: "Añadir",
     confirm: "Confirmar",
@@ -65,7 +65,12 @@ const es = {
     category: "Categoría",
     today: "Hoy",
     yesterday: "Ayer",
-    tomorrow: "Mañana"
+    tomorrow: "Mañana",
+    add_expense: "Añadir Gasto",
+    quick_actions: "Acciones Rápidas",
+    month_overview: "Resumen del Mes",
+    no_expenses: "No hay gastos",
+    add_new_expense: "Añadir Nuevo Gasto"
   },
   auth: {
     username: "Nombre de usuario",
@@ -150,7 +155,8 @@ const es = {
     budget_created: "Presupuesto creado",
     budget_updated: "Presupuesto actualizado",
     budget_deleted: "Presupuesto eliminado",
-    budget_error: "Error en el presupuesto"
+    budget_error: "Error en el presupuesto",
+    month_expenses: "Gastos del Mes"
   },
   expense: {
     expenses: "Gastos",
