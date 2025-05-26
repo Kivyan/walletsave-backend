@@ -405,6 +405,9 @@ const es = {
   },
   reports: {
     reports: "Informes",
+    monthly: "Mensual",
+    daily: "Diario",
+    trends: "Tendencias",
     monthly_report: "Informe Mensual",
     yearly_report: "Informe Anual",
     expense_trends: "Tendencias de Gastos",
@@ -412,6 +415,7 @@ const es = {
     daily_expenses: "Gastos Diarios",
     daily_expenses_description: "Ve tus gastos diarios para este mes",
     category_breakdown: "Desglose por Categoría",
+    category_distribution_description: "Ve cómo se distribuye tu dinero entre categorías",
     export_report: "Exportar Informe",
     recent_expenses: "Gastos Recientes",
     no_data: "No hay datos disponibles"
