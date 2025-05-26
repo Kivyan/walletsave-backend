@@ -486,9 +486,6 @@ const ru = {
     welcome_back: "Добро пожаловать обратно!",
     goodbye: "До свидания!",
   },
-  footer: {
-    copyright: "© 2025 Kivyan Avila. Все права защищены.",
-  },
 };
 
 export default ru;

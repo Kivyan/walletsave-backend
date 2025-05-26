@@ -2,7 +2,7 @@ const es = {
   common: {
     cancel: "Cancelar",
     save: "Guardar",
-    edit: "Editar", 
+    edit: "Editar",
     delete: "Eliminar",
     add: "Añadir",
     confirm: "Confirmar",
@@ -65,20 +65,7 @@ const es = {
     category: "Categoría",
     today: "Hoy",
     yesterday: "Ayer",
-    tomorrow: "Mañana",
-    add_expense: "Añadir Gasto",
-    quick_actions: "Acciones Rápidas", 
-    month_overview: "Resumen del Mes",
-    no_expenses: "No hay gastos",
-    add_new_expense: "Añadir Nuevo Gasto",
-    total_balance: "Saldo Total",
-    remaining_balance: "Saldo Restante",
-    month_expenses: "Gastos del Mes",
-    expense_distribution: "Distribución de Gastos",
-    recent_expenses: "Gastos Recientes",
-    view_all: "Ver Todo",
-    create_categories: "Crear Categorías",
-    manage_budget: "Gestionar Presupuesto"
+    tomorrow: "Mañana"
   },
   auth: {
     username: "Nombre de usuario",
@@ -128,10 +115,11 @@ const es = {
   },
   finance: {
     finance: "Finanzas",
-    total_balance: "Saldo Total",
     remaining_balance: "Saldo Restante",
     add_balance: "Agregar Saldo",
     amount_to_add: "Cantidad a agregar",
+    total_balance: "Saldo Total",
+    month_expenses: "Gastos del Mes",
     month_overview: "Resumen del Mes",
     quick_actions: "Acciones Rápidas",
     overview: "Resumen",
@@ -163,8 +151,7 @@ const es = {
     budget_created: "Presupuesto creado",
     budget_updated: "Presupuesto actualizado",
     budget_deleted: "Presupuesto eliminado",
-    budget_error: "Error en el presupuesto",
-    month_expenses: "Gastos del Mes"
+    budget_error: "Error en el presupuesto"
   },
   expense: {
     expenses: "Gastos",
@@ -174,7 +161,6 @@ const es = {
     description_placeholder: "Ej: Alquiler",
     amount: "Monto",
     date: "Fecha",
-    select_date: "Seleccionar fecha",
     category: "Categoría",
     select_category: "Seleccionar categoría",
     is_recurring: "Es recurrente",
@@ -204,11 +190,7 @@ const es = {
     unpaid: "No pagado",
     distribution: "Distribución",
     month_expenses: "Gastos del Mes",
-    expense_chart: "Gráfico de Gastos",
-    expense_created: "Gasto creado",
-    expense_updated: "Gasto actualizado", 
-    expense_deleted: "Gasto eliminado",
-    expense_error: "Error en el gasto"
+    expense_chart: "Gráfico de Gastos"
   },
   category: {
     add_category: "Añadir Categoría",
@@ -233,10 +215,7 @@ const es = {
     other: "Otros",
     education: "Educación",
     shopping: "Compras",
-    health: "Salud",
-    no_categories: "Sin categorías disponibles",
-    need_categories_first: "Necesitas crear categorías antes de añadir gastos",
-    create_default: "Crear Categorías Predeterminadas"
+    health: "Salud"
   },
   wallet: {
     wallet: "Billetera",
@@ -290,7 +269,6 @@ const es = {
   },
   user: {
     profile: "Perfil",
-    my_profile: "Mi Perfil",
     edit_profile: "Editar Perfil",
     personal_info: "Información Personal",
     preferences: "Preferencias",
@@ -313,18 +291,7 @@ const es = {
     delete_account: "Eliminar cuenta",
     delete_account_warning: "Esta acción no se puede deshacer",
     account_deleted: "Cuenta eliminada",
-    account_deleted_description: "Tu cuenta ha sido eliminada exitosamente. Todos tus datos han sido removidos.",
-    admin: "Administrador",
-    admin_panel: "Panel de Administración",
-    user_management: "Gestión de Usuarios",
-    active_users: "Usuarios Activos",
-    blocked_users: "Usuarios Bloqueados",
-    block_user: "Bloquear Usuario",
-    unblock_user: "Desbloquear Usuario",
-    full_name: "Nombre Completo",
-    username: "Nombre de Usuario",
-    password: "Contraseña",
-    confirm_password: "Confirmar Contraseña"
+    account_deleted_description: "Tu cuenta ha sido eliminada exitosamente. Todos tus datos han sido removidos."
   },
   budget: {
     budget: "Presupuesto",
@@ -349,66 +316,6 @@ const es = {
     set_monthly_budget: "Establecer presupuesto mensual",
     no_budget_set: "No hay presupuesto establecido",
     budget_overview: "Resumen del presupuesto"
-  },
-  footer: {
-    copyright: "© 2025 Kivyan Avila. Todos los derechos reservados.",
-  },
-  admin: {
-    admin_panel: "Panel de Administración",
-    user_management: "Gestión de Usuarios",
-    total_users: "Total de Usuarios",
-    active_users: "Usuarios Activos", 
-    blocked_users: "Usuarios Bloqueados",
-    user_details: "Detalles del Usuario",
-    block_user: "Bloquear Usuario",
-    unblock_user: "Desbloquear Usuario",
-    delete_user: "Eliminar Usuario",
-    confirm_block: "¿Confirmar bloqueo?",
-    confirm_unblock: "¿Confirmar desbloqueo?",
-    confirm_delete: "¿Confirmar eliminación?",
-    user_blocked: "Usuario bloqueado",
-    user_unblocked: "Usuario desbloqueado",
-    user_deleted: "Usuario eliminado",
-    admin_actions: "Acciones de Administrador",
-    system_stats: "Estadísticas del Sistema"
-  },
-  reports: {
-    reports: "Informes",
-    financial_report: "Informe Financiero",
-    financial_summary: "Resumen Financiero",
-    expense_report: "Informe de Gastos",
-    monthly_report: "Informe Mensual",
-    yearly_report: "Informe Anual",
-    generate_report: "Generar Informe",
-    export_data: "Exportar Datos",
-    date_range: "Rango de Fechas",
-    from_date: "Desde",
-    to_date: "Hasta",
-    no_data: "No hay datos disponibles",
-    financial_overview: "Resumen Financiero",
-    monthly_summary: "Resumen Mensual",
-    expense_analysis: "Análisis de Gastos",
-    budget_analysis: "Análisis de Presupuesto",
-    spending_trends: "Tendencias de Gasto",
-    category_breakdown: "Desglose por Categoría"
-  },
-  profile: {
-    my_profile: "Mi Perfil",
-    edit_profile: "Editar Perfil",
-    full_name: "Nombre Completo",
-    username: "Nombre de Usuario",
-    password: "Contraseña",
-    confirm_password: "Confirmar Contraseña",
-    update_profile: "Actualizar Perfil",
-    delete_account: "Eliminar Cuenta"
-  },
-  toast: {
-    error: "Error",
-    success: "Éxito",
-    account_deleted: "Cuenta eliminada",
-    account_deleted_description: "Tu cuenta ha sido eliminada exitosamente. Todos tus datos han sido removidos.",
-    profile_updated: "Perfil actualizado",
-    profile_updated_description: "Tu información ha sido actualizada exitosamente."
   }
 };
 

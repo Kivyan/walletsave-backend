@@ -486,9 +486,6 @@ const ja = {
     welcome_back: "おかえりなさい！",
     goodbye: "さようなら！",
   },
-  footer: {
-    copyright: "© 2025 Kivyan Avila. 全著作権所有。",
-  },
 };
 
 export default ja;
