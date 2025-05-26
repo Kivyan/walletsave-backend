@@ -403,17 +403,17 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                         <SelectContent>
                           <SelectItem value="weekly">
                             <span className="dark:text-gray-300 text-gray-800">
-                              <TranslatedText i18nKey="expense.weekly">Semanal</TranslatedText>
+{t("expense.weekly")}
                             </span>
                           </SelectItem>
                           <SelectItem value="monthly">
                             <span className="dark:text-gray-300 text-gray-800">
-                              <TranslatedText i18nKey="expense.monthly">Mensal</TranslatedText>
+{t("expense.monthly")}
                             </span>
                           </SelectItem>
                           <SelectItem value="yearly">
                             <span className="dark:text-gray-300 text-gray-800">
-                              <TranslatedText i18nKey="expense.yearly">Anual</TranslatedText>
+{t("expense.yearly")}
                             </span>
                           </SelectItem>
                         </SelectContent>
@@ -429,7 +429,7 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel className="dark:text-gray-300 text-gray-800">
-                        <TranslatedText i18nKey="expense.end_date">Data Final</TranslatedText>
+{t("expense.end_date")}
                       </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
@@ -472,15 +472,10 @@ export function AddExpenseDialog({ open, onOpenChange, editExpense }: AddExpense
                 onClick={() => onOpenChange(false)}
                 disabled={expenseMutation.isPending}
               >
-                <span className="dark:text-gray-300">
-                  <TranslatedText i18nKey="common.cancel">Cancelar</TranslatedText>
-                </span>
+{t("common.cancel")}
               </Button>
               <Button type="submit" disabled={expenseMutation.isPending}>
-                {expenseMutation.isPending 
-                  ? <span className="dark:text-gray-300"><TranslatedText i18nKey="common.saving">Salvando...</TranslatedText></span> 
-                  : <span className="dark:text-gray-300"><TranslatedText i18nKey="common.save">Salvar</TranslatedText></span>
-                }
+{expenseMutation.isPending ? t("common.saving") : t("common.save")}
               </Button>
             </DialogFooter>
           </form>
