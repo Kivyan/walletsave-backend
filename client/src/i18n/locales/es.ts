@@ -395,13 +395,17 @@ const es = {
     name: "Wallet Save"
   },
   notifications: {
+    title: "Notificaciones",
     no_notifications: "No hay notificaciones",
     mark_as_read: "Marcar como leído",
     clear_all: "Limpiar todo",
     budget_alert: "Alerta de Presupuesto",
     saving_goal_reached: "Meta de Ahorro Alcanzada",
     expense_added: "Gasto Añadido",
-    new_month: "Nuevo Mes"
+    new_month: "Nuevo Mes",
+    due_today: "{{description}} vence hoy!",
+    upcoming_expense: "{{description}} vence el {{date}}",
+    view_all: "Ver todo"
   },
   reports: {
     reports: "Informes",
