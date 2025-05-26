@@ -115,11 +115,10 @@ const es = {
   },
   finance: {
     finance: "Finanzas",
+    total_balance: "Saldo Total",
     remaining_balance: "Saldo Restante",
     add_balance: "Agregar Saldo",
     amount_to_add: "Cantidad a agregar",
-    total_balance: "Saldo Total",
-    month_expenses: "Gastos del Mes",
     month_overview: "Resumen del Mes",
     quick_actions: "Acciones Rápidas",
     overview: "Resumen",
