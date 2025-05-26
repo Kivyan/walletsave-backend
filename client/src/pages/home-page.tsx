@@ -153,17 +153,17 @@ export default function HomePage(): ReactElement {
             <div className="text-center">
               <Icons.Folders className="h-12 w-12 mx-auto text-neutral-400" />
               <h2 className="mt-2 text-xl font-semibold text-neutral-800 dark:text-white">
-                Sem categorias disponíveis
+                {t("categories.no_categories")}
               </h2>
               <p className="mt-1 text-neutral-600 dark:text-neutral-400">
-                Você precisa criar categorias antes de adicionar despesas.
+                {t("categories.need_categories_first")}
               </p>
               <Button
                 className="mt-4"
                 onClick={handleCreateDefaultCategories}
                 disabled={createDefaultCategoriesMutation.isPending}
               >
-                {createDefaultCategoriesMutation.isPending ? "Criando..." : "Criar Categorias Padrão"}
+                {createDefaultCategoriesMutation.isPending ? t("common.loading") : t("categories.create_default")}
               </Button>
             </div>
           </div>

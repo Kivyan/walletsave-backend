@@ -220,7 +220,10 @@ const es = {
     other: "Otros",
     education: "Educación",
     shopping: "Compras",
-    health: "Salud"
+    health: "Salud",
+    no_categories: "Sin categorías disponibles",
+    need_categories_first: "Necesitas crear categorías antes de añadir gastos",
+    create_default: "Crear Categorías Predeterminadas"
   },
   wallet: {
     wallet: "Billetera",
