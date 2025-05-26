@@ -13,7 +13,7 @@ interface ExpensesListProps {
 }
 
 export function ExpensesList({ expenses, categories }: ExpensesListProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedCategories, setSelectedCategories] = useState<number[]>(
     categories.map(category => category.id)
   );
@@ -111,7 +111,22 @@ export function ExpensesList({ expenses, categories }: ExpensesListProps) {
             } else if (isTomorrow) {
               dateLabel = t('common.tomorrow');
             } else {
-              dateLabel = new Date(dateStr).toLocaleDateString(undefined, { 
+              // Map language codes to locale identifiers
+              const localeMap: Record<string, string> = {
+                'es': 'es-ES',
+                'en': 'en-US',
+                'pt': 'pt-BR',
+                'fr': 'fr-FR',
+                'de': 'de-DE',
+                'it': 'it-IT',
+                'ja': 'ja-JP',
+                'zh': 'zh-CN',
+                'ru': 'ru-RU',
+                'ar': 'ar-SA'
+              };
+              
+              const locale = localeMap[i18n.language] || 'en-US';
+              dateLabel = new Date(dateStr).toLocaleDateString(locale, { 
                 weekday: 'long', 
                 day: 'numeric', 
                 month: 'long' 
