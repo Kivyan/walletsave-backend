@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
+import { Footer } from "@/components/footer";
 import { Budget, Expense, Category } from "@shared/schema";
 import { formatMoney } from "@/lib/utils";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -292,6 +293,9 @@ export default function FinancePage() {
       />
 
       <MobileNavigation />
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

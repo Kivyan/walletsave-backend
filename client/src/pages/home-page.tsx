@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
 import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
+import { Footer } from "@/components/footer";
 import { MonthSelector } from "@/components/month-selector";
 import { ExpensesList } from "@/components/expenses-list";
 import { ExpenseChart } from "@/components/expense-chart";
@@ -283,6 +284,9 @@ export default function HomePage(): ReactElement {
         open={isAddExpenseOpen}
         onOpenChange={setIsAddExpenseOpen}
       />
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
