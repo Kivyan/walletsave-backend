@@ -294,6 +294,16 @@ const ja = {
     shopping: "ショッピング",
     other: "その他",
     unknown: "不明",
+    // Spanish category translations
+    transporte: "交通費",
+    compras: "ショッピング",
+    salud: "健康",
+    servicios: "サービス",
+    educación: "教育",
+    entretenimiento: "娯楽",
+    otros: "その他",
+    alimentación: "食費",
+    vivienda: "住宅",
   },
   budget: {
     budget: "予算",
