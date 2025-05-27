@@ -93,6 +93,7 @@ const ja = {
     late: "遅延",
     on_time: "時間通り",
     saving: "保存中...",
+    all_rights_reserved: "すべての権利を保有",
   },
   validation: {
     required: "この項目は必須です",
