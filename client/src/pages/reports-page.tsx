@@ -219,7 +219,7 @@ export default function ReportsPage() {
                           cy="50%"
                           outerRadius={80}
                           fill="#8884d8"
-                          label={(entry) => entry.name}
+                          label={(entry) => getTranslatedCategoryName(entry.name)}
                         >
                           {pieChartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
