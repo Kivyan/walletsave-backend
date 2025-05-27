@@ -93,6 +93,7 @@ const de = {
     late: "Spät",
     on_time: "Pünktlich",
     saving: "Speichern...",
+    all_rights_reserved: "Alle Rechte vorbehalten",
   },
   validation: {
     required: "Dieses Feld ist erforderlich",
