@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { Expense, Category } from "@shared/schema";
 import { MonthSelector } from "@/components/month-selector";
-import { formatMoney, formatDate } from "@/lib/utils";
+import { formatMoney, formatDate, CATEGORY_TRANSLATION_MAP } from "@/lib/utils";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { subMonths, eachDayOfInterval, startOfMonth, endOfMonth, format } from "date-fns";
 
@@ -25,6 +25,29 @@ export default function ReportsPage() {
   const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [activeTab, setActiveTab] = useState("monthly");
+
+  // Function to get translated category name
+  const getTranslatedCategoryName = (categoryName: string): string => {
+    const normalizedName = categoryName.toLowerCase().trim();
+    const translationKey = CATEGORY_TRANSLATION_MAP[normalizedName];
+    
+    if (translationKey) {
+      const translation = t(translationKey, categoryName);
+      if (translation === translationKey || translation.includes('.')) {
+        return categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+      }
+      return translation;
+    }
+    
+    // Check if it's a Spanish category name
+    const spanishKey = `categories.${normalizedName}`;
+    const spanishTranslation = t(spanishKey, categoryName);
+    if (spanishTranslation !== spanishKey && !spanishTranslation.includes('.')) {
+      return spanishTranslation;
+    }
+    
+    return categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+  };
 
   // Get month and year from selected date
   const month = selectedDate.getMonth() + 1; // JavaScript months are 0-indexed
@@ -218,7 +241,7 @@ export default function ReportsPage() {
                               style={{ backgroundColor: item.color }}
                             />
                             <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                              {item.name}
+                              {getTranslatedCategoryName(item.name)}
                             </span>
                           </div>
                           <div>
