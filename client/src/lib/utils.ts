@@ -151,5 +151,15 @@ export const CATEGORY_TRANSLATION_MAP: Record<string, string> = {
   "investments": "categories.investments",
   "income": "categories.income",
   "other": "categories.other",
-  "unknown": "categories.unknown"
+  "unknown": "categories.unknown",
+  // Spanish category names
+  "transporte": "categories.transporte",
+  "salud": "categories.salud",
+  "servicios": "categories.servicios",
+  "vivienda": "categories.vivienda",
+  "compras": "categories.compras",
+  "educación": "categories.educación",
+  "entretenimiento": "categories.entretenimiento",
+  "otros": "categories.otros",
+  "alimentación": "categories.alimentación"
 };
