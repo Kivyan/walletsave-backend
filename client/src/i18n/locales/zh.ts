@@ -294,6 +294,16 @@ const zh = {
     shopping: "购物",
     other: "其他",
     unknown: "未知",
+    // Spanish category translations
+    transporte: "交通",
+    compras: "购物",
+    salud: "健康",
+    servicios: "服务",
+    educación: "教育",
+    entretenimiento: "娱乐",
+    otros: "其他",
+    alimentación: "食物",
+    vivienda: "住房",
   },
   budget: {
     budget: "预算",
