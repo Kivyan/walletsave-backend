@@ -294,6 +294,16 @@ const ru = {
     shopping: "Покупки",
     other: "Другое",
     unknown: "Неизвестно",
+    // Spanish category translations
+    transporte: "Транспорт",
+    compras: "Покупки",
+    salud: "Здоровье",
+    servicios: "Услуги",
+    educación: "Образование",
+    entretenimiento: "Развлечения",
+    otros: "Другое",
+    alimentación: "Еда",
+    vivienda: "Жилье",
   },
   budget: {
     budget: "Бюджет",
