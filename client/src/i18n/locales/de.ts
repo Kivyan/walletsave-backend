@@ -294,6 +294,16 @@ const de = {
     shopping: "Einkaufen",
     other: "Andere",
     unknown: "Unbekannt",
+    // Spanish category names mapped to German
+    transporte: "Transport",
+    salud: "Gesundheit",
+    servicios: "Dienstleistungen",
+    vivienda: "Wohnen",
+    compras: "Einkaufen",
+    educación: "Bildung",
+    entretenimiento: "Unterhaltung",
+    otros: "Andere",
+    alimentación: "Ernährung",
   },
   budget: {
     budget: "Budget",
