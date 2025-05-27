@@ -288,6 +288,16 @@ const it = {
     shopping: "Shopping",
     other: "Altro",
     unknown: "Sconosciuto",
+    // Spanish category translations
+    transporte: "Trasporti",
+    compras: "Shopping",
+    salud: "Salute",
+    servicios: "Servizi",
+    educación: "Istruzione",
+    entretenimiento: "Intrattenimento",
+    otros: "Altro",
+    alimentación: "Cibo",
+    vivienda: "Casa",
   },
   budget: {
     budget: "Budget",
