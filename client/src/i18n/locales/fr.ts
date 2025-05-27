@@ -93,7 +93,7 @@ const fr = {
     early: "Tôt",
     late: "Tard",
     on_time: "À l'heure",
-    saving: "Enregistrement...",
+    all_rights_reserved: "Tous droits réservés",
   },
   validation: {
     required: "Ce champ est requis",
