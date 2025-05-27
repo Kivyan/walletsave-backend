@@ -93,6 +93,7 @@ const ru = {
     late: "Поздно",
     on_time: "Вовремя",
     saving: "Сохранение...",
+    all_rights_reserved: "Все права защищены",
   },
   validation: {
     required: "Это поле обязательно",
