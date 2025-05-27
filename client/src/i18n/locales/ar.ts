@@ -27,6 +27,7 @@ const translations = {
     select_language: "اختر لغتك المفضلة",
     change_language: "تغيير اللغة",
     items: "العناصر",
+    all_rights_reserved: "جميع الحقوق محفوظة",
   },
   auth: {
     login: "تسجيل الدخول",
