@@ -93,6 +93,7 @@ const zh = {
     late: "延迟",
     on_time: "准时",
     saving: "保存中...",
+    all_rights_reserved: "版权所有",
   },
   validation: {
     required: "此项为必填项",
