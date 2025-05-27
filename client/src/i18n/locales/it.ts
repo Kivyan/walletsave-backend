@@ -93,6 +93,7 @@ const it = {
     late: "Tardi",
     on_time: "In orario",
     saving: "Salvando...",
+    all_rights_reserved: "Tutti i diritti riservati",
   },
   validation: {
     required: "Questo campo è obbligatorio",
