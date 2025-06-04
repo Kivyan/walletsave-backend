@@ -4,7 +4,7 @@ import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual, createHash } from "crypto";
 import { promisify } from "util";
-import { storage } from "./storage";
+import storage from "./storage";
 import { User as SelectUser, InsertCategory } from "@shared/schema";
 import { DEFAULT_CATEGORIES } from "../client/src/lib/utils";
 import { sendVerificationEmail, resendVerificationCode, verifyEmailDomain } from "./emailService";
@@ -12,7 +12,7 @@ import { log } from "./vite";
 
 declare global {
   namespace Express {
-    interface User extends SelectUser {}
+    interface User extends SelectUser { }
   }
 }
 
@@ -74,22 +74,22 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       const user = await storage.getUserByUsername(username);
-      
+
       // Se o usuário não existe, retorna erro de email inválido
       if (!user) {
         return done(null, false, { message: 'Email não encontrado' });
       }
-      
+
       // Se a senha está incorreta, retorna erro de senha
       if (!(await comparePasswords(password, user.password))) {
         return done(null, false, { message: 'Senha incorreta' });
       }
-      
+
       // Verificar se o usuário confirmou o email
       if (!user.isVerified) {
         return done(null, false, { message: 'Por favor, verifique seu email antes de fazer login' });
       }
-      
+
       return done(null, user);
     }),
   );
@@ -106,20 +106,20 @@ export function setupAuth(app: Express) {
       if (!req.body.fullName || req.body.fullName.trim().length < 3) {
         return res.status(400).json({ message: "Por favor, informe seu nome completo" });
       }
-      
+
       // Validar se o email tem formato correto usando uma expressão regular simples
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(req.body.username)) {
         return res.status(400).json({ message: "Formato de email inválido" });
       }
-      
+
       // Normalizar o email para minúsculas para verificações
       const lowerEmail = req.body.username.toLowerCase();
-      
+
       // Não fazemos nenhuma outra validação além do formato básico
       // A verificação real será feita através do envio do código por email
       log(`Email com formato básico válido: ${req.body.username} - permitindo registro`);
-      
+
       // A verificação real será feita quando o usuário receber e confirmar o código
 
       const existingUser = await storage.getUserByUsername(req.body.username);
@@ -129,7 +129,7 @@ export function setupAuth(app: Express) {
 
       // Gerar código de verificação
       const verificationCode = generateVerificationCode();
-      
+
       // Criar usuário com código de verificação
       const user = await storage.createUser({
         ...req.body,
@@ -148,7 +148,7 @@ export function setupAuth(app: Express) {
         };
         return storage.createCategory(newCategory);
       });
-      
+
       // Aguardar a criação de todas as categorias padrão
       await Promise.all(defaultCategoriesPromises);
 
@@ -159,7 +159,7 @@ export function setupAuth(app: Express) {
           verificationCode,
           user.fullName
         );
-        
+
         if (emailResult.success) {
           log(`Email de verificação enviado com sucesso para ${user.username}`);
         } else {
@@ -185,17 +185,17 @@ export function setupAuth(app: Express) {
     try {
       // Verificar se existe um usuário com o email fornecido
       const userCheck = await storage.getUserByUsername(req.body.username);
-      
+
       // Se existe o usuário mas não está verificado
       if (userCheck && !userCheck.isVerified && await comparePasswords(req.body.password, userCheck.password)) {
         // Gerar novo código de verificação
         const verificationCode = generateVerificationCode();
-        
+
         // Atualizar o código no banco de dados
         await storage.updateUser(userCheck.id, {
           verificationCode
         });
-        
+
         // Enviar novo email com código de verificação
         try {
           const emailResult = await resendVerificationCode(
@@ -203,7 +203,7 @@ export function setupAuth(app: Express) {
             verificationCode,
             userCheck.fullName
           );
-          
+
           if (emailResult.success) {
             log(`Código de verificação enviado automaticamente durante login para ${userCheck.username}`);
           } else {
@@ -212,7 +212,7 @@ export function setupAuth(app: Express) {
         } catch (error) {
           log(`Erro ao enviar código durante login: ${error instanceof Error ? error.message : String(error)}`);
         }
-        
+
         // Retornar erro 403 (não autorizado) com informações para mostrar o modal de verificação
         return res.status(403).json({
           needsVerification: true,
@@ -221,7 +221,7 @@ export function setupAuth(app: Express) {
           email: userCheck.username
         });
       }
-      
+
       // Continuar com a autenticação normal se não for o caso de email não verificado
       passport.authenticate("local", (err: Error | null, user: SelectUser | false, info: { message: string } | undefined) => {
         if (err) return next(err);
@@ -253,18 +253,18 @@ export function setupAuth(app: Express) {
     const { password, ...userWithoutPassword } = req.user as SelectUser;
     res.json(userWithoutPassword);
   });
-  
+
   // Rota para deletar a conta do usuário
   app.delete("/api/user", async (req, res, next) => {
     try {
       if (!req.isAuthenticated()) return res.sendStatus(401);
-      
+
       const userId = (req.user as SelectUser).id;
-      
+
       // Efetua logout do usuário antes da exclusão
       req.logout((err: Error | null) => {
         if (err) return next(err);
-        
+
         // Deleta o usuário e todos os seus dados
         storage.deleteUser(userId)
           .then(success => {
@@ -287,10 +287,10 @@ export function setupAuth(app: Express) {
 
   app.put("/api/user", (req, res, next) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    
+
     const userId = (req.user as SelectUser).id;
     const { password, ...updateData } = req.body;
-    
+
     // If password is being updated, hash it
     const processUpdate = async () => {
       if (password) {
@@ -299,7 +299,7 @@ export function setupAuth(app: Express) {
       }
       return updateData;
     };
-    
+
     processUpdate()
       .then(data => storage.updateUser(userId, data))
       .then(user => {
@@ -311,50 +311,50 @@ export function setupAuth(app: Express) {
       })
       .catch(next);
   });
-  
+
   // Nova rota para verificar o email
   app.post("/api/verify-email", async (req, res, next) => {
     try {
       const { userId, code } = req.body;
-      
+
       if (!userId || !code) {
         return res.status(400).json({
           message: "Código de verificação ou ID de usuário inválido"
         });
       }
-      
+
       const user = await storage.getUser(userId);
-      
+
       if (!user) {
         return res.status(404).json({
           message: "Usuário não encontrado"
         });
       }
-      
+
       if (user.isVerified) {
         return res.status(400).json({
           message: "Este email já foi verificado"
         });
       }
-      
+
       if (user.verificationCode !== code) {
         return res.status(400).json({
           message: "Código de verificação inválido"
         });
       }
-      
+
       // Verificar o usuário
       await storage.updateUser(userId, {
         isVerified: true,
         verificationCode: null
       });
-      
+
       // Autenticar o usuário após verificação
       const updatedUser = await storage.getUser(userId);
       if (!updatedUser) {
         throw new Error("Erro ao buscar usuário após verificação");
       }
-      
+
       req.login(updatedUser, (err: Error | null) => {
         if (err) return next(err);
         res.status(200).json({
@@ -366,40 +366,40 @@ export function setupAuth(app: Express) {
       next(error);
     }
   });
-  
+
   // Rota para reenviar código de verificação
   app.post("/api/resend-verification", async (req, res, next) => {
     try {
       const { email } = req.body;
-      
+
       if (!email) {
         return res.status(400).json({
           message: "Email não fornecido"
         });
       }
-      
+
       const user = await storage.getUserByUsername(email);
-      
+
       if (!user) {
         return res.status(404).json({
           message: "Usuário não encontrado"
         });
       }
-      
+
       if (user.isVerified) {
         return res.status(400).json({
           message: "Este email já foi verificado"
         });
       }
-      
+
       // Gerar novo código de verificação
       const verificationCode = generateVerificationCode();
-      
+
       // Atualizar o código no banco de dados
       await storage.updateUser(user.id, {
         verificationCode
       });
-      
+
       // Enviar email com o novo código de verificação
       try {
         const emailResult = await resendVerificationCode(
@@ -407,7 +407,7 @@ export function setupAuth(app: Express) {
           verificationCode,
           user.fullName
         );
-        
+
         if (emailResult.success) {
           log(`Novo código de verificação enviado com sucesso para ${user.username}`);
         } else {
@@ -416,7 +416,7 @@ export function setupAuth(app: Express) {
       } catch (error) {
         log(`Erro ao enviar novo código de verificação: ${error instanceof Error ? error.message : String(error)}`);
       }
-      
+
       // Não enviamos o código na resposta, pois ele será enviado por email
       res.status(200).json({
         message: "Um novo código de verificação foi enviado para seu email.",
@@ -431,16 +431,16 @@ export function setupAuth(app: Express) {
   app.post("/api/reset-password-request", async (req, res, next) => {
     try {
       const { email } = req.body;
-      
+
       if (!email) {
         return res.status(400).json({
           message: "Email inválido"
         });
       }
-      
+
       // Buscar usuário pelo email
       const user = await storage.getUserByUsername(email);
-      
+
       // Por segurança, não informamos se o email existe ou não
       if (!user) {
         // Mesmo respondendo com sucesso, não enviamos email pois o usuário não existe
@@ -448,27 +448,27 @@ export function setupAuth(app: Express) {
           message: "Se este email estiver cadastrado, enviaremos um link de recuperação."
         });
       }
-      
+
       // Gerar token de recuperação de senha
       const { token, expiry } = generatePasswordResetToken(user.id);
-      
+
       // Atualizar o usuário com o token
       await storage.updateUser(user.id, {
         resetPasswordToken: token,
         resetPasswordExpires: new Date(expiry)
       });
-      
+
       // Enviar email com o link de recuperação
       try {
         // Importando dinamicamente para evitar problemas de importação circular
         const { sendPasswordResetEmail } = await import("./emailService");
-        
+
         await sendPasswordResetEmail(
           user.username,
           token,
           user.fullName
         );
-        
+
         log(`Email de recuperação de senha enviado com sucesso para ${user.username}`);
       } catch (error) {
         log(`Erro ao enviar email de recuperação: ${error instanceof Error ? error.message : String(error)}`);
@@ -476,7 +476,7 @@ export function setupAuth(app: Express) {
           message: "Erro ao enviar email de recuperação. Tente novamente mais tarde."
         });
       }
-      
+
       res.status(200).json({
         message: "Se este email estiver cadastrado, enviaremos um link de recuperação."
       });
@@ -484,37 +484,37 @@ export function setupAuth(app: Express) {
       next(error);
     }
   });
-  
+
   // Rota para verificar token de recuperação de senha
   app.get("/api/reset-password/:token", async (req, res, next) => {
     try {
       const { token } = req.params;
-      
+
       if (!token) {
         return res.status(400).json({
           message: "Token inválido"
         });
       }
-      
+
       // Buscar todos os usuários (ineficiente, mas necessário para nosso modelo de dados atual)
       const allUsers = await storage.getAllUsers();
-      
+
       // Encontrar usuário com o token correspondente
       const user = allUsers.find(u => u.resetPasswordToken === token);
-      
+
       if (!user) {
         return res.status(404).json({
           message: "Token inválido ou expirado"
         });
       }
-      
+
       // Verificar se o token está expirado
       if (user.resetPasswordExpires && new Date(user.resetPasswordExpires).getTime() < Date.now()) {
         return res.status(400).json({
           message: "Token expirado. Solicite um novo link de redefinição."
         });
       }
-      
+
       // Token válido, retornar que é possível redefinir
       res.status(200).json({
         message: "Token válido",
@@ -524,47 +524,47 @@ export function setupAuth(app: Express) {
       next(error);
     }
   });
-  
+
   // Rota para redefinir a senha
   app.post("/api/reset-password", async (req, res, next) => {
     try {
       const { token, password } = req.body;
-      
+
       if (!token || !password) {
         return res.status(400).json({
           message: "Token ou senha inválidos"
         });
       }
-      
+
       // Buscar todos os usuários (ineficiente, mas necessário para nosso modelo de dados atual)
       const allUsers = await storage.getAllUsers();
-      
+
       // Encontrar usuário com o token correspondente
       const user = allUsers.find(u => u.resetPasswordToken === token);
-      
+
       if (!user) {
         return res.status(404).json({
           message: "Token inválido ou expirado"
         });
       }
-      
+
       // Verificar se o token está expirado
       if (user.resetPasswordExpires && new Date(user.resetPasswordExpires).getTime() < Date.now()) {
         return res.status(400).json({
           message: "Token expirado. Solicite um novo link de redefinição."
         });
       }
-      
+
       // Gerar hash da nova senha
       const hashedPassword = await hashPassword(password);
-      
+
       // Atualizar senha e limpar token
       await storage.updateUser(user.id, {
         password: hashedPassword,
         resetPasswordToken: null,
         resetPasswordExpires: null
       });
-      
+
       res.status(200).json({
         message: "Senha redefinida com sucesso."
       });

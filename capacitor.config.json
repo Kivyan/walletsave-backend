@@ -1,0 +1,24 @@
+{
+    "appId": "com.walletsavecompany",
+    "appName": "Wallet Save",
+    "webDir": "dist/public",
+    "bundledWebRuntime": false,
+    "server": {
+        "androidScheme": "https",
+        "allowNavigation": [
+            "http://localhost:5000",
+            "http://127.0.0.1:5000",
+            "http://0.0.0.0:5000"
+        ]
+    },
+    "android": {
+        "allowMixedContent": true,
+        "captureInput": true,
+        "webContentsDebuggingEnabled": true
+    },
+    "plugins": {
+        "CapacitorHttp": {
+            "enabled": true
+        }
+    }
+}
