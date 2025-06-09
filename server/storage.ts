@@ -1,86 +1,151 @@
-import { users, categories, expenses, wallets, budgets, savings } from "@shared/schema";
-import type {
-  User, InsertUser,
-  Category, InsertCategory,
-  Expense, InsertExpense,
-  Wallet, InsertWallet,
-  Budget, InsertBudget,
-  Saving, InsertSaving
-} from "@shared/schema";
-import createMemoryStore from "memorystore";
-import session from "express-session";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import Database from "better-sqlite3";
+import session, { MemoryStore } from "express-session";
+import type { Request } from "express";
 
-// ADICIONE ESTAS LINHAS PARA CORRIGIR OS ERROS:
-
-// Se drizzle-orm der erro, descomente as linhas abaixo:
-let drizzle: any, neon: any, eq: any, and: any, connectPg: any;
-
-try {
-  ({ drizzle } = require("drizzle-orm/neon-http"));
-  ({ neon } = require("@neondatabase/serverless"));
-  ({ eq, and } = require("drizzle-orm"));
-  connectPg = require("connect-pg-simple");
-} catch (error) {
-  console.log("Dependências PostgreSQL não encontradas, usando apenas MemStorage");
-  // Funções dummy para evitar erros
-  drizzle = () => null;
-  neon = () => null;
-  eq = () => null;
-  and = () => null;
-  connectPg = () => null;
+// Types
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  createdAt: Date;
 }
 
-const MemoryStore = createMemoryStore(session);
+export interface InsertUser {
+  username: string;
+  email: string;
+  password: string;
+}
 
+export interface Category {
+  id: number;
+  name: string;
+  color: string;
+  userId: number;
+  createdAt: Date;
+}
+
+export interface InsertCategory {
+  name: string;
+  color: string;
+  userId: number;
+}
+
+export interface Expense {
+  id: number;
+  amount: number;
+  description: string;
+  categoryId: number;
+  userId: number;
+  date: Date;
+  createdAt: Date;
+}
+
+export interface InsertExpense {
+  amount: number;
+  description: string;
+  categoryId: number;
+  userId: number;
+  date: Date;
+}
+
+export interface Wallet {
+  id: number;
+  name: string;
+  balance: number;
+  userId: number;
+  createdAt: Date;
+}
+
+export interface InsertWallet {
+  name: string;
+  balance: number;
+  userId: number;
+}
+
+export interface Budget {
+  id: number;
+  amount: number;
+  month: number;
+  year: number;
+  userId: number;
+  createdAt: Date;
+}
+
+export interface InsertBudget {
+  amount: number;
+  month: number;
+  year: number;
+  userId: number;
+}
+
+export interface Saving {
+  id: number;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  userId: number;
+  createdAt: Date;
+}
+
+export interface InsertSaving {
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  userId: number;
+}
+
+// Storage interface
 export interface IStorage {
-  // Session store
   sessionStore: any;
 
-  // User operations
+  // User methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getAllUsers(): Promise<User[]>;
-  createUser(user: InsertUser): Promise<User>;
-  updateUser(id: number, user: Partial<User>): Promise<User | undefined>;
+  createUser(insertUser: InsertUser): Promise<User>;
+  updateUser(id: number, userData: Partial<User>): Promise<User | undefined>;
   deleteUser(id: number): Promise<boolean>;
 
-  // Category operations
+  // Category methods
   getCategories(userId: number): Promise<Category[]>;
   getCategoryById(id: number): Promise<Category | undefined>;
-  createCategory(category: InsertCategory): Promise<Category>;
-  updateCategory(id: number, category: Partial<Category>): Promise<Category | undefined>;
+  createCategory(insertCategory: InsertCategory): Promise<Category>;
+  updateCategory(id: number, categoryData: Partial<Category>): Promise<Category | undefined>;
   deleteCategory(id: number): Promise<boolean>;
 
-  // Expense operations
+  // Expense methods
   getExpenses(userId: number): Promise<Expense[]>;
   getExpenseById(id: number): Promise<Expense | undefined>;
-  createExpense(expense: InsertExpense): Promise<Expense>;
-  updateExpense(id: number, expense: Partial<Expense>): Promise<Expense | undefined>;
+  createExpense(insertExpense: InsertExpense): Promise<Expense>;
+  updateExpense(id: number, expenseData: Partial<Expense>): Promise<Expense | undefined>;
   deleteExpense(id: number): Promise<boolean>;
 
-  // Wallet operations
+  // Wallet methods
   getWallets(userId: number): Promise<Wallet[]>;
   getWalletById(id: number): Promise<Wallet | undefined>;
-  createWallet(wallet: InsertWallet): Promise<Wallet>;
-  updateWallet(id: number, wallet: Partial<Wallet>): Promise<Wallet | undefined>;
+  createWallet(insertWallet: InsertWallet): Promise<Wallet>;
+  updateWallet(id: number, walletData: Partial<Wallet>): Promise<Wallet | undefined>;
   deleteWallet(id: number): Promise<boolean>;
 
-  // Budget operations
+  // Budget methods
   getBudgets(userId: number): Promise<Budget[]>;
   getBudgetById(id: number): Promise<Budget | undefined>;
   getBudgetByMonthYear(userId: number, month: number, year: number): Promise<Budget | undefined>;
-  createBudget(budget: InsertBudget): Promise<Budget>;
-  updateBudget(id: number, budget: Partial<Budget>): Promise<Budget | undefined>;
+  createBudget(insertBudget: InsertBudget): Promise<Budget>;
+  updateBudget(id: number, budgetData: Partial<Budget>): Promise<Budget | undefined>;
   deleteBudget(id: number): Promise<boolean>;
 
-  // Saving operations
+  // Saving methods
   getSavings(userId: number): Promise<Saving[]>;
   getSavingById(id: number): Promise<Saving | undefined>;
-  createSaving(saving: InsertSaving): Promise<Saving>;
-  updateSaving(id: number, saving: Partial<Saving>): Promise<Saving | undefined>;
+  createSaving(insertSaving: InsertSaving): Promise<Saving>;
+  updateSaving(id: number, savingData: Partial<Saving>): Promise<Saving | undefined>;
   deleteSaving(id: number): Promise<boolean>;
 }
 
+// Memory Storage Implementation WITH FILE PERSISTENCE
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private categories: Map<number, Category>;
@@ -96,8 +161,7 @@ export class MemStorage implements IStorage {
     budgets: number;
     savings: number;
   };
-
-  sessionStore: any; // Required for session management
+  sessionStore: any;
 
   constructor() {
     this.users = new Map();
@@ -116,20 +180,112 @@ export class MemStorage implements IStorage {
       savings: 1
     };
 
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 86400000 // 24 hours
+    // Carregar dados persistentes do arquivo
+    this.loadDataFromFile().catch(console.error);
+
+    // Corrigir o tipo do MemoryStore
+    this.sessionStore = new (MemoryStore as any)({
+      checkPeriod: 86400000
     });
+
+    console.log("Usando armazenamento PERSISTENTE em arquivo (database.json)");
   }
 
-  // User operations
+  // Método para carregar dados do arquivo
+  private async loadDataFromFile() {
+    try {
+      const fs = await import('fs');
+      if (fs.existsSync('./database.json')) {
+        const data = JSON.parse(fs.readFileSync('./database.json', 'utf8'));
+
+        // Restaurar dados
+        if (data.users) {
+          this.users = new Map(data.users.map((item: any) => [
+            item[0],
+            { ...item[1], createdAt: new Date(item[1].createdAt) }
+          ]));
+        }
+        if (data.categories) {
+          this.categories = new Map(data.categories.map((item: any) => [
+            item[0],
+            { ...item[1], createdAt: new Date(item[1].createdAt) }
+          ]));
+        }
+        if (data.expenses) {
+          this.expenses = new Map(data.expenses.map((item: any) => [
+            item[0],
+            {
+              ...item[1],
+              date: new Date(item[1].date),
+              createdAt: new Date(item[1].createdAt)
+            }
+          ]));
+        }
+        if (data.wallets) {
+          this.wallets = new Map(data.wallets.map((item: any) => [
+            item[0],
+            { ...item[1], createdAt: new Date(item[1].createdAt) }
+          ]));
+        }
+        if (data.budgets) {
+          this.budgets = new Map(data.budgets.map((item: any) => [
+            item[0],
+            { ...item[1], createdAt: new Date(item[1].createdAt) }
+          ]));
+        }
+        if (data.savings) {
+          this.savings = new Map(data.savings.map((item: any) => [
+            item[0],
+            { ...item[1], createdAt: new Date(item[1].createdAt) }
+          ]));
+        }
+        if (data.currentIds) {
+          this.currentIds = data.currentIds;
+        }
+
+        console.log(`Dados carregados: ${this.users.size} usuários, ${this.categories.size} categorias, ${this.expenses.size} despesas`);
+      } else {
+        console.log("Arquivo database.json não encontrado. Iniciando com dados vazios.");
+      }
+    } catch (error) {
+      console.error("Erro ao carregar dados:", error);
+      console.log("Iniciando com dados vazios");
+    }
+  }
+
+  // Método para salvar dados no arquivo
+  private async saveDataToFile() {
+    try {
+      const fs = await import('fs');
+      const data = {
+        users: Array.from(this.users.entries()),
+        categories: Array.from(this.categories.entries()),
+        expenses: Array.from(this.expenses.entries()),
+        wallets: Array.from(this.wallets.entries()),
+        budgets: Array.from(this.budgets.entries()),
+        savings: Array.from(this.savings.entries()),
+        currentIds: this.currentIds
+      };
+
+      fs.writeFileSync('./database.json', JSON.stringify(data, null, 2));
+      console.log("Dados salvos em database.json");
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+    }
+  }
+
+  // User methods
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    for (const user of Array.from(this.users.values())) {
+      if (user.username === username) {
+        return user;
+      }
+    }
+    return undefined;
   }
 
   async getAllUsers(): Promise<User[]> {
@@ -141,64 +297,31 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const user: User = { ...insertUser, id, createdAt: now };
     this.users.set(id, user);
+    await this.saveDataToFile(); // SALVAR DADOS
     return user;
   }
 
   async updateUser(id: number, userData: Partial<User>): Promise<User | undefined> {
-    const user = await this.getUser(id);
+    const user = this.users.get(id);
     if (!user) return undefined;
 
     const updatedUser = { ...user, ...userData };
     this.users.set(id, updatedUser);
+    await this.saveDataToFile(); // SALVAR DADOS
     return updatedUser;
   }
 
   async deleteUser(id: number): Promise<boolean> {
-    const user = await this.getUser(id);
-    if (!user) return false;
-
-    // Remove o usuário
-    this.users.delete(id);
-
-    // Remove todos os dados associados ao usuário
-    // 1. Remover categorias do usuário
-    const userCategories = await this.getCategories(id);
-    for (const category of userCategories) {
-      await this.deleteCategory(category.id);
+    const result = this.users.delete(id);
+    if (result) {
+      await this.saveDataToFile(); // SALVAR DADOS
     }
-
-    // 2. Remover despesas do usuário
-    const userExpenses = await this.getExpenses(id);
-    for (const expense of userExpenses) {
-      await this.deleteExpense(expense.id);
-    }
-
-    // 3. Remover carteiras do usuário
-    const userWallets = await this.getWallets(id);
-    for (const wallet of userWallets) {
-      await this.deleteWallet(wallet.id);
-    }
-
-    // 4. Remover orçamentos do usuário
-    const userBudgets = await this.getBudgets(id);
-    for (const budget of userBudgets) {
-      await this.deleteBudget(budget.id);
-    }
-
-    // 5. Remover metas de poupança do usuário
-    const userSavings = await this.getSavings(id);
-    for (const saving of userSavings) {
-      await this.deleteSaving(saving.id);
-    }
-
-    return true;
+    return result;
   }
 
-  // Category operations
+  // Category methods
   async getCategories(userId: number): Promise<Category[]> {
-    return Array.from(this.categories.values()).filter(
-      (category) => category.userId === userId
-    );
+    return Array.from(this.categories.values()).filter(category => category.userId === userId);
   }
 
   async getCategoryById(id: number): Promise<Category | undefined> {
@@ -210,27 +333,31 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const category: Category = { ...insertCategory, id, createdAt: now };
     this.categories.set(id, category);
+    await this.saveDataToFile(); // SALVAR DADOS
     return category;
   }
 
   async updateCategory(id: number, categoryData: Partial<Category>): Promise<Category | undefined> {
-    const category = await this.getCategoryById(id);
+    const category = this.categories.get(id);
     if (!category) return undefined;
 
     const updatedCategory = { ...category, ...categoryData };
     this.categories.set(id, updatedCategory);
+    await this.saveDataToFile(); // SALVAR DADOS
     return updatedCategory;
   }
 
   async deleteCategory(id: number): Promise<boolean> {
-    return this.categories.delete(id);
+    const result = this.categories.delete(id);
+    if (result) {
+      await this.saveDataToFile(); // SALVAR DADOS
+    }
+    return result;
   }
 
-  // Expense operations
+  // Expense methods
   async getExpenses(userId: number): Promise<Expense[]> {
-    return Array.from(this.expenses.values()).filter(
-      (expense) => expense.userId === userId
-    );
+    return Array.from(this.expenses.values()).filter(expense => expense.userId === userId);
   }
 
   async getExpenseById(id: number): Promise<Expense | undefined> {
@@ -242,27 +369,31 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const expense: Expense = { ...insertExpense, id, createdAt: now };
     this.expenses.set(id, expense);
+    await this.saveDataToFile(); // SALVAR DADOS
     return expense;
   }
 
   async updateExpense(id: number, expenseData: Partial<Expense>): Promise<Expense | undefined> {
-    const expense = await this.getExpenseById(id);
+    const expense = this.expenses.get(id);
     if (!expense) return undefined;
 
     const updatedExpense = { ...expense, ...expenseData };
     this.expenses.set(id, updatedExpense);
+    await this.saveDataToFile(); // SALVAR DADOS
     return updatedExpense;
   }
 
   async deleteExpense(id: number): Promise<boolean> {
-    return this.expenses.delete(id);
+    const result = this.expenses.delete(id);
+    if (result) {
+      await this.saveDataToFile(); // SALVAR DADOS
+    }
+    return result;
   }
 
-  // Wallet operations
+  // Wallet methods
   async getWallets(userId: number): Promise<Wallet[]> {
-    return Array.from(this.wallets.values()).filter(
-      (wallet) => wallet.userId === userId
-    );
+    return Array.from(this.wallets.values()).filter(wallet => wallet.userId === userId);
   }
 
   async getWalletById(id: number): Promise<Wallet | undefined> {
@@ -274,27 +405,31 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const wallet: Wallet = { ...insertWallet, id, createdAt: now };
     this.wallets.set(id, wallet);
+    await this.saveDataToFile(); // SALVAR DADOS
     return wallet;
   }
 
   async updateWallet(id: number, walletData: Partial<Wallet>): Promise<Wallet | undefined> {
-    const wallet = await this.getWalletById(id);
+    const wallet = this.wallets.get(id);
     if (!wallet) return undefined;
 
     const updatedWallet = { ...wallet, ...walletData };
     this.wallets.set(id, updatedWallet);
+    await this.saveDataToFile(); // SALVAR DADOS
     return updatedWallet;
   }
 
   async deleteWallet(id: number): Promise<boolean> {
-    return this.wallets.delete(id);
+    const result = this.wallets.delete(id);
+    if (result) {
+      await this.saveDataToFile(); // SALVAR DADOS
+    }
+    return result;
   }
 
-  // Budget operations
+  // Budget methods
   async getBudgets(userId: number): Promise<Budget[]> {
-    return Array.from(this.budgets.values()).filter(
-      (budget) => budget.userId === userId
-    );
+    return Array.from(this.budgets.values()).filter(budget => budget.userId === userId);
   }
 
   async getBudgetById(id: number): Promise<Budget | undefined> {
@@ -302,9 +437,12 @@ export class MemStorage implements IStorage {
   }
 
   async getBudgetByMonthYear(userId: number, month: number, year: number): Promise<Budget | undefined> {
-    return Array.from(this.budgets.values()).find(
-      (budget) => budget.userId === userId && budget.month === month && budget.year === year
-    );
+    for (const budget of Array.from(this.budgets.values())) {
+      if (budget.userId === userId && budget.month === month && budget.year === year) {
+        return budget;
+      }
+    }
+    return undefined;
   }
 
   async createBudget(insertBudget: InsertBudget): Promise<Budget> {
@@ -312,27 +450,31 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const budget: Budget = { ...insertBudget, id, createdAt: now };
     this.budgets.set(id, budget);
+    await this.saveDataToFile(); // SALVAR DADOS
     return budget;
   }
 
   async updateBudget(id: number, budgetData: Partial<Budget>): Promise<Budget | undefined> {
-    const budget = await this.getBudgetById(id);
+    const budget = this.budgets.get(id);
     if (!budget) return undefined;
 
     const updatedBudget = { ...budget, ...budgetData };
     this.budgets.set(id, updatedBudget);
+    await this.saveDataToFile(); // SALVAR DADOS
     return updatedBudget;
   }
 
   async deleteBudget(id: number): Promise<boolean> {
-    return this.budgets.delete(id);
+    const result = this.budgets.delete(id);
+    if (result) {
+      await this.saveDataToFile(); // SALVAR DADOS
+    }
+    return result;
   }
 
-  // Saving operations
+  // Saving methods
   async getSavings(userId: number): Promise<Saving[]> {
-    return Array.from(this.savings.values()).filter(
-      (saving) => saving.userId === userId
-    );
+    return Array.from(this.savings.values()).filter(saving => saving.userId === userId);
   }
 
   async getSavingById(id: number): Promise<Saving | undefined> {
@@ -344,259 +486,28 @@ export class MemStorage implements IStorage {
     const now = new Date();
     const saving: Saving = { ...insertSaving, id, createdAt: now };
     this.savings.set(id, saving);
+    await this.saveDataToFile(); // SALVAR DADOS
     return saving;
   }
 
   async updateSaving(id: number, savingData: Partial<Saving>): Promise<Saving | undefined> {
-    const saving = await this.getSavingById(id);
+    const saving = this.savings.get(id);
     if (!saving) return undefined;
 
     const updatedSaving = { ...saving, ...savingData };
     this.savings.set(id, updatedSaving);
+    await this.saveDataToFile(); // SALVAR DADOS
     return updatedSaving;
   }
 
   async deleteSaving(id: number): Promise<boolean> {
-    return this.savings.delete(id);
-  }
-}
-
-// PostgreSQL Database Storage Implementation
-export class DatabaseStorage implements IStorage {
-  private db: any;
-  sessionStore: any;
-
-  constructor() {
-    // CORREÇÃO PRINCIPAL: Verificar se DATABASE_URL existe ou usar memória
-    const databaseUrl = process.env.DATABASE_URL;
-
-    if (!databaseUrl) {
-      console.log("DATABASE_URL não encontrada, usando armazenamento em memória");
-      // Se não tiver DATABASE_URL, usar MemStorage
-      throw new Error("DATABASE_URL required for PostgreSQL. Use MemStorage instead.");
+    const result = this.savings.delete(id);
+    if (result) {
+      await this.saveDataToFile(); // SALVAR DADOS
     }
-
-    const sql = neon(databaseUrl);
-    this.db = drizzle(sql);
-
-    // Configure PostgreSQL session store
-    const PostgresSessionStore = connectPg(session);
-    this.sessionStore = new PostgresSessionStore({
-      conString: databaseUrl,
-      createTableIfMissing: true,
-    });
-  }
-
-  // User operations
-  async getUser(id: number): Promise<User | undefined> {
-    const result = await this.db.select().from(users).where(eq(users.id, id));
-    return result[0];
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const result = await this.db.select().from(users).where(eq(users.username, username));
-    return result[0];
-  }
-
-  async getAllUsers(): Promise<User[]> {
-    return await this.db.select().from(users);
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const result = await this.db.insert(users).values(insertUser).returning();
-    return result[0];
-  }
-
-  async updateUser(id: number, userData: Partial<User>): Promise<User | undefined> {
-    const result = await this.db
-      .update(users)
-      .set(userData)
-      .where(eq(users.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async deleteUser(id: number): Promise<boolean> {
-    const result = await this.db.delete(users).where(eq(users.id, id)).returning();
-    return result.length > 0;
-  }
-
-  // Category operations
-  async getCategories(userId: number): Promise<Category[]> {
-    return await this.db.select().from(categories).where(eq(categories.userId, userId));
-  }
-
-  async getCategoryById(id: number): Promise<Category | undefined> {
-    const result = await this.db.select().from(categories).where(eq(categories.id, id));
-    return result[0];
-  }
-
-  async createCategory(insertCategory: InsertCategory): Promise<Category> {
-    const result = await this.db.insert(categories).values(insertCategory).returning();
-    return result[0];
-  }
-
-  async updateCategory(id: number, categoryData: Partial<Category>): Promise<Category | undefined> {
-    const result = await this.db
-      .update(categories)
-      .set(categoryData)
-      .where(eq(categories.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async deleteCategory(id: number): Promise<boolean> {
-    const result = await this.db.delete(categories).where(eq(categories.id, id)).returning();
-    return result.length > 0;
-  }
-
-  // Expense operations
-  async getExpenses(userId: number): Promise<Expense[]> {
-    return await this.db.select().from(expenses).where(eq(expenses.userId, userId));
-  }
-
-  async getExpenseById(id: number): Promise<Expense | undefined> {
-    const result = await this.db.select().from(expenses).where(eq(expenses.id, id));
-    return result[0];
-  }
-
-  async createExpense(insertExpense: InsertExpense): Promise<Expense> {
-    const result = await this.db.insert(expenses).values(insertExpense).returning();
-    return result[0];
-  }
-
-  async updateExpense(id: number, expenseData: Partial<Expense>): Promise<Expense | undefined> {
-    const result = await this.db
-      .update(expenses)
-      .set(expenseData)
-      .where(eq(expenses.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async deleteExpense(id: number): Promise<boolean> {
-    const result = await this.db.delete(expenses).where(eq(expenses.id, id)).returning();
-    return result.length > 0;
-  }
-
-  // Wallet operations
-  async getWallets(userId: number): Promise<Wallet[]> {
-    return await this.db.select().from(wallets).where(eq(wallets.userId, userId));
-  }
-
-  async getWalletById(id: number): Promise<Wallet | undefined> {
-    const result = await this.db.select().from(wallets).where(eq(wallets.id, id));
-    return result[0];
-  }
-
-  async createWallet(insertWallet: InsertWallet): Promise<Wallet> {
-    const result = await this.db.insert(wallets).values(insertWallet).returning();
-    return result[0];
-  }
-
-  async updateWallet(id: number, walletData: Partial<Wallet>): Promise<Wallet | undefined> {
-    const result = await this.db
-      .update(wallets)
-      .set(walletData)
-      .where(eq(wallets.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async deleteWallet(id: number): Promise<boolean> {
-    const result = await this.db.delete(wallets).where(eq(wallets.id, id)).returning();
-    return result.length > 0;
-  }
-
-  // Budget operations
-  async getBudgets(userId: number): Promise<Budget[]> {
-    return await this.db.select().from(budgets).where(eq(budgets.userId, userId));
-  }
-
-  async getBudgetById(id: number): Promise<Budget | undefined> {
-    const result = await this.db.select().from(budgets).where(eq(budgets.id, id));
-    return result[0];
-  }
-
-  async getBudgetByMonthYear(userId: number, month: number, year: number): Promise<Budget | undefined> {
-    const result = await this.db
-      .select()
-      .from(budgets)
-      .where(
-        and(
-          eq(budgets.userId, userId),
-          eq(budgets.month, month),
-          eq(budgets.year, year)
-        )
-      );
-    return result[0];
-  }
-
-  async createBudget(insertBudget: InsertBudget): Promise<Budget> {
-    const result = await this.db.insert(budgets).values(insertBudget).returning();
-    return result[0];
-  }
-
-  async updateBudget(id: number, budgetData: Partial<Budget>): Promise<Budget | undefined> {
-    const result = await this.db
-      .update(budgets)
-      .set(budgetData)
-      .where(eq(budgets.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async deleteBudget(id: number): Promise<boolean> {
-    const result = await this.db.delete(budgets).where(eq(budgets.id, id)).returning();
-    return result.length > 0;
-  }
-
-  // Saving operations
-  async getSavings(userId: number): Promise<Saving[]> {
-    return await this.db.select().from(savings).where(eq(savings.userId, userId));
-  }
-
-  async getSavingById(id: number): Promise<Saving | undefined> {
-    const result = await this.db.select().from(savings).where(eq(savings.id, id));
-    return result[0];
-  }
-
-  async createSaving(insertSaving: InsertSaving): Promise<Saving> {
-    const result = await this.db.insert(savings).values(insertSaving).returning();
-    return result[0];
-  }
-
-  async updateSaving(id: number, savingData: Partial<Saving>): Promise<Saving | undefined> {
-    const result = await this.db
-      .update(savings)
-      .set(savingData)
-      .where(eq(savings.id, id))
-      .returning();
-    return result[0];
-  }
-
-  async deleteSaving(id: number): Promise<boolean> {
-    const result = await this.db.delete(savings).where(eq(savings.id, id)).returning();
-    return result.length > 0;
+    return result;
   }
 }
 
-// Factory function to create storage instance
-export function createStorage(): IStorage {
-  // Se não tiver DATABASE_URL, usar memória
-  if (!process.env.DATABASE_URL) {
-    console.log("Usando armazenamento em memória (MemStorage)");
-    return new MemStorage();
-  }
-
-  try {
-    console.log("Tentando usar PostgreSQL com DATABASE_URL");
-    return new DatabaseStorage();
-  } catch (error) {
-    console.log("Erro ao conectar PostgreSQL, usando memória:", error);
-    return new MemStorage();
-  }
-}
-
-// Export default storage instance
-export default createStorage();
+// Export the storage instance with file persistence
+export default new MemStorage();
